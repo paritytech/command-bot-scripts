@@ -1,0 +1,85 @@
+{
+  "$schema": "../../schema.cmd.json",
+  "command": {
+    "name": "bench",
+    "configuration": {
+      "gitlab": {
+        "job": {
+          "tags": ["bench-bot"]
+        },
+        "variables": {}
+      },
+      "commandStart": [ "\"$PIPELINE_SCRIPTS_DIR/commands/bench/bench-bot.sh\"" ]
+    },
+    "presets": [
+      {
+        "name": "Pallet Benchmark for Substrate",
+        "context": "substrate",
+        "args": [
+          { "name": "Type of bench", "one_of": [ "pallet" ] },
+          { "name": "Runtime", "one_of": ["dev"] },
+          { "name": "pallet", "rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/" }
+        ]
+      },
+      {
+        "name": "Pallet Benchmark for Polkadot",
+        "context": "polkadot",
+        "args": [
+          { "name": "Type of bench", "one_of": ["runtime", "xcm"] },
+          { "name": "Runtime", "many_of": ["kusama", "polkadot", "rococo", "westend"] },
+          { "name": "Pallet", "rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/" }
+        ]
+      },
+      {
+        "name": "Pallet Benchmark for Cumulus [assets]",
+        "context": "cumulus",
+        "args": [
+          { "name": "Type of bench", "one_of": ["xcm", "pallet"] },
+          { "name": "Runtime", "many_of": ["statemine", "statemint", "test-utils", "westmint"] },
+          { "name": "Kind", "one_of": ["asset"] },
+          { "name": "Pallet", "rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/" }
+        ]
+      },
+      {
+        "name": "Pallet Benchmark for Cumulus [collectives]",
+        "context": "cumulus",
+        "args": [
+          { "name": "Type of bench", "one_of": ["xcm", "pallet"] },
+          { "name": "Runtime", "many_of": ["collectives-polkadot"] },
+          { "name": "Kind", "one_of": ["collectives"] },
+          { "name": "Pallet", "rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/" }
+        ]
+      },
+      {
+        "name": "Pallet Benchmark for Cumulus [contracts]",
+        "context": "cumulus",
+        "args": [
+          { "name": "Type of bench", "one_of": ["xcm", "pallet"] },
+          { "name": "Runtime", "many_of": ["contracts-rococo"] },
+          { "name": "Kind", "one_of": ["contracts"] },
+          { "name": "Pallet", "rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/" }
+        ]
+      },
+      {
+        "name": "Pallet Benchmark for Cumulus [starters]",
+        "context": "cumulus",
+        "args": [
+          { "name": "Type of bench", "one_of": ["xcm", "pallet"] },
+          { "name": "Runtime", "many_of": ["seedling", "shell"] },
+          { "name": "Kind", "one_of": ["starters"] },
+          { "name": "Pallet", "rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/" }
+        ]
+      },
+      {
+        "name": "Pallet Benchmark for Cumulus [testing]",
+        "context": "cumulus",
+        "args": [
+          { "name": "Type of bench", "one_of": ["xcm", "pallet"] },
+          { "name": "Runtime", "many_of": ["penpal", "rococo-parachain"] },
+          { "name": "Kind", "one_of": ["testing"] },
+          { "name": "Pallet", "rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/" }
+        ]
+      }
+    ]
+  }
+}

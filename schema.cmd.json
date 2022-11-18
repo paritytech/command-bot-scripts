@@ -1,0 +1,97 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$id": "cmd.json",
+  "type": "object",
+  "properties": {
+    "command": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "configuration": {
+          "type": "object",
+          "properties": {
+            "gitlab": {
+              "type": "object",
+              "properties": {
+                "job": {
+                  "type": "object",
+                  "properties": {
+                    "tags": {
+                      "type": "array",
+                      "items": {}
+                    }
+                  }
+                },
+                "variables": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            },
+            "commandStart": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "maxItems": 1
+              }
+            }
+          }
+        },
+        "presets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "context": {
+                "type": "string"
+              },
+              "env": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "args": {
+                "type": "array",
+                "items": {
+                  "one_of": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "many_of": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "rule": {
+                    "type": "string"
+                  },
+                  "anyOf": [
+                    {"required": ["name", "one_of"]},
+                    {"required": ["name", "many_of"]},
+                    {"required": ["name", "rule"]}
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "required": [
+        "name",
+        "configuration"
+      ]
+    }
+  },
+  "required": [
+    "command"
+  ]
+}

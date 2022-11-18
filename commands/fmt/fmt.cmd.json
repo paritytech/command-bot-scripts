@@ -1,0 +1,9 @@
+{
+  "$schema": "../../schema.cmd.json",
+  "command": {
+    "name": "fmt",
+    "configuration": { "gitlab": { "job": { "tags": ["linux-docker"] }, "variables": {} },
+      "commandStart": [ "\"$PIPELINE_SCRIPTS_DIR/commands/fmt/fmt.sh\"" ]
+    }
+  }
+}

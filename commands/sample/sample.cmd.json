@@ -1,0 +1,20 @@
+{
+  "$schema": "../../schema.cmd.json",
+  "command": {
+    "name": "sample",
+    "configuration": {
+      "gitlab": {
+        "job": {
+          "tags": ["kubernetes-parity-build"],
+          "variables": {}
+        }
+      },
+      "commandStart": ["echo"]
+    },
+    "presets": [
+      {
+        "name": "echo"
+      }
+    ]
+  }
+}
