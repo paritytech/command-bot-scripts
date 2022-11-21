@@ -1,12 +1,18 @@
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "cmd.json",
   "type": "object",
   "properties": {
     "command": {
       "type": "object",
       "properties": {
-        "name": {
+        "id": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "description": {
           "type": "string"
         },
         "configuration": {
@@ -44,11 +50,17 @@
           "items": {
             "type": "object",
             "properties": {
-              "name": {
+              "label": {
                 "type": "string"
               },
-              "context": {
+              "description": {
                 "type": "string"
+              },
+              "repos": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
               },
               "env": {
                 "type": "array",
@@ -59,26 +71,32 @@
               "args": {
                 "type": "array",
                 "items": {
-                  "one_of": {
-                    "type": "array",
-                    "items": {
+                  "type": "object",
+                  "properties": {
+                    "label": {
                       "type": "string"
-                    }
-                  },
-                  "many_of": {
-                    "type": "array",
-                    "items": {
+                    },
+                    "type_one_of": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "type_many_of": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "type_rule": {
                       "type": "string"
-                    }
-                  },
-                  "rule": {
-                    "type": "string"
-                  },
-                  "anyOf": [
-                    {"required": ["name", "one_of"]},
-                    {"required": ["name", "many_of"]},
-                    {"required": ["name", "rule"]}
-                  ]
+                    },
+                    "anyOf": [
+                      {"required": ["label", "type_one_of"]},
+                      {"required": ["label", "type_many_of"]},
+                      {"required": ["label", "type_rule"]}
+                    ]
+                  }
                 }
               }
             }
@@ -86,7 +104,8 @@
         }
       },
       "required": [
-        "name",
+        "id",
+        "label",
         "configuration"
       ]
     }

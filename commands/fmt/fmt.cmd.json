@@ -2,6 +2,8 @@
   "$schema": "../../schema.cmd.json",
   "command": {
     "name": "fmt",
+    "label": "FMT",
+    "description": "rustFMT. Formatting Rust code according to style guidelines and commits to your PR.",
     "configuration": { "gitlab": { "job": { "tags": ["linux-docker"] }, "variables": {} },
       "commandStart": [ "\"$PIPELINE_SCRIPTS_DIR/commands/fmt/fmt.sh\"" ]
     }

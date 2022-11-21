@@ -1,7 +1,8 @@
 {
   "$schema": "../../schema.cmd.json",
   "command": {
-    "name": "sample",
+    "id": "sample",
+    "label":"123",
     "configuration": {
       "gitlab": {
         "job": {
@@ -13,7 +14,15 @@
     },
     "presets": [
       {
-        "name": "echo"
+        "label": "echo something",
+        "description": "Outputs your echo string",
+        "repos": ["polkadot"],
+        "args": [
+          {
+            "label": "Pass your echo string",
+            "type_rule": ".*"
+          }
+        ]
       }
     ]
   }

@@ -1,7 +1,8 @@
 {
   "$schema": "../../schema.cmd.json",
   "command": {
-    "name": "try-runtime",
+    "id": "try-runtime",
+    "label": "Try Runtime",
     "configuration": {
       "gitlab": {
         "job": {
@@ -13,10 +14,11 @@
     },
     "presets": [
       {
-        "name": "try-runtime",
+        "title": "try-runtime",
+        "description": "Try-Runtime - runs `cargo run --release --quiet --features=try-runtime try-runtime --chain=<CHAIN> --execution=Wasm --no-spec-check-panic on-runtime-upgrade live --uri=<URI>`",
         "args": [
-          { "name": "Chain", "rule": "/^[a-z_-]+$/" },
-          { "name": "URI", "one_of": [".*"] }
+          { "label": "Chain", "rule": "/^[a-z_-]+$/" },
+          { "label": "URI", "rule": [".*"] }
         ]
       }
     ]
