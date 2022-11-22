@@ -9,18 +9,22 @@
           "tags": ["linux-docker"]
         },
         "variables": {}
-      },
-      "commandStart": [ "\"$PIPELINE_SCRIPTS_DIR/commands/try-runtime/try-runtime.sh\"" ]
-    },
-    "presets": [
-      {
-        "title": "try-runtime",
-        "description": "Try-Runtime - runs `cargo run --release --quiet --features=try-runtime try-runtime --chain=<CHAIN> --execution=Wasm --no-spec-check-panic on-runtime-upgrade live --uri=<URI>`",
-        "args": [
-          { "label": "Chain", "rule": "/^[a-z_-]+$/" },
-          { "label": "URI", "rule": [".*"] }
-        ]
       }
-    ]
+    },
+    "presets": {
+      "default": {
+        "description": "Try-Runtime - runs `cargo run --release --quiet --features=try-runtime try-runtime --chain=<CHAIN> --execution=Wasm --no-spec-check-panic on-runtime-upgrade live --uri=<URI>`",
+        "args": {
+          "chain": {
+            "short": "c",
+            "type_rule": "/^[a-z_-]+$/"
+          },
+          "uri": {
+            "short": "u",
+            "type_rule": [".+"]
+          }
+        }
+      }
+    }
   }
 }

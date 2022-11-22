@@ -1,8 +1,6 @@
 {
   "$schema": "../../schema.cmd.json",
   "command": {
-    "id": "bench",
-    "label": "Bench",
     "description": "Runs `benchmark pallet` or `benchmark overhead` against your PR and commits back updated weights",
     "configuration": {
       "gitlab": {
@@ -10,115 +8,93 @@
           "tags": ["bench-bot"]
         },
         "variables": {}
-      },
-      "commandStart": [ "\"$PIPELINE_SCRIPTS_DIR/commands/bench/bench-bot.sh\"" ]
-    },
-    "presets": [
-      {
-        "label": "Pallet Benchmark for Substrate",
-        "repos": ["substrate"],
-        "args": [
-          { "label": "Type of bench", "type_one_of": [ "pallet" ] },
-          { "label": "Runtime", "type_one_of": ["dev"] },
-          { "label": "pallet", "type_rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/" }
-        ]
-      },
-      {
-        "label": "Pallet Benchmark for Polkadot",
-        "repos": ["polkadot"],
-        "args": [
-          { "label": "Type of bench", "type_one_of": ["runtime", "xcm"] },
-          { "label": "Runtime", "type_many_of": ["kusama-dev", "polkadot-dev", "rococo-dev", "westend-dev"] },
-          { "label": "Pallet", "type_rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/" }
-        ]
-      },
-      {
-        "label": "Pallet Benchmark for Cumulus [assets]",
-        "repos": ["cumulus"],
-        "args": [
-          { "label": "Type of bench", "type_one_of": ["xcm", "pallet"] },
-          { "label": "Runtime", "type_many_of": ["statemine", "statemint", "test-utils", "westmint"] },
-          { "label": "Kind", "type_one_of": ["asset"] },
-          { "label": "Pallet", "type_rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/" }
-        ]
-      },
-      {
-        "label": "Pallet Benchmark for Cumulus [collectives]",
-        "repos": ["cumulus"],
-        "args": [
-          { "label": "Type of bench", "type_one_of": ["xcm", "pallet"] },
-          { "label": "Runtime", "type_many_of": ["collectives-polkadot"] },
-          { "label": "Kind", "type_one_of": ["collectives"] },
-          { "label": "Pallet", "type_rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/" }
-        ]
-      },
-      {
-        "label": "Pallet Benchmark for Cumulus [contracts]",
-        "repos": ["cumulus"],
-        "args": [
-          { "label": "Type of bench", "type_one_of": ["xcm", "pallet"] },
-          { "label": "Runtime", "type_many_of": ["contracts-rococo"] },
-          { "label": "Kind", "type_one_of": ["contracts"] },
-          { "label": "Pallet", "type_rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/" }
-        ]
-      },
-      {
-        "label": "Pallet Benchmark for Cumulus [starters]",
-        "repos": ["cumulus"],
-        "args": [
-          { "label": "Type of bench", "type_one_of": ["xcm", "pallet"] },
-          { "label": "Runtime", "type_many_of": ["seedling", "shell"] },
-          { "label": "Kind", "type_one_of": ["starters"] },
-          { "label": "Pallet", "type_rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/" }
-        ]
-      },
-      {
-        "label": "Pallet Benchmark for Cumulus [testing]",
-        "repos": ["cumulus"],
-        "args": [
-          { "label": "Type of bench", "type_one_of": ["xcm", "pallet"] },
-          { "label": "Runtime", "type_many_of": ["penpal", "rococo-parachain"] },
-          { "label": "Kind", "type_one_of": ["testing"] },
-          { "label": "Pallet", "type_rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/" }
-        ]
-      },
-      {
-        "label": "Pallet Benchmark for Cumulus [testing]",
-        "repos": ["cumulus"],
-        "args": [
-          { "label": "Type of bench", "type_one_of": ["xcm", "pallet"] },
-          { "label": "Runtime", "type_many_of": ["penpal", "rococo-parachain"] },
-          { "label": "Kind", "type_one_of": ["testing"] },
-          { "label": "Pallet", "type_rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/" }
-        ]
-      },
-      {
-        "label": "Overhead for Substrate",
-        "description": "Runs `benchmark overhead` and commits back to PR the updated `extrinsic_weights.rs` files",
-        "repos": ["substrate"],
-        "args": [
-          { "label": "Type of bench", "type_one_of": ["overhead"] }
-        ]
-      },
-      {
-        "label": "Overhead for Polkadot",
-        "description": "Runs `benchmark overhead` and commits back to PR the updated `extrinsic_weights.rs` files",
-        "repos": ["polkadot"],
-        "args": [
-          { "label": "Type of bench", "type_one_of": ["overhead"] },
-          { "label": "Runtime", "type_many_of": ["kusama-dev", "polkadot-dev", "rococo-dev", "westend-dev"] }
-        ]
-      },
-      {
-        "label": "Overhead for Cumulus",
-        "description": "Runs `benchmark overhead` and commits back to PR the updated `extrinsic_weights.rs` files",
-        "repos": ["cumulus"],
-        "args": [
-          { "label": "Type of bench", "type_one_of": ["overhead"] },
-          { "label": "Kind", "type_one_of": ["asset"] },
-          { "label": "Runtime", "type_many_of": ["statemine", "statemint", "test-utils", "westmint"] }
-        ]
       }
-    ]
+    },
+    "presets": {
+      "substrate": {
+        "repos": ["substrate"],
+        "args": {
+          "type": { "short": "t", "type_one_of": [ "pallet" ], "description": "Type of bench" },
+          "runtime": { "type_one_of": [ "dev" ] },
+          "pallet": { "type_rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/" }
+        }
+      },
+      "polkadot": {
+        "repos": ["polkadot"],
+        "args": {
+          "type": { "short": "t", "type_one_of": [ "runtime", "xcm" ], "description": "Type of bench", "default": "runtime" },
+          "runtime": { "type_many_of": ["kusama-dev", "polkadot-dev", "rococo-dev", "westend-dev"] },
+          "pallet": { "type_rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/" }
+        }
+      },
+      "cumulus-assets": {
+        "repos": ["cumulus"],
+        "args": {
+          "type": { "short": "t", "type_one_of": ["xcm", "pallet"], "description": "Type of bench" },
+          "runtime": { "type_many_of": ["statemine", "statemint", "test-utils", "westmint"] },
+          "kind": { "type_one_of": ["asset"] },
+          "pallet": { "type_rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/" }
+        }
+      },
+      "cumulus-collectives": {
+        "repos": ["cumulus"],
+        "args": {
+          "type": { "short": "t", "type_one_of": ["xcm", "pallet"], "description": "Type of bench", "default": "pallet" },
+          "runtime": { "type_many_of": ["collectives-polkadot"] },
+          "kind": { "type_one_of": ["collectives"] },
+          "pallet": { "type_rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/" }
+        }
+      },
+      "cumulus-contracts": {
+        "repos": ["cumulus"],
+        "args": {
+          "type": { "short": "t", "type_one_of": ["xcm", "pallet"], "description": "Type of bench", "default": "pallet" },
+          "runtime": { "type_many_of": ["contracts-rococo"] },
+          "kind": { "type_one_of": ["contracts"] },
+          "pallet": { "type_rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/" }
+        }
+      },
+      "cumulus-starters": {
+        "repos": ["cumulus"],
+        "args": {
+          "type": { "short": "t", "type_one_of": ["xcm", "pallet"], "description": "Type of bench", "default": "pallet" },
+          "runtime": { "type_many_of": ["seedling", "shell"], "default": "shell" },
+          "kind": { "type_one_of": ["starters"] },
+          "pallet": { "type_rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/" }
+        }
+      },
+      "cumulus-testing": {
+        "repos": ["cumulus"],
+        "args": {
+          "type": { "short": "t", "type_one_of": ["xcm", "pallet"], "description": "Type of bench", "default": "pallet" },
+          "runtime": { "type_many_of": ["penpal", "rococo-parachain"], "default": "penpal" },
+          "kind": { "type_one_of": ["testing"] },
+          "pallet": { "type_rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/" }
+        }
+      },
+      "substrate-overhead": {
+        "repos": ["substrate"],
+        "description": "Runs `benchmark overhead` and commits back to PR the updated `extrinsic_weights.rs` files",
+        "args": {
+          "type": { "type_one_of": [ "overhead" ], "description": "Type of bench" },
+        }
+      },
+      "polkadot-overhead": {
+        "repos": ["polkadot"],
+        "args": {
+          "type": { "type_one_of": [ "overhead" ], "description": "Type of bench" },
+          "runtime": { "type_many_of": ["kusama-dev", "polkadot-dev", "rococo-dev", "westend-dev"] },
+          "pallet": { "type_rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/" }
+        }
+      },
+      "cumulus-overhead": {
+        "repos": ["cumulus"],
+        "args": {
+          "type": { "type_one_of": [ "overhead" ], "description": "Type of bench" },
+          "runtime": { "type_many_of": ["statemine", "statemint", "test-utils", "westmint"], "default": "statemine" },
+          "kind": { "type_one_of": ["asset"] }
+        }
+      }
+    }
   }
 }

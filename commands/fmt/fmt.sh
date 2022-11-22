@@ -24,4 +24,4 @@ main() {
   git push github "HEAD:${GH_CONTRIBUTOR_BRANCH}"
 }
 
-main "$@"
+main

@@ -10,12 +10,12 @@ main() {
 
   cmd_runner_apply_patches --setup-cleanup true
 
-  local chain="$1"
-  local uri="$2"
+  local chain="${ARGS[chain]}"
+  local uri="${ARGS[uri]}"
 
-  if [ -z "$chain" ] || [ -z "$uri" ];
-  then
-      die "chain and uri arguments should be provided"
+  if [ -z "$chain" ] || [ -z "$uri" ]; then
+    # this is probably redundant, as the validation should be performed on bot's side
+    die "chain and uri arguments should be provided"
   fi
 
   local preset_args=(
@@ -38,7 +38,7 @@ main() {
 
   set -x
   export RUST_LOG="${RUST_LOG:-remote-ext=debug,runtime=trace}"
-  cargo "${preset_args[@]}" "$@"
+  cargo "${preset_args[@]}"
 }
 
-main "$@"
+main

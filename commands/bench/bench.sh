@@ -50,7 +50,7 @@ main() {
 
   set -x
   # Runs the command to generate the weights
-  . "$(dirname "${BASH_SOURCE[0]}")/build-bench-args.sh" "$@"
+  . "$(dirname "${BASH_SOURCE[0]}")/build-bench-args.sh"
   set +x
 
   # in case we used diener to patch some dependency during benchmark execution,
@@ -73,4 +73,4 @@ main() {
   git push github "HEAD:${GH_CONTRIBUTOR_BRANCH}"
 }
 
-main "$@"
+main

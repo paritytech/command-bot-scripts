@@ -9,17 +9,13 @@ shopt -s inherit_errexit
 . "$(dirname "${BASH_SOURCE[0]}")/cmd_runner.sh"
 
 cargo_run_benchmarks="cargo run --locked --quiet --profile=production"
-current_folder="$(basename "$PWD")"
 
-get_arg optional --repo "$@"
-repository="${out:=$current_folder}"
-
-echo "Repo: $repository"
+echo "Repo: $REPOSITORY"
 
 cargo_run() {
-  echo "Running $cargo_run_benchmarks" "${args[@]}"
+  echo "Running $cargo_run_benchmarks" "${cargo_args[@]}"
 
-  $cargo_run_benchmarks "${args[@]}"
+  $cargo_run_benchmarks "${cargo_args[@]}"
 }
 
 bench_pallet_common_args=(
@@ -35,15 +31,15 @@ bench_pallet_common_args=(
   --json-file="${ARTIFACTS_DIR}/bench.json"
 )
 bench_pallet() {
-  local kind="$1"
-  local runtime="$2"
+  local kind="${ARGS[kind]}"
+  local runtime="${ARGS[runtime]}"
 
-  local args
-  case "$repository" in
+  local cargo_args
+  case "$REPOSITORY" in
     substrate)
-      local pallet="$3"
+      local pallet="${ARGS[pallet]}"
 
-      args=(
+      cargo_args=(
         --features=runtime-benchmarks
         --manifest-path=bin/node/cli/Cargo.toml
         "${bench_pallet_common_args[@]}"
@@ -70,21 +66,21 @@ bench_pallet() {
           # conventions
           output_dir="${output_dir//_/-}"
 
-          args+=(
+          cargo_args+=(
             --header="./HEADER-APACHE2"
             --output="./frame/$output_dir/src/weights.rs"
             --template=./.maintain/frame-weight-template.hbs
           )
         ;;
         *)
-          die "Kind $kind is not supported for $repository in bench_pallet"
+          die "Kind $kind is not supported for $REPOSITORY in bench_pallet"
         ;;
       esac
     ;;
     polkadot)
-      local pallet="$3"
+      local pallet="${ARGS[pallet]}"
 
-      args=(
+      cargo_args=(
         --features=runtime-benchmarks
         "${bench_pallet_common_args[@]}"
         --pallet="$pallet"
@@ -103,28 +99,28 @@ bench_pallet() {
 
       case "$kind" in
         runtime)
-          args+=(
+          cargo_args+=(
             --header=./file_header.txt
             --output="${weights_dir}/"
           )
         ;;
         xcm)
-          args+=(
+          cargo_args+=(
             --header=./file_header.txt
             --template=./xcm/pallet-xcm-benchmarks/template.hbs
             --output="${weights_dir}/xcm/"
           )
         ;;
         *)
-          die "Kind $kind is not supported for $repository in bench_pallet"
+          die "Kind $kind is not supported for $REPOSITORY in bench_pallet"
         ;;
       esac
     ;;
     cumulus)
-      local chain_type="$3"
-      local pallet="$4"
+      local chain_type="${ARGS[type]}"
+      local pallet="${ARGS[pallet]}"
 
-      args=(
+      cargo_args=(
         --bin=polkadot-parachain
         --features=runtime-benchmarks
         "${bench_pallet_common_args[@]}"
@@ -135,28 +131,28 @@ bench_pallet() {
 
       case "$kind" in
         pallet)
-          args+=(
+          cargo_args+=(
             --output="./parachains/runtimes/$chain_type/$runtime/src/weights/"
           )
         ;;
         xcm)
           mkdir -p "./parachains/runtimes/$chain_type/$runtime/src/weights/xcm"
-          args+=(
+          cargo_args+=(
             --template=./templates/xcm-bench-template.hbs
             --output="./parachains/runtimes/$chain_type/$runtime/src/weights/xcm/"
           )
         ;;
         *)
-          die "Kind $kind is not supported for $repository in bench_pallet"
+          die "Kind $kind is not supported for $REPOSITORY in bench_pallet"
         ;;
       esac
     ;;
     *)
-      die "Repository $repository is not supported in bench_pallet"
+      die "Repository $REPOSITORY is not supported in bench_pallet"
     ;;
   esac
 
-  cargo_run "${args[@]}"
+  cargo_run "${cargo_args[@]}"
 }
 
 
@@ -170,10 +166,10 @@ bench_overhead_common_args=(
   --repeat=100
 )
 bench_overhead() {
-  local args
-  case "$repository" in
+  local cargo_args
+  case "$REPOSITORY" in
     substrate)
-      args=(
+      cargo_args=(
         "${bench_overhead_common_args[@]}"
         --header=./HEADER-APACHE2
         --weight-path="./frame/support/src/weights"
@@ -181,8 +177,8 @@ bench_overhead() {
       )
     ;;
     polkadot)
-      local runtime="$2"
-      args=(
+      local runtime="${ARGS[runtime]}"
+      cargo_args=(
         "${bench_overhead_common_args[@]}"
         --header=./file_header.txt
         --weight-path="./runtime/$runtime/constants/src/weights"
@@ -190,10 +186,10 @@ bench_overhead() {
       )
     ;;
     cumulus)
-      local chain_type="$2"
-      local runtime="$3"
+      local chain_type="${ARGS[type]}"
+      local runtime="${ARGS[runtime]}"
 
-      args=(
+      cargo_args=(
         --bin=polkadot-parachain
         "${bench_overhead_common_args[@]}"
         --header=./file_header.txt
@@ -202,30 +198,27 @@ bench_overhead() {
       )
     ;;
     *)
-      die "Repository $repository is not supported in bench_overhead"
+      die "Repository $REPOSITORY is not supported in bench_overhead"
     ;;
   esac
 
-  cargo_run "${args[@]}"
+  cargo_run "${cargo_args[@]}"
 }
 
 process_args() {
-  local subcommand="$1"
-  shift
-
-  case "$subcommand" in
+  case "$PRESET" in
     runtime|pallet|xcm)
       echo 'Running bench_pallet'
-      bench_pallet "$subcommand" "$@"
+      bench_pallet "$PRESET"
     ;;
     overhead)
       echo 'Running bench_overhead'
-      bench_overhead "$subcommand" "$@"
+      bench_overhead "$PRESET"
     ;;
     *)
-      die "Invalid subcommand $subcommand to process_args"
+      die "Invalid preset $PRESET to process_args"
     ;;
   esac
 }
 
-process_args "$@"
+process_args
