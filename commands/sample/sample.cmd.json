@@ -1,29 +1,25 @@
 {
   "$schema": "../../schema.cmd.json",
   "command": {
-    "id": "sample",
-    "label":"123",
     "configuration": {
       "gitlab": {
         "job": {
           "tags": ["kubernetes-parity-build"],
           "variables": {}
         }
-      },
-      "commandStart": ["echo"]
+      }
     },
-    "presets": [
-      {
-        "label": "echo something",
+    "presets": {
+      "default": {
         "description": "Outputs your echo string",
         "repos": ["polkadot"],
-        "args": [
-          {
+        "args": {
+          "input": {
             "label": "Pass your echo string",
             "type_rule": ".*"
           }
-        ]
+        }
       }
-    ]
+    }
   }
 }

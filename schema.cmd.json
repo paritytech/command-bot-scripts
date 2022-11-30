@@ -6,12 +6,6 @@
     "command": {
       "type": "object",
       "properties": {
-        "id": {
-          "type": "string"
-        },
-        "label": {
-          "type": "string"
-        },
         "description": {
           "type": "string"
         },
@@ -46,13 +40,10 @@
           }
         },
         "presets": {
-          "type": "array",
-          "items": {
+          "type": "object",
+          "additionalProperties": {
             "type": "object",
             "properties": {
-              "label": {
-                "type": "string"
-              },
               "description": {
                 "type": "string"
               },
@@ -69,13 +60,15 @@
                 }
               },
               "args": {
-                "type": "array",
+                "type": "object",
+                "additionalProperties": {
+                  "description": {
+                    "type": "string"
+                  }
+                },
                 "items": {
                   "type": "object",
                   "properties": {
-                    "label": {
-                      "type": "string"
-                    },
                     "type_one_of": {
                       "type": "array",
                       "items": {
@@ -92,9 +85,15 @@
                       "type": "string"
                     },
                     "anyOf": [
-                      {"required": ["label", "type_one_of"]},
-                      {"required": ["label", "type_many_of"]},
-                      {"required": ["label", "type_rule"]}
+                      {
+                        "required": ["type_one_of"]
+                      },
+                      {
+                        "required": ["type_many_of"]
+                      },
+                      {
+                        "required": ["type_rule"]
+                      }
                     ]
                   }
                 }
@@ -103,14 +102,8 @@
           }
         }
       },
-      "required": [
-        "id",
-        "label",
-        "configuration"
-      ]
+      "required": ["configuration"]
     }
   },
-  "required": [
-    "command"
-  ]
+  "required": ["command"]
 }
