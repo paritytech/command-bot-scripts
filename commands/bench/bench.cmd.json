@@ -25,7 +25,7 @@
         "repos": ["polkadot"],
         "args": {
           "type":     { "label": "Type of bench", "type_one_of": ["runtime", "xcm"] },
-          "runtime":  { "label": "Runtime", "type_one_of": ["kusama-dev", "polkadot-dev", "rococo-dev", "westend-dev"] },
+          "runtime":  { "label": "Runtime", "type_one_of": ["dev", "kusama-dev", "polkadot-dev", "rococo-dev", "westend-dev"] },
           "pallet":   { "label": "Pallet", "type_rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/" }
         }
       },
