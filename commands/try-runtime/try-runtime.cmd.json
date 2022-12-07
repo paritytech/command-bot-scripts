@@ -1,5 +1,5 @@
 {
-  "$schema": "../../schema.cmd.json",
+  "$schema": "../../node_modules/command-bot/src/schema/schema.cmd.json",
   "command": {
     "description": "Runs `cargo run --release --quiet --features=try-runtime try-runtime --chain=<CHAIN> --execution=Wasm --no-spec-check-panic on-runtime-upgrade live --uri=<URI>`",
     "configuration": { "gitlab": { "job": { "tags": ["linux-docker"] }, "variables": {} } },

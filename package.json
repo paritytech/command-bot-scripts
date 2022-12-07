@@ -1,0 +1,8 @@
+{
+  "name": "command-bot-scripts",
+  "version": "1.0.0",
+  "license": "MIT",
+  "dependencies": {
+    "command-bot": "file:../command-bot"
+  }
+}
