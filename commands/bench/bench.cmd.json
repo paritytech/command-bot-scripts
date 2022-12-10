@@ -5,9 +5,9 @@
     "configuration": {
       "gitlab": {
         "job": {
-          "tags": ["bench-bot"]
-        },
-        "variables": {}
+          "tags": ["bench-bot"],
+          "variables": {}
+        }
       }
     },
     "presets": {
