@@ -1,7 +1,14 @@
 {
-  "$schema": "../../schema.cmd.json",
+  "$schema": "../../node_modules/command-bot/src/schema/schema.cmd.json",
   "command": {
     "description": "RustFMT. Formatting Rust code according to style guidelines and commits to your PR.",
-    "configuration": { "gitlab": { "job": { "tags": ["linux-docker"] }, "variables": {} } }
+    "configuration": {
+      "gitlab": {
+        "job": {
+          "tags": ["linux-docker"],
+          "variables": {}
+        }
+      }
+    }
   }
 }

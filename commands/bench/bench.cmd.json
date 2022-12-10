@@ -1,13 +1,13 @@
 {
-  "$schema": "../../schema.cmd.json",
+  "$schema": "../../node_modules/command-bot/src/schema/schema.cmd.json",
   "command": {
     "description": "Runs `benchmark pallet` or `benchmark overhead` against your PR and commits back updated weights",
     "configuration": {
       "gitlab": {
         "job": {
-          "tags": ["bench-bot"]
-        },
-        "variables": {}
+          "tags": ["bench-bot"],
+          "variables": {}
+        }
       }
     },
     "presets": {
