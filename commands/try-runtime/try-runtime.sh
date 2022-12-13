@@ -13,6 +13,10 @@ main() {
   local chain="$1"
   local uri="$2"
 
+  # remove $1 and $2 and let the rest args to be passed later as "$@"
+  shift
+  shift
+
   if [ -z "$chain" ] || [ -z "$uri" ];
   then
       die "chain and uri arguments should be provided"
