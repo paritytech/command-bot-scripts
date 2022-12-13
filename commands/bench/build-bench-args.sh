@@ -5,8 +5,8 @@
 set -eu -o pipefail
 shopt -s inherit_errexit
 
-. "$(dirname "${BASH_SOURCE[0]}")/utils.sh"
-. "$(dirname "${BASH_SOURCE[0]}")/cmd_runner.sh"
+. "$(dirname "${BASH_SOURCE[0]}")/../utils.sh"
+. "$(dirname "${BASH_SOURCE[0]}")/../cmd_runner.sh"
 
 cargo_run_benchmarks="cargo run --quiet --profile=production"
 current_folder="$(basename "$PWD")"
