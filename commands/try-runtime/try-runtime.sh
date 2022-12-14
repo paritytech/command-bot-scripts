@@ -11,15 +11,13 @@ main() {
   cmd_runner_apply_patches --setup-cleanup true
 
   local chain="$1"
-  local uri="$2"
 
-  # remove $1 and $2 and let the rest args to be passed later as "$@"
-  shift
+  # remove $1 and let the rest args to be passed later as "$@"
   shift
 
-  if [ -z "$chain" ] || [ -z "$uri" ];
+  if [ -z "$chain" ];
   then
-      die "chain and uri arguments should be provided"
+      die "the chain should be provided"
   fi
 
   local preset_args=(
@@ -37,7 +35,6 @@ main() {
     --no-spec-check-panic
     on-runtime-upgrade
     live
-    --uri="$uri"
   )
 
   set -x

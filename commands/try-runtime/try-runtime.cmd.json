@@ -6,8 +6,7 @@
     "presets": {
       "default": {
         "args": {
-          "chain":  { "label": "Chain", "rule": "/^[a-z_-]+$/" },
-          "uri":    { "label": "URI", "rule": [".*"] }
+          "chain":  { "label": "Chain", "rule": "/^[a-z_-]+$/" }
         }
       }
     }
