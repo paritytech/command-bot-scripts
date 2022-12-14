@@ -1,12 +1,14 @@
 {
   "$schema": "../../node_modules/command-bot/src/schema/schema.cmd.json",
   "command": {
-    "description": "Runs `cargo run --release --quiet --features=try-runtime try-runtime --chain=<CHAIN> --execution=Wasm --no-spec-check-panic on-runtime-upgrade live --uri=<URI>`",
+    "description": "Runs `cargo run --release --quiet --features=try-runtime try-runtime --chain=${NETWORK} --execution=Wasm --no-spec-check-panic on-runtime-upgrade live --uri wss://${NETWORK}-try-runtime-node.parity-chains.parity.io:443`",
     "configuration": { "gitlab": { "job": { "tags": ["linux-docker"], "variables": {} } } },
     "presets": {
-      "default": {
+      "polkadot": {
+        "description": "Run try-runtime with specified network",
+        "repos": ["polkadot"],
         "args": {
-          "chain":  { "label": "Chain", "rule": "/^[a-z_-]+$/" }
+          "network":  { "type_one_of": ["polkadot", "kusama", "westend"] }
         }
       }
     }

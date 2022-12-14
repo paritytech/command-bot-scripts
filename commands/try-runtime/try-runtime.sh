@@ -10,14 +10,14 @@ main() {
 
   cmd_runner_apply_patches --setup-cleanup true
 
-  local chain="$1"
+  local network="$1"
 
   # remove $1 and let the rest args to be passed later as "$@"
   shift
 
-  if [ -z "$chain" ];
+  if [ -z "$network" ];
   then
-      die "the chain should be provided"
+      die "the network should be provided"
   fi
 
   local preset_args=(
@@ -35,6 +35,7 @@ main() {
     --no-spec-check-panic
     on-runtime-upgrade
     live
+    --uri wss://${network}-try-runtime-node.parity-chains.parity.io:443
   )
 
   set -x
