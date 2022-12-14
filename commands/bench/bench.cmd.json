@@ -12,7 +12,7 @@
     },
     "presets": {
       "substrate": {
-        "label": "Pallet Benchmark for Substrate",
+        "description": "Pallet Benchmark for Substrate",
         "repos": ["substrate"],
         "args": {
           "type":     { "label": "Type of bench", "type_one_of": [ "pallet" ] },
@@ -21,7 +21,7 @@
         }
       },
       "polkadot": {
-        "label": "Pallet Benchmark for Polkadot",
+        "description": "Pallet Benchmark for Polkadot",
         "repos": ["polkadot"],
         "args": {
           "type":     { "label": "Type of bench", "type_one_of": ["runtime", "xcm"] },
@@ -30,7 +30,7 @@
         }
       },
       "cumulus-assets": {
-        "label": "Pallet Benchmark for Cumulus [assets]",
+        "description": "Pallet Benchmark for Cumulus [assets]",
         "repos": ["cumulus"],
         "args": {
           "type":     { "label": "Type of bench", "type_one_of": ["xcm", "pallet"] },
@@ -40,7 +40,7 @@
         }
       },
       "cumulus-collectives": {
-        "label": "Pallet Benchmark for Cumulus [collectives]",
+        "description": "Pallet Benchmark for Cumulus [collectives]",
         "repos": ["cumulus"],
         "args": {
           "type":     { "label": "Type of bench", "type_one_of": ["xcm", "pallet"] },
@@ -50,7 +50,7 @@
         }
       },
       "cumulus-contracts": {
-        "label": "Pallet Benchmark for Cumulus [contracts]",
+        "description": "Pallet Benchmark for Cumulus [contracts]",
         "repos": ["cumulus"],
         "args": {
           "type":     { "label": "Type of bench", "type_one_of": ["xcm", "pallet"] },
@@ -60,7 +60,7 @@
         }
       },
       "cumulus-starters": {
-        "label": "Pallet Benchmark for Cumulus [starters]",
+        "description": "Pallet Benchmark for Cumulus [starters]",
         "repos": ["cumulus"],
         "args": {
           "type":     { "label": "Type of bench", "type_one_of": ["xcm", "pallet"] },
@@ -70,7 +70,7 @@
         }
       },
       "cumulus-testing": {
-        "label": "Pallet Benchmark for Cumulus [testing]",
+        "description": "Pallet Benchmark for Cumulus [testing]",
         "repos": ["cumulus"],
         "args": {
           "type":     { "label": "Type of bench", "type_one_of": ["xcm", "pallet"] },
@@ -80,7 +80,6 @@
         }
       },
       "substrate-overhead": {
-        "label": "Overhead for Substrate",
         "description": "Runs `benchmark overhead` and commits back to PR the updated `extrinsic_weights.rs` files",
         "repos": ["substrate"],
         "args": {
@@ -88,7 +87,6 @@
         }
       },
       "polkadot-overhead": {
-        "label": "Overhead for Polkadot",
         "description": "Runs `benchmark overhead` and commits back to PR the updated `extrinsic_weights.rs` files",
         "repos": ["polkadot"],
         "args": {
@@ -97,7 +95,6 @@
         }
       },
       "cumulus-overhead": {
-        "label": "Overhead for Cumulus",
         "description": "Runs `benchmark overhead` and commits back to PR the updated `extrinsic_weights.rs` files",
         "repos": ["cumulus"],
         "args": {
