@@ -30,7 +30,7 @@ main() {
     --quiet
     --features=try-runtime
     try-runtime
-    --chain="${chain}-dev"
+    --chain="${network}-dev"
     --execution=Wasm
     --no-spec-check-panic
     on-runtime-upgrade
