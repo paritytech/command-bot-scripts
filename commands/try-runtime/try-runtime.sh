@@ -43,7 +43,7 @@ main() {
     --runtime runtime-try-runtime.wasm \
     -lruntime=debug \
     on-runtime-upgrade \
-    live --uri ws://localhost:9999 \
+    --uri "wss://${network}-try-runtime-node.parity-chains.parity.io:443" \
     "$@"
 }
 
