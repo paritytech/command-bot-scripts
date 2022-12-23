@@ -29,6 +29,7 @@ main() {
   set -x
   export RUST_LOG="${RUST_LOG:-remote-ext=debug,runtime=trace}"
 
+  # following docs https://paritytech.github.io/substrate/master/try_runtime_cli/index.html
   cargo build --release
   cp "./target/release/${repository}" .
 
@@ -37,7 +38,7 @@ main() {
   cp "./target/release/${repository}" node-try-runtime
   cp "./target/release/wbuild/${network}-runtime/${network}_runtime.wasm" runtime-try-runtime.wasm
 
-  cargo ./node-try-runtime \
+  ./node-try-runtime \
     try-runtime \
     --runtime runtime-try-runtime.wasm \
     -lruntime=debug \
