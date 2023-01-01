@@ -31,7 +31,6 @@ main() {
 
   # following docs https://paritytech.github.io/substrate/master/try_runtime_cli/index.html
   cargo build --release
-  cp "./target/release/${repository}" .
 
   cargo build --release --features try-runtime
 
