@@ -3,7 +3,13 @@
 set -eu -o pipefail
 shopt -s inherit_errexit
 
+. "$(dirname "${BASH_SOURCE[0]}")/../utils.sh"
 . "$(dirname "${BASH_SOURCE[0]}")/../cmd_runner.sh"
+
+current_folder="$(basename "$PWD")"
+
+get_arg optional --repo "$@"
+repository="${out:=$current_folder}"
 
 main() {
   cmd_runner_setup
@@ -20,27 +26,24 @@ main() {
       die "the network should be provided"
   fi
 
-  local preset_args=(
-    run
-    # Requirement: always run the command in release mode.
-    # See https://github.com/paritytech/command-bot/issues/26#issue-1049555966
-    --release
-    # "--quiet" should be kept so that the output doesn't get polluted
-    # with a bunch of compilation stuff
-    --quiet
-    --features=try-runtime
-    try-runtime
-    --chain="${network}-dev"
-    --execution=Wasm
-    --no-spec-check-panic
-    on-runtime-upgrade
-    live
-    --uri wss://${network}-try-runtime-node.parity-chains.parity.io:443
-  )
-
   set -x
   export RUST_LOG="${RUST_LOG:-remote-ext=debug,runtime=trace}"
-  cargo "${preset_args[@]}" "$@"
+
+  # following docs https://paritytech.github.io/substrate/master/try_runtime_cli/index.html
+  cargo build --release
+
+  cargo build --release --features try-runtime
+
+  cp "./target/release/${repository}" node-try-runtime
+  cp "./target/release/wbuild/${network}-runtime/${network}_runtime.wasm" runtime-try-runtime.wasm
+
+  ./node-try-runtime \
+    try-runtime \
+    --runtime runtime-try-runtime.wasm \
+    -lruntime=debug \
+    on-runtime-upgrade \
+    live --uri "wss://${network}-try-runtime-node.parity-chains.parity.io:443" \
+    "$@"
 }
 
 main "$@"
