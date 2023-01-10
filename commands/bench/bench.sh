@@ -11,6 +11,11 @@
 set -eu -o pipefail
 shopt -s inherit_errexit
 
+# temporary hack to install latest git
+echo deb http://deb.debian.org/debian buster-backports main | tee /etc/apt/sources.list.d/buster-backports.list
+apt-get -y update
+apt install -y -t buster-backports git
+
 . "$(dirname "${BASH_SOURCE[0]}")/../cmd_runner.sh"
 
 main() {
