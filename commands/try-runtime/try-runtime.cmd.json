@@ -8,7 +8,7 @@
         "description": "Run try-runtime with specified network",
         "repos": ["polkadot"],
         "args": {
-          "network":  { "type_one_of": ["polkadot", "kusama", "westend", "rococo"] }
+          "network":  { "label": "Network", "type_one_of": ["polkadot", "kusama", "westend", "rococo"] }
         }
       }
     }
