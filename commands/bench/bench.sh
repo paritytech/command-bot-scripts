@@ -11,7 +11,8 @@
 set -eu -o pipefail
 shopt -s inherit_errexit
 
-. "$(dirname "${BASH_SOURCE[0]}")/../cmd_runner.sh"
+. "../utils.sh"
+. "../cmd_runner.sh"
 
 main() {
   cmd_runner_setup
@@ -49,8 +50,28 @@ main() {
   cmd_runner_apply_patches
 
   set -x
-  # Runs the command to generate the weights
-  . "$(dirname "${BASH_SOURCE[0]}")/build-bench-args.sh" "$@"
+
+  local subcommand="$1"
+  shift
+
+  case "$subcommand" in
+    runtime|pallet|xcm)
+      echo 'Running bench_pallet'
+      . "./lib/bench-pallet.sh" "$subcommand" "$@"
+    ;;
+    overhead)
+      echo 'Running bench_overhead'
+      . "./lib/bench-overhead.sh" "$subcommand" "$@"
+    ;;
+    all)
+      echo "Running all-$repository"
+      . "./lib/bench-all-${repository}.sh" "$@"
+    ;;
+    *)
+      die "Invalid subcommand $subcommand to process_args"
+    ;;
+  esac
+
   set +x
 
   # in case we used diener to patch some dependency during benchmark execution,

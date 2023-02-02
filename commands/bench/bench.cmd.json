@@ -11,96 +11,111 @@
       }
     },
     "presets": {
-      "substrate": {
-        "description": "Pallet Benchmark for Substrate",
+      "substrate-one": {
+        "description": "Pallet Benchmark for Substrate for specific pallet",
         "repos": ["substrate"],
         "args": {
-          "type":     { "label": "Type of bench", "type_one_of": [ "pallet" ] },
-          "runtime":  { "label": "Runtime", "type_one_of": ["dev"] },
-          "pallet":   { "label": "pallet", "type_rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/" }
+          "subcommand": { "label": "Subcommand", "type_one_of": [ "pallet" ] },
+          "runtime":    { "label": "Runtime", "type_one_of": ["dev"] },
+          "pallet":     { "label": "pallet", "type_rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/" }
         }
       },
-      "polkadot": {
-        "description": "Pallet Benchmark for Polkadot",
+      "substrate-all": {
+        "description": "Pallet + Overhead + Machine Benchmark for Substrate for all pallets",
+        "repos": ["substrate"],
+        "args": {
+          "subcommand": { "label": "Subcommand", "type_one_of": [ "all" ] }
+        }
+      },
+      "polkadot-one": {
+        "description": "Pallet Benchmark for Polkadot for specific pallet",
         "repos": ["polkadot"],
         "args": {
-          "type":     { "label": "Type of bench", "type_one_of": ["runtime", "xcm"] },
-          "runtime":  { "label": "Runtime", "type_one_of": ["dev", "kusama-dev", "polkadot-dev", "rococo-dev", "westend-dev"] },
-          "pallet":   { "label": "Pallet", "type_rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/" }
+          "subcommand": { "label": "Subcommand", "type_one_of": ["runtime", "xcm"] },
+          "runtime":    { "label": "Runtime", "type_one_of": ["dev", "kusama-dev", "polkadot-dev", "rococo-dev", "westend-dev"] },
+          "pallet":     { "label": "Pallet", "type_rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/" }
+        }
+      },
+      "polkadot-all": {
+        "description": "Pallet + Overhead Benchmark for Polkadot",
+        "repos": ["polkadot"],
+        "args": {
+          "subcommand": { "label": "Subcommand", "type_one_of": ["all"] },
+          "runtime":    { "label": "Runtime", "type_one_of": ["kusama", "polkadot", "rococo", "westend"] }
         }
       },
       "cumulus-assets": {
         "description": "Pallet Benchmark for Cumulus [assets]",
         "repos": ["cumulus"],
         "args": {
-          "type":     { "label": "Type of bench", "type_one_of": ["xcm", "pallet"] },
-          "runtime":  { "label": "Runtime", "type_one_of": ["statemine", "statemint", "test-utils", "westmint"] },
-          "kind":     { "label": "Kind", "type_one_of": ["asset"] },
-          "pallet":   { "label": "Pallet", "type_rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/" }
+          "subcommand": { "label": "Subcommand", "type_one_of": ["xcm", "pallet"] },
+          "runtime":    { "label": "Runtime", "type_one_of": ["statemine", "statemint", "test-utils", "westmint"] },
+          "kind":       { "label": "Kind", "type_one_of": ["asset"] },
+          "pallet":     { "label": "Pallet", "type_rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/" }
         }
       },
       "cumulus-collectives": {
         "description": "Pallet Benchmark for Cumulus [collectives]",
         "repos": ["cumulus"],
         "args": {
-          "type":     { "label": "Type of bench", "type_one_of": ["xcm", "pallet"] },
-          "runtime":  { "label": "Runtime", "type_one_of": ["collectives-polkadot"] },
-          "kind":     { "label": "Kind", "type_one_of": ["collectives"] },
-          "pallet":   { "label": "Pallet", "type_rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/" }
+          "subcommand": { "label": "Subcommand", "type_one_of": ["xcm", "pallet"] },
+          "runtime":    { "label": "Runtime", "type_one_of": ["collectives-polkadot"] },
+          "kind":       { "label": "Kind", "type_one_of": ["collectives"] },
+          "pallet":     { "label": "Pallet", "type_rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/" }
         }
       },
       "cumulus-contracts": {
         "description": "Pallet Benchmark for Cumulus [contracts]",
         "repos": ["cumulus"],
         "args": {
-          "type":     { "label": "Type of bench", "type_one_of": ["xcm", "pallet"] },
-          "runtime":  { "label": "Runtime", "type_one_of": ["contracts-rococo"] },
-          "kind":     { "label": "Kind", "type_one_of": ["contracts"] },
-          "pallet":   { "label": "Pallet", "type_rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/" }
+          "subcommand": { "label": "Subcommand", "type_one_of": ["xcm", "pallet"] },
+          "runtime":    { "label": "Runtime", "type_one_of": ["contracts-rococo"] },
+          "kind":       { "label": "Kind", "type_one_of": ["contracts"] },
+          "pallet":     { "label": "Pallet", "type_rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/" }
         }
       },
       "cumulus-starters": {
         "description": "Pallet Benchmark for Cumulus [starters]",
         "repos": ["cumulus"],
         "args": {
-          "type":     { "label": "Type of bench", "type_one_of": ["xcm", "pallet"] },
-          "runtime":  { "label": "Runtime", "type_one_of": ["seedling", "shell"] },
-          "kind":     { "label": "Kind", "type_one_of": ["starters"] },
-          "pallet":   { "label": "Pallet", "type_rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/" }
+          "subcommand": { "label": "Subcommand", "type_one_of": ["xcm", "pallet"] },
+          "runtime":    { "label": "Runtime", "type_one_of": ["seedling", "shell"] },
+          "kind":       { "label": "Kind", "type_one_of": ["starters"] },
+          "pallet":     { "label": "Pallet", "type_rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/" }
         }
       },
       "cumulus-testing": {
         "description": "Pallet Benchmark for Cumulus [testing]",
         "repos": ["cumulus"],
         "args": {
-          "type":     { "label": "Type of bench", "type_one_of": ["xcm", "pallet"] },
-          "runtime":  { "label": "Runtime", "type_one_of": ["penpal", "rococo-parachain"] },
-          "kind":     { "label": "Kind", "type_one_of": ["testing"] },
-          "pallet":   { "label": "Pallet", "type_rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/" }
+          "subcommand": { "label": "Subcommand", "type_one_of": ["xcm", "pallet"] },
+          "runtime":    { "label": "Runtime", "type_one_of": ["penpal", "rococo-parachain"] },
+          "kind":       { "label": "Kind", "type_one_of": ["testing"] },
+          "pallet":     { "label": "Pallet", "type_rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/" }
         }
       },
       "substrate-overhead": {
         "description": "Runs `benchmark overhead` and commits back to PR the updated `extrinsic_weights.rs` files",
         "repos": ["substrate"],
         "args": {
-          "type": { "label": "Type of bench", "type_one_of": ["overhead"] }
+          "subcommand": { "label": "Subcommand", "type_one_of": ["overhead"] }
         }
       },
       "polkadot-overhead": {
         "description": "Runs `benchmark overhead` and commits back to PR the updated `extrinsic_weights.rs` files",
         "repos": ["polkadot"],
         "args": {
-          "type":   { "label": "Type of bench", "type_one_of": ["overhead"] },
-          "runtime":{ "label": "Runtime", "type_one_of": ["kusama-dev", "polkadot-dev", "rococo-dev", "westend-dev"] }
+          "subcommand": { "label": "Subcommand", "type_one_of": ["overhead"] },
+          "runtime":    { "label": "Runtime", "type_one_of": ["kusama-dev", "polkadot-dev", "rococo-dev", "westend-dev"] }
         }
       },
       "cumulus-overhead": {
         "description": "Runs `benchmark overhead` and commits back to PR the updated `extrinsic_weights.rs` files",
         "repos": ["cumulus"],
         "args": {
-          "type":   { "label": "Type of bench", "type_one_of": ["overhead"] },
-          "kind":   { "label": "Kind", "type_one_of": ["asset"] },
-          "runtime":{ "label": "Runtime", "type_one_of": ["statemine", "statemint", "test-utils", "westmint"] }
+          "subcommand": { "label": "Subcommand", "type_one_of": ["overhead"] },
+          "kind":       { "label": "Kind", "type_one_of": ["asset"] },
+          "runtime":    { "label": "Runtime", "type_one_of": ["statemine", "statemint", "test-utils", "westmint"] }
         }
       }
     }

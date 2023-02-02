@@ -1,6 +1,7 @@
 {
   "$schema": "../../node_modules/command-bot/src/schema/schema.cmd.json",
   "command": {
+    "excluded": true,
     "configuration": {
       "gitlab": {
         "job": {
