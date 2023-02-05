@@ -1,6 +1,8 @@
 #!/bin/bash
 
-. "common.sh"
+THIS_DIR=$(dirname "${BASH_SOURCE[0]}")
+. "$THIS_DIR/../../cmd_runner.sh"
+. "$THIS_DIR/../../utils.sh"
 
 bench_pallet_common_args=(
   --

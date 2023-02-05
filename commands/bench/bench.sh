@@ -11,8 +11,30 @@
 set -eu -o pipefail
 shopt -s inherit_errexit
 
-. "../utils.sh"
-. "../cmd_runner.sh"
+BENCH_ROOT_DIR=$(dirname "${BASH_SOURCE[0]}")
+
+. "$BENCH_ROOT_DIR/../utils.sh"
+. "$BENCH_ROOT_DIR/../cmd_runner.sh"
+
+cargo_run_benchmarks="cargo run --quiet --profile=production"
+current_folder="$(basename "$PWD")"
+
+get_arg optional --repo "$@"
+repository="${out:=$current_folder}"
+
+echo "Repo: $repository"
+
+cargo_run() {
+  echo "Running $cargo_run_benchmarks" "${args[@]}"
+
+  # if not patched with PATCH_something=123 then use --locked
+  if [[ -z "${BENCH_PATCHED:-}" ]]; then
+    cargo_run_benchmarks+=" --locked"
+  fi
+
+  $cargo_run_benchmarks "${args[@]}"
+}
+
 
 main() {
   cmd_runner_setup
@@ -57,15 +79,15 @@ main() {
   case "$subcommand" in
     runtime|pallet|xcm)
       echo 'Running bench_pallet'
-      . "./lib/bench-pallet.sh" "$subcommand" "$@"
+      . "$BENCH_ROOT_DIR/lib/bench-pallet.sh" "$subcommand" "$@"
     ;;
     overhead)
       echo 'Running bench_overhead'
-      . "./lib/bench-overhead.sh" "$subcommand" "$@"
+      . "$BENCH_ROOT_DIR/lib/bench-overhead.sh" "$subcommand" "$@"
     ;;
     all)
       echo "Running all-$repository"
-      . "./lib/bench-all-${repository}.sh" "$@"
+      . "$BENCH_ROOT_DIR/lib/bench-all-${repository}.sh" "$@"
     ;;
     *)
       die "Invalid subcommand $subcommand to process_args"
