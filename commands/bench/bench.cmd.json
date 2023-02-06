@@ -32,7 +32,7 @@
         "repos": ["polkadot"],
         "args": {
           "subcommand": { "label": "Subcommand", "type_one_of": ["runtime", "xcm"] },
-          "runtime":    { "label": "Runtime", "type_one_of": ["dev", "kusama-dev", "polkadot-dev", "rococo-dev", "westend-dev"] },
+          "runtime":    { "label": "Runtime", "type_one_of": ["dev", "kusama", "polkadot", "rococo", "westend"] },
           "pallet":     { "label": "Pallet", "type_rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/" }
         }
       },

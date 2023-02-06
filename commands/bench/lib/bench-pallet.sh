@@ -65,23 +65,21 @@ bench_pallet() {
     ;;
     polkadot)
       local pallet="$3"
+      # replace "-dev" with ""
+      local runtime_dir=${runtime/-dev/}
+      if [ "$runtime" == dev ]; then
+        runtime_dir=polkadot
+      fi
+
+      local weights_dir="./runtime/${runtime_dir}/src/weights"
 
       args=(
         --features=runtime-benchmarks
         "${bench_pallet_common_args[@]}"
         --pallet="$pallet"
-        --chain="$runtime"
+        --chain="${runtime}-dev"
       )
 
-      local runtime_dir
-      if [ "$runtime" == dev ]; then
-        runtime_dir=polkadot
-      elif [[ "$runtime" =~ ^(.*)-dev$  ]]; then
-        runtime_dir="${BASH_REMATCH[1]}"
-      else
-        die "Could not infer weights directory from $runtime"
-      fi
-      local weights_dir="./runtime/${runtime_dir}/src/weights"
 
       case "$kind" in
         runtime)
