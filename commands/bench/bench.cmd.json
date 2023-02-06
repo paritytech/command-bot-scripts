@@ -44,6 +44,13 @@
           "runtime":    { "label": "Runtime", "type_one_of": ["kusama", "polkadot", "rococo", "westend"] }
         }
       },
+      "cumulus-all": {
+        "description": "Pallet Benchmark for Cumulus",
+        "repos": ["cumulus"],
+        "args": {
+          "subcommand": { "label": "Subcommand", "type_one_of": ["all"] }
+        }
+      },
       "cumulus-assets": {
         "description": "Pallet Benchmark for Cumulus [assets]",
         "repos": ["cumulus"],
