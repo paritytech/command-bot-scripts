@@ -65,8 +65,11 @@ bench_pallet() {
     ;;
     polkadot)
       local pallet="$3"
-      # replace "-dev" with ""
-      local runtime_dir=${runtime/-dev/}
+
+      # For backward compatibility: replace "-dev" with ""
+      runtime=${runtime/-dev/}
+
+      local runtime_dir=$runtime
       if [ "$runtime" == dev ]; then
         runtime_dir=polkadot
       fi
@@ -79,7 +82,6 @@ bench_pallet() {
         --pallet="$pallet"
         --chain="${runtime}-dev"
       )
-
 
       case "$kind" in
         runtime)
