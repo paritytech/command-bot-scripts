@@ -24,45 +24,18 @@
 # current reference machine: https://github.com/paritytech/substrate/pull/5848
 
 # Original source: https://github.com/paritytech/substrate/blob/ff9921a260a67e3a71f25c8b402cd5c7da787a96/scripts/run_all_benchmarks.sh
-
-while getopts 'bfp:v' flag; do
-  case "${flag}" in
-    b)
-      # Skip build.
-      skip_build='true'
-      ;;
-    f)
-      # Fail if any sub-command in a pipe fails, not just the last one.
-      set -o pipefail
-      # Fail on undeclared variables.
-      set -u
-      # Fail if any sub-command fails.
-      set -e
-      # Fail on traps.
-      set -E
-      ;;
-    p)
-      # Start at pallet
-      start_pallet="${OPTARG}"
-      ;;
-    v)
-      # Echo all executed commands.
-      set -x
-      ;;
-    *)
-      # Exit early.
-      echo "Bad options. Check Script."
-      exit 1
-      ;;
-  esac
-done
+# Fail if any sub-command in a pipe fails, not just the last one.
+set -o pipefail
+# Fail on undeclared variables.
+set -u
+# Fail if any sub-command fails.
+set -e
+# Fail on traps.
+set -E
 
 
-if [ "$skip_build" != true ]
-then
-  echo "[+] Compiling Substrate benchmarks..."
-  cargo build --profile=production --locked --features=runtime-benchmarks
-fi
+echo "[+] Compiling Substrate benchmarks..."
+cargo build --profile=production --locked --features=runtime-benchmarks
 
 # The executable to use.
 SUBSTRATE=./target/production/substrate
@@ -101,15 +74,6 @@ rm -f $ERR_FILE
 
 # Benchmark each pallet.
 for PALLET in "${PALLETS[@]}"; do
-  # If `-p` is used, skip benchmarks until the start pallet.
-  if [ ! -z "$start_pallet" ] && [ "$start_pallet" != "$PALLET" ]
-  then
-    echo "[+] Skipping ${PALLET}..."
-    continue
-  else
-    unset start_pallet
-  fi
-
   FOLDER="$(echo "${PALLET#*_}" | tr '_' '-')";
   WEIGHT_FILE="./frame/${FOLDER}/src/weights.rs"
   echo "[+] Benchmarking $PALLET with weight file $WEIGHT_FILE";
