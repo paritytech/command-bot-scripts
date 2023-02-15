@@ -22,7 +22,7 @@ PALLETS=($(
 echo "[+] Benchmarking ${#PALLETS[@]} pallets for runtime $runtime"
 
 # Define the error file.
-ERR_FILE="benchmarking_errors.txt"
+ERR_FILE="${ARTIFACTS_DIR}/benchmarking_errors.txt"
 # Delete the error file before each run.
 rm -f $ERR_FILE
 

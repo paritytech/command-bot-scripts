@@ -2,7 +2,7 @@
 # originally moved from https://github.com/paritytech/cumulus/blob/445f9277ab55b4d930ced4fbbb38d27c617c6658/scripts/benchmarks-ci.sh
 
 run_cumulus_bench() {
-  local artifactsDir=target/production
+  local artifactsDir="$ARTIFACTS_DIR"
   local category=$1
   local runtimeName=$2
 

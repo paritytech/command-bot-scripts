@@ -68,7 +68,7 @@ PALLETS=($({ printf '%s\n' "${ALL_PALLETS[@]}" "${EXCLUDED_PALLETS[@]}"; } | sor
 echo "[+] Benchmarking ${#PALLETS[@]} Substrate pallets by excluding ${#EXCLUDED_PALLETS[@]} from ${#ALL_PALLETS[@]}."
 
 # Define the error file.
-ERR_FILE="benchmarking_errors.txt"
+ERR_FILE="${ARTIFACTS_DIR}/benchmarking_errors.txt"
 # Delete the error file before each run.
 rm -f $ERR_FILE
 
