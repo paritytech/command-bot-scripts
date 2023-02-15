@@ -1,0 +1,31 @@
+{
+  "$schema": "../../node_modules/command-bot/src/schema/schema.cmd.json",
+  "command": {
+    "description": "Merges current PR if this is merge-able. May include companion checks. Read more: https://github.com/paritytech/parity-processbot/",
+    "configuration": {"gitlab": {"job": {"tags": [""]}}},
+    "presets": {
+      "merge": {
+        "description": "Merge once checks pass",
+        "args": {}
+      },
+      "merge-force": {
+        "description": "merge immediately while disregarding checks ([not all of them can be disregarded](https://github.com/paritytech/parity-processbot/#criteria-for-merge-checks-and-statuses))",
+        "args": {
+          "force": {
+            "label": "force",
+            "type_one_of": ["force"]
+          }
+        }
+      },
+      "merge-cancel": {
+        "description": "cancel a pending `bot merge`; does not affect anything outside of processbot, only stops the bot from following through with the merge",
+        "args": {
+          "force": {
+            "label": "cancel",
+            "type_one_of": ["cancel"]
+          }
+        }
+      }
+    }
+  }
+}
