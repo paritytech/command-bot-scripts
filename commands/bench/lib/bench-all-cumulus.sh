@@ -83,6 +83,9 @@ run_cumulus_bench() {
       --execution=wasm \
       --wasm-execution=compiled \
       --pallet="$pallet" \
+      --no-storage-info \
+      --no-median-slopes \
+      --no-min-squares \
       --extrinsic='*' \
       --steps=50 \
       --repeat=20 \

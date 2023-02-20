@@ -84,6 +84,9 @@ for PALLET in "${PALLETS[@]}"; do
     --steps=50 \
     --repeat=20 \
     --pallet="$PALLET" \
+    --no-storage-info \
+    --no-median-slopes \
+    --no-min-squares \
     --extrinsic="*" \
     --execution=wasm \
     --wasm-execution=compiled \
