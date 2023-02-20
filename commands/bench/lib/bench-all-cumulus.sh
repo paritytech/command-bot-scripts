@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 # originally moved from https://github.com/paritytech/cumulus/blob/445f9277ab55b4d930ced4fbbb38d27c617c6658/scripts/benchmarks-ci.sh
 
+# default RUST_LOG is warn, but could be overridden
+export RUST_LOG="${RUST_LOG:-warn}"
+
 run_cumulus_bench() {
   local artifactsDir="$ARTIFACTS_DIR"
   local category=$1

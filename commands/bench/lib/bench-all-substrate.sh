@@ -33,6 +33,8 @@ set -e
 # Fail on traps.
 set -E
 
+# default RUST_LOG is warn, but could be overridden
+export RUST_LOG="${RUST_LOG:-warn}"
 
 echo "[+] Compiling Substrate benchmarks..."
 cargo build --profile=production --locked --features=runtime-benchmarks

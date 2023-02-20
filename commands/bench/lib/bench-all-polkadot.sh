@@ -7,6 +7,9 @@
 
 runtime="$1"
 
+# default RUST_LOG is warn, but could be overridden
+export RUST_LOG="${RUST_LOG:-warn}"
+
 echo "[+] Compiling benchmarks..."
 cargo build --profile production --locked --features=runtime-benchmarks
 
