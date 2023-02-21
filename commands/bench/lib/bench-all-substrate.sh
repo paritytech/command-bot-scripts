@@ -39,6 +39,9 @@ export RUST_LOG="${RUST_LOG:-warn,runtime::balances=error}"
 echo "[+] Compiling Substrate benchmarks..."
 cargo build --profile=production --locked --features=runtime-benchmarks
 
+ls -lsa
+pwd
+
 # The executable to use.
 SUBSTRATE=./target/production/substrate
 
