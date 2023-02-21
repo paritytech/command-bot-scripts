@@ -13,12 +13,12 @@ export RUST_LOG="${RUST_LOG:-warn}"
 echo "[+] Compiling benchmarks..."
 cargo build --profile production --locked --features=runtime-benchmarks
 
-ls -lsa
+POLKADOT_BIN=./target/production/polkadot
 
 # Update the block and extrinsic overhead weights.
 echo "[+] Benchmarking block and extrinsic overheads..."
 OUTPUT=$(
-  ./target/production/polkadot benchmark overhead \
+  $POLKADOT_BIN benchmark overhead \
   --chain="${runtime}-dev" \
   --execution=wasm \
   --wasm-execution=compiled \
@@ -35,7 +35,7 @@ fi
 
 # Load all pallet names in an array.
 PALLETS=($(
-  ./target/production/polkadot benchmark pallet --list --chain="${runtime}-dev" |\
+  $POLKADOT_BIN benchmark pallet --list --chain="${runtime}-dev" |\
     tail -n+2 |\
     cut -d',' -f1 |\
     sort |\
@@ -60,7 +60,7 @@ for PALLET in "${PALLETS[@]}"; do
   fi
 
   OUTPUT=$(
-    ./target/production/polkadot benchmark pallet \
+    $POLKADOT_BIN benchmark pallet \
     --chain="${runtime}-dev" \
     --steps=50 \
     --repeat=20 \
