@@ -13,6 +13,8 @@ export RUST_LOG="${RUST_LOG:-warn}"
 echo "[+] Compiling benchmarks..."
 cargo build --profile production --locked --features=runtime-benchmarks
 
+ls -lsa
+
 # Update the block and extrinsic overhead weights.
 echo "[+] Benchmarking block and extrinsic overheads..."
 OUTPUT=$(
