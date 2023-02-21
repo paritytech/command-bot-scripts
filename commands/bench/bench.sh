@@ -11,7 +11,8 @@
 set -eu -o pipefail
 shopt -s inherit_errexit
 
-BENCH_ROOT_DIR=$(dirname "${BASH_SOURCE[0]}")
+# realpath allows to reuse the current
+BENCH_ROOT_DIR=$(realpath "$(dirname "${BASH_SOURCE[0]}")")
 
 . "$BENCH_ROOT_DIR/../utils.sh"
 . "$BENCH_ROOT_DIR/../cmd_runner.sh"
