@@ -13,6 +13,24 @@ export RUST_LOG="${RUST_LOG:-warn}"
 echo "[+] Compiling benchmarks..."
 cargo build --profile production --locked --features=runtime-benchmarks
 
+# Update the block and extrinsic overhead weights.
+echo "[+] Benchmarking block and extrinsic overheads..."
+OUTPUT=$(
+  ./target/production/polkadot benchmark overhead \
+  --chain="${runtime}-dev" \
+  --execution=wasm \
+  --wasm-execution=compiled \
+  --weight-path="runtime/${runtime}/constants/src/weights/" \
+  --warmup=10 \
+  --repeat=100 \
+  --header=./file_header.txt
+)
+if [ $? -ne 0 ]; then
+  echo "$OUTPUT" >> "$ERR_FILE"
+  echo "[-] Failed to benchmark the block and extrinsic overheads. Error written to $ERR_FILE; continuing..."
+fi
+
+
 # Load all pallet names in an array.
 PALLETS=($(
   ./target/production/polkadot benchmark pallet --list --chain="${runtime}-dev" |\
@@ -59,23 +77,6 @@ for PALLET in "${PALLETS[@]}"; do
     echo "[-] Failed to benchmark $PALLET. Error written to $ERR_FILE; continuing..."
   fi
 done
-
-# Update the block and extrinsic overhead weights.
-echo "[+] Benchmarking block and extrinsic overheads..."
-OUTPUT=$(
-  ./target/production/polkadot benchmark overhead \
-  --chain="${runtime}-dev" \
-  --execution=wasm \
-  --wasm-execution=compiled \
-  --weight-path="runtime/${runtime}/constants/src/weights/" \
-  --warmup=10 \
-  --repeat=100 \
-  --header=./file_header.txt
-)
-if [ $? -ne 0 ]; then
-  echo "$OUTPUT" >> "$ERR_FILE"
-  echo "[-] Failed to benchmark the block and extrinsic overheads. Error written to $ERR_FILE; continuing..."
-fi
 
 # Check if the error file exists.
 if [ -f "$ERR_FILE" ]; then

@@ -34,7 +34,7 @@ set -e
 set -E
 
 # default RUST_LOG is warn, but could be overridden
-export RUST_LOG="${RUST_LOG:-warn}"
+export RUST_LOG="${RUST_LOG:-warn,runtime::balances=error}"
 
 echo "[+] Compiling Substrate benchmarks..."
 cargo build --profile=production --locked --features=runtime-benchmarks
@@ -72,7 +72,24 @@ echo "[+] Benchmarking ${#PALLETS[@]} Substrate pallets by excluding ${#EXCLUDED
 # Define the error file.
 ERR_FILE="${ARTIFACTS_DIR}/benchmarking_errors.txt"
 # Delete the error file before each run.
-rm -f $ERR_FILE
+rm -f "$ERR_FILE"
+
+# Update the block and extrinsic overhead weights.
+echo "[+] Benchmarking block and extrinsic overheads..."
+OUTPUT=$(
+  $SUBSTRATE benchmark overhead \
+  --chain=dev \
+  --execution=wasm \
+  --wasm-execution=compiled \
+  --weight-path="./frame/support/src/weights/" \
+  --header="./HEADER-APACHE2" \
+  --warmup=10 \
+  --repeat=100 2>&1
+)
+if [ $? -ne 0 ]; then
+  echo "$OUTPUT" >> "$ERR_FILE"
+  echo "[-] Failed to benchmark the block and extrinsic overheads. Error written to $ERR_FILE; continuing..."
+fi
 
 # Benchmark each pallet.
 for PALLET in "${PALLETS[@]}"; do
@@ -103,31 +120,6 @@ for PALLET in "${PALLETS[@]}"; do
   fi
 done
 
-# Update the block and extrinsic overhead weights.
-echo "[+] Benchmarking block and extrinsic overheads..."
-OUTPUT=$(
-  $SUBSTRATE benchmark overhead \
-  --chain=dev \
-  --execution=wasm \
-  --wasm-execution=compiled \
-  --weight-path="./frame/support/src/weights/" \
-  --header="./HEADER-APACHE2" \
-  --warmup=10 \
-  --repeat=100 2>&1
-)
-if [ $? -ne 0 ]; then
-  echo "$OUTPUT" >> "$ERR_FILE"
-  echo "[-] Failed to benchmark the block and extrinsic overheads. Error written to $ERR_FILE; continuing..."
-fi
-
-echo "[+] Benchmarking the machine..."
-OUTPUT=$(
-  $SUBSTRATE benchmark machine --chain=dev 2>&1
-)
-if [ $? -ne 0 ]; then
-  # Do not write the error to the error file since it is not a benchmarking error.
-  echo "[-] Failed the machine benchmark:\n$OUTPUT"
-fi
 
 # Check if the error file exists.
 if [ -f "$ERR_FILE" ]; then
