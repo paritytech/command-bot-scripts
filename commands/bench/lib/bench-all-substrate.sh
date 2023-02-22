@@ -40,7 +40,7 @@ echo "[+] Compiling Substrate benchmarks..."
 cargo build --profile=production --locked --features=runtime-benchmarks
 
 # The executable to use.
-SUBSTRATE="$CARGO_TARGET_DIR/production/substrate"
+SUBSTRATE="./target/production/substrate"
 
 # Manually exclude some pallets.
 EXCLUDED_PALLETS=(
