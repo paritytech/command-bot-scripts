@@ -21,7 +21,7 @@ cargo_run_benchmarks="cargo run --quiet --profile=production"
 current_folder="$(basename "$PWD")"
 
 # fix BM3
-unset CARGO_TARGET_DIR=
+unset CARGO_TARGET_DIR
 
 get_arg optional --repo "$@"
 repository="${out:=$current_folder}"
