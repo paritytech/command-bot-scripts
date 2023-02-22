@@ -34,7 +34,7 @@ set -e
 set -E
 
 # default RUST_LOG is warn, but could be overridden
-#export RUST_LOG="${RUST_LOG:-warn,runtime::balances=error}"
+export RUST_LOG="${RUST_LOG:-error}"
 
 echo "[+] Compiling Substrate benchmarks..."
 cargo build --profile=production --locked --features=runtime-benchmarks
@@ -65,7 +65,10 @@ ALL_PALLETS=($(
 ))
 
 # Filter out the excluded pallets by concatenating the arrays and discarding duplicates.
-PALLETS=($({ printf '%s\n' "${ALL_PALLETS[@]}" "${EXCLUDED_PALLETS[@]}"; } | sort | uniq -u))
+#PALLETS=($({ printf '%s\n' "${ALL_PALLETS[@]}" "${EXCLUDED_PALLETS[@]}"; } | sort | uniq -u))
+PALLETS=(
+  'pallet_whitelist'
+)
 
 echo "[+] Benchmarking ${#PALLETS[@]} Substrate pallets by excluding ${#EXCLUDED_PALLETS[@]} from ${#ALL_PALLETS[@]}."
 
@@ -127,5 +130,4 @@ if [ -f "$ERR_FILE" ]; then
   exit 1
 else
   echo "[+] All benchmarks passed."
-  exit 0
 fi

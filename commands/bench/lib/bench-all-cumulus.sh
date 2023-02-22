@@ -2,7 +2,9 @@
 # originally moved from https://github.com/paritytech/cumulus/blob/445f9277ab55b4d930ced4fbbb38d27c617c6658/scripts/benchmarks-ci.sh
 
 # default RUST_LOG is warn, but could be overridden
-export RUST_LOG="${RUST_LOG:-warn}"
+export RUST_LOG="${RUST_LOG:-error}"
+
+POLKADOT_PARACHAIN=./target/production/polkadot-parachain
 
 run_cumulus_bench() {
   local artifactsDir="$ARTIFACTS_DIR"
@@ -80,7 +82,7 @@ run_cumulus_bench() {
       output_file="xcm/$output_file"
       extra_args="--template=./templates/xcm-bench-template.hbs"
     fi
-    $artifactsDir/polkadot-parachain benchmark pallet \
+    $POLKADOT_PARACHAIN benchmark pallet \
       $extra_args \
       --chain="$runtimeName-dev" \
       --execution=wasm \
