@@ -11,7 +11,7 @@
       }
     },
     "presets": {
-      "substrate-one": {
+      "substrate-pallet": {
         "description": "Pallet Benchmark for Substrate for specific pallet",
         "repos": ["substrate"],
         "args": {
@@ -20,35 +20,13 @@
           "pallet":     { "label": "pallet", "type_rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/" }
         }
       },
-      "substrate-all": {
-        "description": "Pallet + Overhead + Machine Benchmark for Substrate for all pallets",
-        "repos": ["substrate"],
-        "args": {
-          "subcommand": { "label": "Subcommand", "type_one_of": [ "all" ] }
-        }
-      },
-      "polkadot-one": {
+      "polkadot-pallet": {
         "description": "Pallet Benchmark for Polkadot for specific pallet",
         "repos": ["polkadot"],
         "args": {
           "subcommand": { "label": "Subcommand", "type_one_of": ["runtime", "xcm"] },
           "runtime":    { "label": "Runtime", "type_one_of": ["dev", "kusama", "polkadot", "rococo", "westend"] },
           "pallet":     { "label": "Pallet", "type_rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/" }
-        }
-      },
-      "polkadot-all": {
-        "description": "Pallet + Overhead Benchmark for Polkadot",
-        "repos": ["polkadot"],
-        "args": {
-          "subcommand": { "label": "Subcommand", "type_one_of": ["all"] },
-          "runtime":    { "label": "Runtime", "type_one_of": ["kusama", "polkadot", "rococo", "westend"] }
-        }
-      },
-      "cumulus-all": {
-        "description": "Pallet Benchmark for Cumulus",
-        "repos": ["cumulus"],
-        "args": {
-          "subcommand": { "label": "Subcommand", "type_one_of": ["all"] }
         }
       },
       "cumulus-assets": {

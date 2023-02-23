@@ -1,0 +1,39 @@
+{
+  "$schema": "../../node_modules/command-bot/src/schema/schema.cmd.json",
+  "command": {
+    "description": "This is a wrapper to run `bench` for all pallets within BM4,5,6 runners",
+    "configuration": {
+      "gitlab": {
+        "job": {
+          "tags": [
+            "weights"
+          ],
+          "variables": {}
+        }
+      }
+    },
+    "presets": {
+      "substrate-all": {
+        "description": "Pallet + Overhead + Machine Benchmark for Substrate for all pallets",
+        "repos": ["substrate"],
+        "args": {
+          "noop": { "label": "", "type_one_of": [ "" ] }
+        }
+      },
+      "polkadot-all": {
+        "description": "Pallet + Overhead Benchmark for Polkadot",
+        "repos": ["polkadot"],
+        "args": {
+          "runtime":    { "label": "Runtime", "type_one_of": ["kusama", "polkadot", "rococo", "westend"] }
+        }
+      },
+      "cumulus-all": {
+        "description": "Pallet Benchmark for Cumulus",
+        "repos": ["cumulus"],
+        "args": {
+          "noop": { "label": "", "type_one_of": [""] }
+        }
+      }
+    }
+  }
+}

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-. "$(dirname "${BASH_SOURCE[0]}")/utils.sh"
+. "$(realpath "$(dirname "${BASH_SOURCE[0]}")/utils.sh")"
 
 set -eu -o pipefail
 shopt -s inherit_errexit
