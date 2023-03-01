@@ -15,10 +15,7 @@
     "presets": {
       "substrate-all": {
         "description": "Pallet + Overhead + Machine Benchmark for Substrate for all pallets",
-        "repos": ["substrate"],
-        "args": {
-          "noop": { "label": "", "type_one_of": [ "" ] }
-        }
+        "repos": ["substrate"]
       },
       "polkadot-all": {
         "description": "Pallet + Overhead Benchmark for Polkadot",
@@ -29,10 +26,7 @@
       },
       "cumulus-all": {
         "description": "Pallet Benchmark for Cumulus",
-        "repos": ["cumulus"],
-        "args": {
-          "noop": { "label": "", "type_one_of": [""] }
-        }
+        "repos": ["cumulus"]
       }
     }
   }
