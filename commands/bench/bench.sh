@@ -11,7 +11,31 @@
 set -eu -o pipefail
 shopt -s inherit_errexit
 
-. "$(dirname "${BASH_SOURCE[0]}")/../cmd_runner.sh"
+# realpath allows to reuse the current
+BENCH_ROOT_DIR=$(realpath "$(dirname "${BASH_SOURCE[0]}")")
+
+. "$BENCH_ROOT_DIR/../utils.sh"
+. "$BENCH_ROOT_DIR/../cmd_runner.sh"
+
+cargo_run_benchmarks="cargo run --quiet --profile=production"
+current_folder="$(basename "$PWD")"
+
+get_arg optional --repo "$@"
+repository="${out:=$current_folder}"
+
+echo "Repo: $repository"
+
+cargo_run() {
+  echo "Running $cargo_run_benchmarks" "${args[@]}"
+
+  # if not patched with PATCH_something=123 then use --locked
+  if [[ -z "${BENCH_PATCHED:-}" ]]; then
+    cargo_run_benchmarks+=" --locked"
+  fi
+
+  $cargo_run_benchmarks "${args[@]}"
+}
+
 
 main() {
   cmd_runner_setup
@@ -49,8 +73,28 @@ main() {
   cmd_runner_apply_patches
 
   set -x
-  # Runs the command to generate the weights
-  . "$(dirname "${BASH_SOURCE[0]}")/build-bench-args.sh" "$@"
+
+  local subcommand="$1"
+  shift
+
+  case "$subcommand" in
+    runtime|pallet|xcm)
+      echo 'Running bench_pallet'
+      . "$BENCH_ROOT_DIR/lib/bench-pallet.sh" "$subcommand" "$@"
+    ;;
+    overhead)
+      echo 'Running bench_overhead'
+      . "$BENCH_ROOT_DIR/lib/bench-overhead.sh" "$subcommand" "$@"
+    ;;
+    all)
+      echo "Running all-$repository"
+      . "$BENCH_ROOT_DIR/lib/bench-all-${repository}.sh" "$@"
+    ;;
+    *)
+      die "Invalid subcommand $subcommand to process_args"
+    ;;
+  esac
+
   set +x
 
   # in case we used diener to patch some dependency during benchmark execution,

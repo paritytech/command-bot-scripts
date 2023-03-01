@@ -1,6 +1,7 @@
 {
   "$schema": "../../node_modules/command-bot/src/schema/schema.cmd.json",
   "command": {
+    "excluded": true,
     "configuration": {
       "gitlab": {
         "job": {
@@ -16,7 +17,8 @@
         "args": {
           "input": {
             "label": "Pass your echo string",
-            "type_rule": ".*"
+            "type_rule": ".*",
+            "example": "bla"
           }
         }
       }

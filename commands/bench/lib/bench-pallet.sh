@@ -1,31 +1,8 @@
 #!/bin/bash
 
-# This file is separated to simplify testing the final pure command output
-
-set -eu -o pipefail
-shopt -s inherit_errexit
-
-. "$(dirname "${BASH_SOURCE[0]}")/../utils.sh"
-. "$(dirname "${BASH_SOURCE[0]}")/../cmd_runner.sh"
-
-cargo_run_benchmarks="cargo run --quiet --profile=production"
-current_folder="$(basename "$PWD")"
-
-get_arg optional --repo "$@"
-repository="${out:=$current_folder}"
-
-echo "Repo: $repository"
-
-cargo_run() {
-  echo "Running $cargo_run_benchmarks" "${args[@]}"
-
-  # if not patched with PATCH_something=123 then use --locked
-  if [[ -z "${BENCH_PATCHED:-}" ]]; then
-    cargo_run_benchmarks+=" --locked"
-  fi
-
-  $cargo_run_benchmarks "${args[@]}"
-}
+THIS_DIR=$(dirname "${BASH_SOURCE[0]}")
+. "$THIS_DIR/../../cmd_runner.sh"
+. "$THIS_DIR/../../utils.sh"
 
 bench_pallet_common_args=(
   --
@@ -89,22 +66,22 @@ bench_pallet() {
     polkadot)
       local pallet="$3"
 
+      # For backward compatibility: replace "-dev" with ""
+      runtime=${runtime/-dev/}
+
+      local runtime_dir=$runtime
+      if [ "$runtime" == dev ]; then
+        runtime_dir=polkadot
+      fi
+
+      local weights_dir="./runtime/${runtime_dir}/src/weights"
+
       args=(
         --features=runtime-benchmarks
         "${bench_pallet_common_args[@]}"
         --pallet="$pallet"
-        --chain="$runtime"
+        --chain="${runtime}-dev"
       )
-
-      local runtime_dir
-      if [ "$runtime" == dev ]; then
-        runtime_dir=polkadot
-      elif [[ "$runtime" =~ ^(.*)-dev$  ]]; then
-        runtime_dir="${BASH_REMATCH[1]}"
-      else
-        die "Could not infer weights directory from $runtime"
-      fi
-      local weights_dir="./runtime/${runtime_dir}/src/weights"
 
       case "$kind" in
         runtime)
@@ -164,73 +141,4 @@ bench_pallet() {
   cargo_run "${args[@]}"
 }
 
-
-bench_overhead_common_args=(
-  --
-  benchmark
-  overhead
-  --execution=wasm
-  --wasm-execution=compiled
-  --warmup=10
-  --repeat=100
-)
-bench_overhead() {
-  local args
-  case "$repository" in
-    substrate)
-      args=(
-        "${bench_overhead_common_args[@]}"
-        --header=./HEADER-APACHE2
-        --weight-path="./frame/support/src/weights"
-        --chain="dev"
-      )
-    ;;
-    polkadot)
-      local runtime="$2"
-      args=(
-        "${bench_overhead_common_args[@]}"
-        --header=./file_header.txt
-        --weight-path="./runtime/$runtime/constants/src/weights"
-        --chain="$runtime-dev"
-      )
-    ;;
-    cumulus)
-      local chain_type="$2"
-      local runtime="$3"
-
-      args=(
-        --bin=polkadot-parachain
-        "${bench_overhead_common_args[@]}"
-        --header=./file_header.txt
-        --weight-path="./cumulus/parachains/runtimes/$chain_type/$runtime/src/weights"
-        --chain="$runtime"
-      )
-    ;;
-    *)
-      die "Repository $repository is not supported in bench_overhead"
-    ;;
-  esac
-
-  cargo_run "${args[@]}"
-}
-
-process_args() {
-  local subcommand="$1"
-  shift
-
-  case "$subcommand" in
-    runtime|pallet|xcm)
-      echo 'Running bench_pallet'
-      bench_pallet "$subcommand" "$@"
-    ;;
-    overhead)
-      echo 'Running bench_overhead'
-      bench_overhead "$subcommand" "$@"
-    ;;
-    *)
-      die "Invalid subcommand $subcommand to process_args"
-    ;;
-  esac
-}
-
-process_args "$@"
+bench_pallet "$@"
