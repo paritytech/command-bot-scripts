@@ -17,7 +17,8 @@
         "args": {
           "input": {
             "label": "Pass your echo string",
-            "type_rule": ".*"
+            "type_rule": ".*",
+            "example": "bla"
           }
         }
       }
