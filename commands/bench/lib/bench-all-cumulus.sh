@@ -102,7 +102,7 @@ run_cumulus_bench() {
 
 
 echo "[+] Compiling benchmarks..."
-cargo build --profile production --locked --features=runtime-benchmarks
+cargo build --profile production --locked --features=runtime-benchmarks -p polkadot-parachain
 
 # Assets
 run_cumulus_bench assets statemine
