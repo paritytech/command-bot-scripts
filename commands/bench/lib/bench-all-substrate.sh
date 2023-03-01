@@ -65,10 +65,7 @@ ALL_PALLETS=($(
 ))
 
 # Filter out the excluded pallets by concatenating the arrays and discarding duplicates.
-#PALLETS=($({ printf '%s\n' "${ALL_PALLETS[@]}" "${EXCLUDED_PALLETS[@]}"; } | sort | uniq -u))
-PALLETS=(
-  'pallet_whitelist'
-)
+PALLETS=($({ printf '%s\n' "${ALL_PALLETS[@]}" "${EXCLUDED_PALLETS[@]}"; } | sort | uniq -u))
 
 echo "[+] Benchmarking ${#PALLETS[@]} Substrate pallets by excluding ${#EXCLUDED_PALLETS[@]} from ${#ALL_PALLETS[@]}."
 
