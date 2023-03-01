@@ -11,7 +11,7 @@ runtime="$1"
 export RUST_LOG="${RUST_LOG:-error}"
 
 echo "[+] Compiling benchmarks..."
-cargo build --profile production --locked --features=runtime-benchmarks
+cargo build --profile production --locked --features=runtime-benchmarks -p polkadot
 
 POLKADOT_BIN=./target/production/polkadot
 

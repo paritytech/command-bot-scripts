@@ -37,7 +37,7 @@ set -E
 export RUST_LOG="${RUST_LOG:-error}"
 
 echo "[+] Compiling Substrate benchmarks..."
-cargo build --profile=production --locked --features=runtime-benchmarks
+cargo build --profile=production --locked --features=runtime-benchmarks -p node-cli
 
 # The executable to use.
 SUBSTRATE="./target/production/substrate"
