@@ -13,7 +13,7 @@
     "presets": {
       "default": {
         "description": "Outputs your echo string",
-        "repos": ["polkadot"],
+        "repos": ["polkadot", "command-bot-test"],
         "args": {
           "input": {
             "label": "Pass your echo string",
