@@ -35,7 +35,7 @@
         "args": {
           "subcommand": { "label": "Subcommand", "type_one_of": ["xcm", "pallet"] },
           "runtime":    { "label": "Runtime", "type_one_of": ["statemine", "statemint", "test-utils", "westmint"] },
-          "kind":       { "label": "Kind", "type_one_of": ["asset"] },
+          "kind":       { "label": "Kind", "type_one_of": ["assets"] },
           "pallet":     { "label": "Pallet", "type_rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/", "example": "pallet_name" }
         }
       },
