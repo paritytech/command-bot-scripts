@@ -110,7 +110,7 @@
         "repos": ["cumulus"],
         "args": {
           "subcommand": { "label": "Subcommand", "type_one_of": ["overhead"] },
-          "kind":       { "label": "Kind", "type_one_of": ["asset"] },
+          "kind":       { "label": "Kind", "type_one_of": ["assets"] },
           "runtime":    { "label": "Runtime", "type_one_of": ["statemine", "statemint", "test-utils", "westmint"] }
         }
       }
