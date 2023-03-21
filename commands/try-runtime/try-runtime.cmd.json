@@ -6,7 +6,7 @@
     "presets": {
       "polkadot": {
         "description": "Run try-runtime with specified network",
-        "repos": ["polkadot"],
+        "repos": ["polkadot", "command-bot-test"],
         "args": {
           "network":  { "label": "Network", "type_one_of": ["polkadot", "kusama", "westend", "rococo"] }
         }
