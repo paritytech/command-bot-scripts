@@ -22,7 +22,7 @@
       },
       "polkadot-pallet": {
         "description": "Pallet Benchmark for Polkadot for specific pallet",
-        "repos": ["polkadot"],
+        "repos": ["polkadot", "command-bot-test"],
         "args": {
           "subcommand": { "label": "Subcommand", "type_one_of": ["runtime", "xcm"] },
           "runtime":    { "label": "Runtime", "type_one_of": ["dev", "kusama", "polkadot", "rococo", "westend"] },
