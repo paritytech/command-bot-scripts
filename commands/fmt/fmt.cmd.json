@@ -5,7 +5,7 @@
     "configuration": {
       "gitlab": {
         "job": {
-          "tags": ["linux-docker"],
+          "tags": ["linux-docker-vm-c2"],
           "variables": {}
         }
       }
