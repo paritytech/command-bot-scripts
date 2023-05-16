@@ -33,7 +33,7 @@
         "description": "Pallet Benchmark for Cumulus [assets]",
         "repos": ["cumulus"],
         "args": {
-          "subcommand": { "label": "Subcommand", "type_one_of": ["xcm", "pallet"] },
+          "subcommand": { "label": "Subcommand", "type_one_of": ["pallet", "xcm"] },
           "runtime":    { "label": "Runtime", "type_one_of": ["statemine", "statemint", "test-utils", "westmint"] },
           "kind":       { "label": "Kind", "type_one_of": ["assets"] },
           "pallet":     { "label": "Pallet", "type_rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/", "example": "pallet_name" }
@@ -43,7 +43,7 @@
         "description": "Pallet Benchmark for Cumulus [collectives]",
         "repos": ["cumulus"],
         "args": {
-          "subcommand": { "label": "Subcommand", "type_one_of": ["xcm", "pallet"] },
+          "subcommand": { "label": "Subcommand", "type_one_of": ["pallet", "xcm"] },
           "runtime":    { "label": "Runtime", "type_one_of": ["collectives-polkadot"] },
           "kind":       { "label": "Kind", "type_one_of": ["collectives"] },
           "pallet":     { "label": "Pallet", "type_rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/", "example": "pallet_name" }
@@ -53,7 +53,7 @@
         "description": "Pallet Benchmark for Cumulus [bridge-hubs]",
         "repos": ["cumulus"],
         "args": {
-          "subcommand": { "label": "Subcommand", "type_one_of": ["xcm", "pallet"] },
+          "subcommand": { "label": "Subcommand", "type_one_of": ["pallet", "xcm"] },
           "runtime":    { "label": "Runtime", "type_one_of": ["bridge-hub-polkadot", "bridge-hub-kusama", "bridge-hub-rococo"] },
           "kind":       { "label": "Kind", "type_one_of": ["bridge-hubs"] },
           "pallet":     { "label": "Pallet", "type_rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/", "example": "pallet_name" }
@@ -63,7 +63,7 @@
         "description": "Pallet Benchmark for Cumulus [contracts]",
         "repos": ["cumulus"],
         "args": {
-          "subcommand": { "label": "Subcommand", "type_one_of": ["xcm", "pallet"] },
+          "subcommand": { "label": "Subcommand", "type_one_of": ["pallet", "xcm"] },
           "runtime":    { "label": "Runtime", "type_one_of": ["contracts-rococo"] },
           "kind":       { "label": "Kind", "type_one_of": ["contracts"] },
           "pallet":     { "label": "Pallet", "type_rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/", "example": "pallet_name" }
@@ -73,7 +73,7 @@
         "description": "Pallet Benchmark for Cumulus [starters]",
         "repos": ["cumulus"],
         "args": {
-          "subcommand": { "label": "Subcommand", "type_one_of": ["xcm", "pallet"] },
+          "subcommand": { "label": "Subcommand", "type_one_of": ["pallet", "xcm"] },
           "runtime":    { "label": "Runtime", "type_one_of": ["seedling", "shell"] },
           "kind":       { "label": "Kind", "type_one_of": ["starters"] },
           "pallet":     { "label": "Pallet", "type_rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/", "example": "pallet_name" }
@@ -83,7 +83,7 @@
         "description": "Pallet Benchmark for Cumulus [testing]",
         "repos": ["cumulus"],
         "args": {
-          "subcommand": { "label": "Subcommand", "type_one_of": ["xcm", "pallet"] },
+          "subcommand": { "label": "Subcommand", "type_one_of": ["pallet", "xcm"] },
           "runtime":    { "label": "Runtime", "type_one_of": ["penpal", "rococo-parachain"] },
           "kind":       { "label": "Kind", "type_one_of": ["testing"] },
           "pallet":     { "label": "Pallet", "type_rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/", "example": "pallet_name"
