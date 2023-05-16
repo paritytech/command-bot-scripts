@@ -74,7 +74,7 @@
         "repos": ["cumulus"],
         "args": {
           "subcommand": { "label": "Subcommand", "type_one_of": ["pallet"] },
-          "runtime":    { "label": "Runtime", "type_one_of": ["glutton-kusama"] },
+          "runtime":    { "label": "Runtime", "type_one_of": ["glutton-kusama", "glutton-kusama-dev-1300"] },
           "kind":       { "label": "Kind", "type_one_of": ["glutton"] },
           "pallet":     { "label": "Pallet", "type_rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/", "example": "pallet_name" }
         }

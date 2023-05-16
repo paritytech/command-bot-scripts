@@ -105,13 +105,19 @@ bench_pallet() {
     cumulus)
       local chain_type="$3"
       local pallet="$4"
+      local chain=""
+
+      # If runtime ends with "-dev" or "-dev-\d+", leave as it is, otherwise concat "-dev" at the end
+      if [[ ! "$runtime" =~ -dev(-[0-9]+)?$ ]]; then
+        chain="${runtime}-dev"
+      fi
 
       args=(
         --bin=polkadot-parachain
         --features=runtime-benchmarks
         "${bench_pallet_common_args[@]}"
         --pallet="$pallet"
-        --chain="${runtime}-dev"
+        --chain="${chain}"
         --header=./file_header.txt
       )
 
