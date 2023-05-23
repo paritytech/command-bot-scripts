@@ -116,3 +116,6 @@ run_cumulus_bench collectives collectives-polkadot
 run_cumulus_bench bridge-hubs bridge-hub-polkadot
 run_cumulus_bench bridge-hubs bridge-hub-kusama
 run_cumulus_bench bridge-hubs bridge-hub-rococo
+
+# Glutton
+run_cumulus_bench glutton glutton-kusama
