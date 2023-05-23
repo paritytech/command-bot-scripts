@@ -142,6 +142,28 @@ bench_pallet() {
         ;;
       esac
     ;;
+    trappist)
+      local pallet="$3"
+      local weights_dir="./runtime/${runtime}/src/weights"
+
+      args=(
+        --features=runtime-benchmarks
+        "${bench_pallet_common_args[@]}"
+        --pallet="$pallet"
+        --chain="dev"
+      )
+
+      case "$kind" in
+        runtime)
+          args+=(
+            --output="${weights_dir}/"
+          )
+        ;;
+        *)
+          die "Kind $kind is not supported for $repository in bench_pallet"
+        ;;
+      esac
+    ;;
     *)
       die "Repository $repository is not supported in bench_pallet"
     ;;
