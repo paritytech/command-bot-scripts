@@ -1,6 +1,8 @@
 # Commands & Scripts implementation for [command-bot](https://github.com/paritytech/command-bot/)
 
 ## How to add command?
+⚠️ Please, _do not fork_, instead create a dev branch in scope of current repo. This will allow you to test your branch before merging. 
+
 For now just copy existing command and modify. Later there will be more ways to do this easier from the bot itself or here via CLI. 
 
 - Run `yarn --immutable` to install `command-bot` dependency, which includes the actual supported schema for commands validation.
@@ -19,3 +21,7 @@ To make a context of companion you need to specify it with special env variable 
 
 Example:
 `bot try-runtime -v PATCH_substrate=11649 $ polkadot`
+
+
+## Some command might automatically refresh (merge) from "master"
+To disable this, add `-v UPSTREAM_MERGE=n`, example: "bot bench-vm -v UPSTREAM_MERGE=n $ all"

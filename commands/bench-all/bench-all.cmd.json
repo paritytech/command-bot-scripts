@@ -27,6 +27,13 @@
       "cumulus-all": {
         "description": "Pallet Benchmark for Cumulus",
         "repos": ["cumulus"]
+      },
+      "trappist-all": {
+        "description": "Pallet Benchmark for Trappist",
+        "repos": ["trappist"],
+        "args": {
+          "runtime":    { "label": "Runtime", "type_one_of": ["trappist"] }
+        }
       }
     }
   }

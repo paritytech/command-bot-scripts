@@ -105,27 +105,58 @@ bench_pallet() {
     cumulus)
       local chain_type="$3"
       local pallet="$4"
+      local chain="$runtime"
+
+      # If runtime ends with "-dev" or "-dev-\d+", leave as it is, otherwise concat "-dev" at the end of $chain
+      if [[ ! "$runtime" =~ -dev(-[0-9]+)?$ ]]; then
+          chain="${runtime}-dev"
+      fi
+
+      # replace "-dev" or "-dev-\d+" with "" for runtime
+      local runtime_dir=$(echo "$runtime" | sed 's/-dev.*//g')
 
       args=(
         --bin=polkadot-parachain
         --features=runtime-benchmarks
         "${bench_pallet_common_args[@]}"
         --pallet="$pallet"
-        --chain="${runtime}-dev"
+        --chain="${chain}"
         --header=./file_header.txt
       )
 
       case "$kind" in
         pallet)
           args+=(
-            --output="./parachains/runtimes/$chain_type/$runtime/src/weights/"
+            --output="./parachains/runtimes/$chain_type/$runtime_dir/src/weights/"
           )
         ;;
         xcm)
-          mkdir -p "./parachains/runtimes/$chain_type/$runtime/src/weights/xcm"
+          mkdir -p "./parachains/runtimes/$chain_type/$runtime_dir/src/weights/xcm"
           args+=(
             --template=./templates/xcm-bench-template.hbs
-            --output="./parachains/runtimes/$chain_type/$runtime/src/weights/xcm/"
+            --output="./parachains/runtimes/$chain_type/$runtime_dir/src/weights/xcm/"
+          )
+        ;;
+        *)
+          die "Kind $kind is not supported for $repository in bench_pallet"
+        ;;
+      esac
+    ;;
+    trappist)
+      local pallet="$3"
+      local weights_dir="./runtime/${runtime}/src/weights"
+
+      args=(
+        --features=runtime-benchmarks
+        "${bench_pallet_common_args[@]}"
+        --pallet="$pallet"
+        --chain="dev"
+      )
+
+      case "$kind" in
+        runtime)
+          args+=(
+            --output="${weights_dir}/"
           )
         ;;
         *)
