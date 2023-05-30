@@ -6,11 +6,6 @@ shopt -s inherit_errexit
 . "$(dirname "${BASH_SOURCE[0]}")/../utils.sh"
 . "$(dirname "${BASH_SOURCE[0]}")/../cmd_runner.sh"
 
-current_folder="$(basename "$PWD")"
-
-get_arg optional --repo "$@"
-repository="${out:=$current_folder}"
-
 main() {
   cmd_runner_setup
 
@@ -34,7 +29,7 @@ main() {
 
   cargo build --release --features try-runtime
 
-  cp "./target/release/${repository}" node-try-runtime
+  cp "./target/release/${network}" node-try-runtime
   cp "./target/release/wbuild/${network}-runtime/${network}_runtime.wasm" runtime-try-runtime.wasm
 
   ./node-try-runtime \

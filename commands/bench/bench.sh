@@ -18,12 +18,22 @@ BENCH_ROOT_DIR=$(realpath "$(dirname "${BASH_SOURCE[0]}")")
 . "$BENCH_ROOT_DIR/../cmd_runner.sh"
 
 cargo_run_benchmarks="cargo run --quiet --profile=production"
-current_folder="$(basename "$PWD")"
+current_folder_name="$(basename "$PWD")"
 
-get_arg optional --repo "$@"
-repository="${out:=$current_folder}"
+# This is a hack to allow targets to be ran from the root of the monorepo "./<target_dir>/target/..."
+# if it's empty, then it's supposed to find /target/ in the current repo root
+get_arg optional --dir "$@"
+target_dir="./${out:-""}"
 
-echo "Repo: $repository"
+# this should be always either the current repo name, or the --dir argument
+context_dir="${target_dir:-$current_folder_name}"
+
+# there should be 2 variables.
+# One is always set either inferred from the repo name, or from --dir arg
+# The other is set only if --dir is used for "./<folder>/target/...." paths
+
+echo "Target Dir: $target_dir"
+echo "Context Dir: $context_dir"
 
 cargo_run() {
   echo "Running $cargo_run_benchmarks" "${args[@]}"
@@ -87,8 +97,8 @@ main() {
       . "$BENCH_ROOT_DIR/lib/bench-overhead.sh" "$subcommand" "$@"
     ;;
     all)
-      echo "Running all-$repository"
-      . "$BENCH_ROOT_DIR/lib/bench-all-${repository}.sh" "$@"
+      echo "Running all-$context_dir"
+      . "$BENCH_ROOT_DIR/lib/bench-all-${context_dir}.sh" "$@"
     ;;
     *)
       die "Invalid subcommand $subcommand to process_args"

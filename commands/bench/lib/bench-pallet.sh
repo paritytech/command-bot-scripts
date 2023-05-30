@@ -21,7 +21,7 @@ bench_pallet() {
   local runtime="$2"
 
   local args
-  case "$repository" in
+  case "$target_dir" in
     substrate)
       local pallet="$3"
 
@@ -59,7 +59,7 @@ bench_pallet() {
           )
         ;;
         *)
-          die "Kind $kind is not supported for $repository in bench_pallet"
+          die "Kind $kind is not supported for $target_dir in bench_pallet"
         ;;
       esac
     ;;
@@ -98,7 +98,7 @@ bench_pallet() {
           )
         ;;
         *)
-          die "Kind $kind is not supported for $repository in bench_pallet"
+          die "Kind $kind is not supported for $target_dir in bench_pallet"
         ;;
       esac
     ;;
@@ -138,7 +138,7 @@ bench_pallet() {
           )
         ;;
         *)
-          die "Kind $kind is not supported for $repository in bench_pallet"
+          die "Kind $kind is not supported for $target_dir in bench_pallet"
         ;;
       esac
     ;;
@@ -160,12 +160,12 @@ bench_pallet() {
           )
         ;;
         *)
-          die "Kind $kind is not supported for $repository in bench_pallet"
+          die "Kind $kind is not supported for $target_dir in bench_pallet"
         ;;
       esac
     ;;
     *)
-      die "Repository $repository is not supported in bench_pallet"
+      die "Repository $target_dir is not supported in bench_pallet"
     ;;
   esac
 

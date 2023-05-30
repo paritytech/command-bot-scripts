@@ -15,18 +15,25 @@
     "presets": {
       "substrate-all": {
         "description": "Pallet + Overhead + Machine Benchmark for Substrate for all pallets",
-        "repos": ["substrate"]
+        "repos": ["substrate", "polkadot-sdk"],
+        "args": {
+          "dir":       { "label": "repo", "type_string": "cumulus" }
+        }
       },
       "polkadot-all": {
         "description": "Pallet + Overhead Benchmark for Polkadot",
-        "repos": ["polkadot"],
+        "repos": ["polkadot", "polkadot-sdk"],
         "args": {
-          "runtime":    { "label": "Runtime", "type_one_of": ["kusama", "polkadot", "rococo", "westend"] }
+          "runtime":    { "label": "Runtime", "type_one_of": ["kusama", "polkadot", "rococo", "westend"] },
+          "dir":       { "label": "repo", "type_string":"polkadot" }
         }
       },
       "cumulus-all": {
         "description": "Pallet Benchmark for Cumulus",
-        "repos": ["cumulus"]
+        "repos": ["cumulus", "polkadot-sdk"],
+        "args": {
+          "dir":       { "label": "repo", "type_string": "cumulus" }
+        }
       },
       "trappist-all": {
         "description": "Pallet Benchmark for Trappist",
