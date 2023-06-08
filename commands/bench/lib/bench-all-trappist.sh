@@ -3,7 +3,7 @@
 # Runs all benchmarks for all pallets, for a given runtime, provided by $1
 
 runtime="$1"
-chain="dev"
+chain="${runtime}-dev"
 
 # default RUST_LOG is error, but could be overridden
 export RUST_LOG="${RUST_LOG:-error}"
@@ -11,7 +11,24 @@ export RUST_LOG="${RUST_LOG:-error}"
 echo "[+] Compiling benchmarks..."
 cargo build --profile production --locked --features=runtime-benchmarks
 
-TRAPPIST_BIN=./target/production/trappist-collator
+TRAPPIST_BIN=./target/production/trappist-node
+
+# Update the block and extrinsic overhead weights.
+echo "[+] Benchmarking block and extrinsic overheads..."
+OUTPUT=$(
+  $TRAPPIST_BIN benchmark overhead \
+  --chain=$chain \
+  --execution=wasm \
+  --wasm-execution=compiled \
+  --weight-path="./runtime/${runtime}/src/weights/" \
+  --warmup=10 \
+  --repeat=100 \
+  --header=./templates/file_header.txt 2>&1
+)
+if [ $? -ne 0 ]; then
+  echo "$OUTPUT" >> "$ERR_FILE"
+  echo "[-] Failed to benchmark the block and extrinsic overheads. Error written to $ERR_FILE; continuing..."
+fi
 
 # Load all pallet names in an array.
 PALLETS=($(
@@ -39,8 +56,15 @@ for PALLET in "${PALLETS[@]}"; do
     output_file="${PALLET//::/_}.rs"
   fi
 
+  local extra_args=""
+  if [[ "$pallet" == "pallet_xcm_benchmarks::generic" ]] || [[ "$pallet" == "pallet_xcm_benchmarks::fungible" ]]; then
+    output_file="xcm/$output_file"
+    extra_args="--template=./templates/xcm-bench-template.hbs"
+  fi
+
   OUTPUT=$(
     $TRAPPIST_BIN benchmark pallet \
+    $extra_args \
     --chain=$chain \
     --steps=50 \
     --repeat=20 \
@@ -51,6 +75,7 @@ for PALLET in "${PALLETS[@]}"; do
     --extrinsic="*" \
     --execution=wasm \
     --wasm-execution=compiled \
+    --header=./templates/file_header.txt \
     --output="./runtime/${runtime}/src/weights/${output_file}" 2>&1
   )
   if [ $? -ne 0 ]; then

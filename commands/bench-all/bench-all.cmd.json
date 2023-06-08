@@ -32,7 +32,7 @@
         "description": "Pallet Benchmark for Trappist",
         "repos": ["trappist"],
         "args": {
-          "runtime":    { "label": "Runtime", "type_one_of": ["trappist"] }
+          "runtime":    { "label": "Runtime", "type_one_of": ["trappist", "stout"] }
         }
       }
     }
