@@ -45,6 +45,15 @@ bench_overhead() {
         --chain="$runtime"
       )
     ;;
+    trappist)
+      local runtime="$2"
+      args=(
+        "${bench_overhead_common_args[@]}"
+        --header=./templates/file_header.txt
+        --weight-path="./runtime/$runtime/src/weights"
+        --chain="$runtime-dev"
+      )
+    ;;
     *)
       die "Repository $repository is not supported in bench_overhead"
     ;;

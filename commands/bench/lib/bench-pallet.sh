@@ -144,19 +144,26 @@ bench_pallet() {
     ;;
     trappist)
       local pallet="$3"
-      local weights_dir="./runtime/${runtime}/src/weights"
+      local weights_dir="./runtime/$runtime/src/weights"
 
       args=(
         --features=runtime-benchmarks
         "${bench_pallet_common_args[@]}"
         --pallet="$pallet"
-        --chain="dev"
+        --chain="${runtime}-dev"
+        --header=./templates/file_header.txt
       )
 
       case "$kind" in
         runtime)
           args+=(
             --output="${weights_dir}/"
+          )
+        ;;
+        xcm)
+          args+=(
+            --template=./templates/xcm-bench-template.hbs
+            --output="${weights_dir}/xcm/"
           )
         ;;
         *)
