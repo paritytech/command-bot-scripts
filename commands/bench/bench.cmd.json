@@ -122,7 +122,7 @@
         "args": {
           "subcommand": { "label": "Subcommand", "type_one_of": ["overhead"] },
           "runtime":    { "label": "Runtime", "type_one_of": ["kusama-dev", "polkadot-dev", "rococo-dev", "westend-dev"] },
-          "dir":        { "label": "Target Directory", "type_string": "substrate" }
+          "dir":        { "label": "Target Directory", "type_string": "polkadot" }
         }
       },
       "cumulus-overhead": {
