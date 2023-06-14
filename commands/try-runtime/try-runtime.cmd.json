@@ -9,7 +9,7 @@
         "repos": ["polkadot", "command-bot-test"],
         "args": {
           "node":   { "label": "Node", "type_one_of": ["polkadot"] },
-          "runtime":{ "label": "Runtime", "type_one_of": ["polkadot", "kusama", "westend", "rococo"] },
+          "runtime":{ "label": "Runtime", "type_one_of": ["polkadot", "kusama", "westend", "rococo"] }
         }
       },
       "trappist": {
