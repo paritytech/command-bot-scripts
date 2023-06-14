@@ -8,14 +8,16 @@
         "description": "Run try-runtime with specified runtime for Polkadot",
         "repos": ["polkadot", "command-bot-test"],
         "args": {
-          "runtime":  { "label": "Runtime", "type_one_of": ["polkadot", "kusama", "westend", "rococo"] }
+          "node":   { "label": "Node", "type_one_of": ["polkadot"] },
+          "runtime":{ "label": "Runtime", "type_one_of": ["polkadot", "kusama", "westend", "rococo"] },
         }
       },
       "trappist": {
         "description": "Run try-runtime with for Trappist",
         "repos": ["trappist"],
         "args": {
-          "runtime":  { "label": "Runtime", "type_one_of": ["trappist"] }
+          "node":   { "label": "Node", "type_one_of": ["trappist-node"] },
+          "runtime":{ "label": "Runtime", "type_one_of": ["trappist"] }
         }
       }
     }

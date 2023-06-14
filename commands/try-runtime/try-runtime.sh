@@ -16,15 +16,13 @@ main() {
 
   cmd_runner_apply_patches --setup-cleanup true
 
-  local runtime="$1"
-  local runtime_node="$runtime"
+  local runtime_node="$1"
+  local runtime="$2"
 
-  # remove $1 and let the rest args to be passed later as "$@"
-  shift
 
-  if [ -z "$runtime" ];
+  if [ -z "$runtime" || -z "$runtime_node" ];
   then
-      die "the runtime should be provided"
+      die "the runtime and runtime_node should be provided"
   fi
 
   set -x
@@ -35,10 +33,6 @@ main() {
 
   cargo build --release --features try-runtime
 
-  if [ "$network" = "trappist" ]; then
-      runtime_node="${runtime}-node"
-  fi
-
   cp "./target/release/${runtime_node}" node-try-runtime
   cp "./target/release/wbuild/${runtime}-runtime/${runtime}_runtime.wasm" runtime-try-runtime.wasm
 
@@ -47,8 +41,7 @@ main() {
     --runtime runtime-try-runtime.wasm \
     -lruntime=debug \
     on-runtime-upgrade \
-    live --uri "wss://${runtime}-try-runtime-node.parity-chains.parity.io:443" \
-    "$@"
+    live --uri "wss://${runtime}-try-runtime-node.parity-chains.parity.io:443"
 }
 
-main "$@"
+main
