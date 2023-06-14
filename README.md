@@ -4,7 +4,10 @@
 ⚠️ Please, _do not fork_, instead create a dev branch in scope of current repo. This will allow you to test your branch before merging. 
 
 For now just copy existing command and modify. Later there will be more ways to do this easier from the bot itself or here via CLI. 
-
+- clone scripts & bot into the same folder
+  - `git clone https://github.com/paritytech/command-bot.git`
+  - `git clone https://github.com/paritytech/command-bot-scripts.git`
+  - `cd ./command-bot-scripts`
 - Run `yarn --immutable` to install `command-bot` dependency, which includes the actual supported schema for commands validation.
   If you develop in parallel with `command-bot` then use something like `yarn link`
 - Copy any existing command which looks the most similar.
