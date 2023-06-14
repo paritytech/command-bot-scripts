@@ -5,10 +5,17 @@
     "configuration": { "gitlab": { "job": { "tags": ["linux-docker-vm-c2"], "variables": {} } } },
     "presets": {
       "polkadot": {
-        "description": "Run try-runtime with specified network",
+        "description": "Run try-runtime with specified runtime for Polkadot",
         "repos": ["polkadot", "command-bot-test"],
         "args": {
-          "network":  { "label": "Network", "type_one_of": ["polkadot", "kusama", "westend", "rococo"] }
+          "runtime":  { "label": "Runtime", "type_one_of": ["polkadot", "kusama", "westend", "rococo"] }
+        }
+      },
+      "trappist": {
+        "description": "Run try-runtime with for Trappist",
+        "repos": ["trappist"],
+        "args": {
+          "runtime":  { "label": "Runtime", "type_one_of": ["trappist"] }
         }
       }
     }
