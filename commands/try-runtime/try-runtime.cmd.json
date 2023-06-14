@@ -8,7 +8,6 @@
         "description": "Run try-runtime with specified runtime for Polkadot",
         "repos": ["polkadot", "command-bot-test"],
         "args": {
-          "node":   { "label": "Node", "type_one_of": ["polkadot"] },
           "runtime":{ "label": "Runtime", "type_one_of": ["polkadot", "kusama", "westend", "rococo"] }
         }
       },
@@ -16,7 +15,6 @@
         "description": "Run try-runtime with for Trappist",
         "repos": ["trappist"],
         "args": {
-          "node":   { "label": "Node", "type_one_of": ["trappist-node"] },
           "runtime":{ "label": "Runtime", "type_one_of": ["trappist"] }
         }
       }

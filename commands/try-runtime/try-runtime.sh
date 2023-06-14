@@ -16,14 +16,20 @@ main() {
 
   cmd_runner_apply_patches --setup-cleanup true
 
-  local runtime_node="$1"
-  local runtime="$2"
+  local runtime="$1"
+  local runtime_node=""
 
-
-  if [ -z "$runtime" || -z "$runtime_node" ];
-  then
-      die "the runtime and runtime_node should be provided"
-  fi
+  case "$runtime" in
+      polkadot|kusama|westend|rococo)
+        runtime_node="polkadot"
+      ;;
+      trappist)
+        runtime_node="trappist-node"
+      ;;
+      *)
+        die "Invalid runtime $runtime"
+      ;;
+    esac
 
   set -x
   export RUST_LOG="${RUST_LOG:-remote-ext=debug,runtime=trace}"
