@@ -12,63 +12,19 @@ run_cumulus_bench() {
   local runtimeName=$2
 
   local benchmarkOutput=./parachains/runtimes/$category/$runtimeName/src/weights
+  local benchmarkRuntimeName="$runtimeName-dev"
 
-  if [[ $runtimeName =~ ^(statemint|statemine|westmint)$ ]]; then
-    local pallets=(
-      pallet_assets
-      pallet_balances
-      pallet_collator_selection
-      pallet_multisig
-      pallet_proxy
-      pallet_session
-      pallet_timestamp
-      pallet_utility
-      pallet_uniques
-      cumulus_pallet_xcmp_queue
-      frame_system
-      pallet_xcm_benchmarks::generic
-      pallet_xcm_benchmarks::fungible
-    )
-  elif [[ $runtimeName == "collectives-polkadot" ]]; then
-    local pallets=(
-      pallet_alliance
-      pallet_balances
-      pallet_collator_selection
-      pallet_collective
-      pallet_multisig
-      pallet_proxy
-      pallet_session
-      pallet_timestamp
-      pallet_utility
-      cumulus_pallet_xcmp_queue
-      frame_system
-    )
-  elif [[ $runtimeName =~ ^(bridge-hub-kusama|bridge-hub-polkadot)$ ]]; then
-    local pallets=(
-      frame_system
-      pallet_balances
-      pallet_collator_selection
-      pallet_multisig
-      pallet_session
-      pallet_timestamp
-      pallet_utility
-      cumulus_pallet_xcmp_queue
-      pallet_xcm_benchmarks::generic
-      pallet_xcm_benchmarks::fungible
-    )
-  elif [[ $runtimeName == "bridge-hub-rococo" ]]; then
-    local pallets=(
-      frame_system
-      pallet_balances
-      pallet_collator_selection
-      pallet_multisig
-      pallet_session
-      pallet_timestamp
-      pallet_utility
-      cumulus_pallet_xcmp_queue
-      pallet_xcm_benchmarks::generic
-      pallet_xcm_benchmarks::fungible
-    )
+  # Load all pallet names in an array.
+  local pallets=($(
+    $POLKADOT_PARACHAIN benchmark pallet --list --chain="${benchmarkRuntimeName}" |\
+      tail -n+2 |\
+      cut -d',' -f1 |\
+      sort |\
+      uniq
+  ))
+
+  if [ ${#pallets[@]} -ne 0 ]; then
+    echo "[+] Benchmarking ${#pallets[@]} pallets for runtime $runtime"
   else
     echo "$runtimeName pallet list not found in benchmarks-ci.sh"
     exit 1
@@ -84,7 +40,7 @@ run_cumulus_bench() {
     fi
     $POLKADOT_PARACHAIN benchmark pallet \
       $extra_args \
-      --chain="$runtimeName-dev" \
+      --chain="${benchmarkRuntimeName}" \
       --execution=wasm \
       --wasm-execution=compiled \
       --pallet="$pallet" \
@@ -105,9 +61,9 @@ echo "[+] Compiling benchmarks..."
 cargo build --profile production --locked --features=runtime-benchmarks
 
 # Assets
-run_cumulus_bench assets statemine
-run_cumulus_bench assets statemint
-run_cumulus_bench assets westmint
+run_cumulus_bench assets asset-hub-kusama
+run_cumulus_bench assets asset-hub-polkadot
+run_cumulus_bench assets asset-hub-westend
 
 # Collectives
 run_cumulus_bench collectives collectives-polkadot
