@@ -24,6 +24,7 @@ get_arg optional --repo "$@"
 repository="${out:=$current_folder}"
 
 echo "Repo: $repository"
+git remote -v
 
 cargo_run() {
   echo "Running $cargo_run_benchmarks" "${args[@]}"
