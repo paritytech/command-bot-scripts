@@ -24,9 +24,6 @@ get_arg optional --repo "$@"
 repository="${out:=$current_folder}"
 
 echo "Repo: $repository"
-git remote -v
-git remote remove github
-git remote -v
 
 cargo_run() {
   echo "Running $cargo_run_benchmarks" "${args[@]}"
@@ -46,7 +43,10 @@ main() {
   # Remove the "github" remote since the same repository might be reused by a
   # GitLab runner, therefore the remote might already exist from a previous run
   # in case it was not cleaned up properly for some reason
-  &>/dev/null git remote remove github || :
+  git remote -v
+  echo "Removing remote github"
+  git remote remove github || :
+  git remote -v
 
   tmp_dirs=()
   cleanup() {
