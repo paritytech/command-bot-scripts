@@ -1,0 +1,23 @@
+{
+  "$schema": "../../node_modules/command-bot/src/schema/schema.cmd.json",
+  "command": {
+    "description": "Update UI tests, e.g. after a rust toolchain upgrade, and commit them to your PR.",
+    "configuration": {
+      "gitlab": {
+        "job": {
+          "tags": ["linux-docker-vm-c2"],
+          "variables": {}
+        }
+      }
+    },
+    "presets": {
+      "substrate": {
+        "description": "Update substrate UI tests",
+        "repos": ["substrate"],
+        "args": {
+          "rust_version":  { "label": "Rust version", "type_rule": "/^[0-9.]+$/", "example": "1.70" }
+        }
+      }
+    }
+  }
+}
