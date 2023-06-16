@@ -39,8 +39,8 @@ main() {
 
   cargo build --release --features try-runtime
 
-  cp "./target/release/${runtime_node}" node-try-runtime
-  cp "./target/release/wbuild/${runtime}-runtime/${runtime}_runtime.wasm" runtime-try-runtime.wasm
+  cp "./target/release/${chain_node}" node-try-runtime
+  cp "./target/release/wbuild/${chain}-runtime/${chain}_runtime.wasm" runtime-try-runtime.wasm
 
   ./node-try-runtime \
     try-runtime \
