@@ -20,6 +20,9 @@ run_cumulus_bench() {
      benchmarkRuntimeChain="$runtimeName-dev"
   fi
 
+  local benchmarkMetadataOutputDir="$artifactsDir/$runtimeName"
+  mkdir -p "$benchmarkMetadataOutputDir"
+
   # Load all pallet names in an array.
   echo "[+] Listing pallets for runtime $runtimeName for chain: $benchmarkRuntimeChain ..."
   local pallets=($(
@@ -41,11 +44,13 @@ run_cumulus_bench() {
   fi
 
   for pallet in "${pallets[@]}"; do
-    local output_file="${pallet//::/_}"
+    # (by default) do not choose output_file, like `pallet_assets.rs` because it does not work for multiple instances
+    # `benchmark pallet` command will decide the output_file name if there are multiple instances
+    local output_file=""
     local extra_args=""
     # a little hack for pallet_xcm_benchmarks - we want to force custom implementation for XcmWeightInfo
     if [[ "$pallet" == "pallet_xcm_benchmarks::generic" ]] || [[ "$pallet" == "pallet_xcm_benchmarks::fungible" ]]; then
-      output_file="xcm/$output_file"
+      output_file="xcm/${pallet//::/_}.rs"
       extra_args="--template=./templates/xcm-bench-template.hbs"
     fi
     $POLKADOT_PARACHAIN benchmark pallet \
@@ -62,7 +67,7 @@ run_cumulus_bench() {
       --repeat=20 \
       --json \
       --header=./file_header.txt \
-      --output="${benchmarkOutput}" >> "$artifactsDir/${pallet}_benchmark.json"
+      --output="${benchmarkOutput}/${output_file}" >> "$benchmarkMetadataOutputDir/${pallet//::/_}_benchmark.json"
   done
 }
 
