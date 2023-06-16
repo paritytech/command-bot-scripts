@@ -10,13 +10,20 @@ run_cumulus_bench() {
   local artifactsDir="$ARTIFACTS_DIR"
   local category=$1
   local runtimeName=$2
+  local paraId=$3
 
   local benchmarkOutput=./parachains/runtimes/$category/$runtimeName/src/weights
-  local benchmarkRuntimeName="$runtimeName-dev"
+  local benchmarkRuntimeChain
+  if [[ ! -z "$paraId" ]]; then
+     benchmarkRuntimeChain="${runtimeName}-dev-$paraId"
+  else
+     benchmarkRuntimeChain="$runtimeName-dev"
+  fi
 
   # Load all pallet names in an array.
+  echo "[+] Listing pallets for runtime $runtimeName for chain: $benchmarkRuntimeChain ..."
   local pallets=($(
-    $POLKADOT_PARACHAIN benchmark pallet --list --chain="${benchmarkRuntimeName}" |\
+    $POLKADOT_PARACHAIN benchmark pallet --list --chain="${benchmarkRuntimeChain}" |\
       tail -n+2 |\
       cut -d',' -f1 |\
       sort |\
@@ -24,7 +31,10 @@ run_cumulus_bench() {
   ))
 
   if [ ${#pallets[@]} -ne 0 ]; then
-    echo "[+] Benchmarking ${#pallets[@]} pallets for runtime $runtime"
+    echo "[+] Benchmarking ${#pallets[@]} pallets for runtime $runtimeName for chain: $benchmarkRuntimeChain, pallets:"
+    for pallet in "${pallets[@]}"; do
+        echo "   [+] $pallet"
+    done
   else
     echo "$runtimeName pallet list not found in benchmarks-ci.sh"
     exit 1
@@ -40,7 +50,7 @@ run_cumulus_bench() {
     fi
     $POLKADOT_PARACHAIN benchmark pallet \
       $extra_args \
-      --chain="${benchmarkRuntimeName}" \
+      --chain="${benchmarkRuntimeChain}" \
       --execution=wasm \
       --wasm-execution=compiled \
       --pallet="$pallet" \
@@ -74,4 +84,4 @@ run_cumulus_bench bridge-hubs bridge-hub-kusama
 run_cumulus_bench bridge-hubs bridge-hub-rococo
 
 # Glutton
-run_cumulus_bench glutton glutton-kusama
+run_cumulus_bench glutton glutton-kusama 1300
