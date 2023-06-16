@@ -16,18 +16,18 @@ main() {
 
   cmd_runner_apply_patches --setup-cleanup true
 
-  local runtime="$1"
-  local runtime_node=""
+  local chain="$1"
+  local chain_node=""
 
-  case "$runtime" in
+  case "$chain" in
       polkadot|kusama|westend|rococo)
-        runtime_node="polkadot"
+        chain_node="polkadot"
       ;;
       trappist)
-        runtime_node="trappist-node"
+        chain_node="trappist-node"
       ;;
       *)
-        die "Invalid runtime $runtime"
+        die "Invalid chain $chain"
       ;;
     esac
 
