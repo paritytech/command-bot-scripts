@@ -47,7 +47,7 @@ main() {
     --runtime runtime-try-runtime.wasm \
     -lruntime=debug \
     on-runtime-upgrade \
-    live --uri "wss://${runtime}-try-runtime-node.parity-chains.parity.io:443"
+    live --uri "wss://${chain}-try-runtime-node.parity-chains.parity.io:443"
 }
 
 main
