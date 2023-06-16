@@ -62,7 +62,7 @@ run_cumulus_bench() {
       --repeat=20 \
       --json \
       --header=./file_header.txt \
-      --output="${benchmarkOutput}/${output_file}.rs" >> "$artifactsDir/${pallet}_benchmark.json"
+      --output="${benchmarkOutput}" >> "$artifactsDir/${pallet}_benchmark.json"
   done
 }
 
