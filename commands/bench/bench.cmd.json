@@ -139,9 +139,17 @@
         "description": "Pallet Benchmark for Trappist for specific pallet",
         "repos": ["trappist"],
         "args": {
-          "subcommand": { "label": "Subcommand", "type_one_of": ["runtime"] },
-          "runtime":    { "label": "Runtime", "type_one_of": ["trappist"] },
+          "subcommand": { "label": "Subcommand", "type_one_of": ["runtime", "xcm"] },
+          "runtime":    { "label": "Runtime", "type_one_of": ["trappist", "stout"] },
           "pallet":     { "label": "Pallet", "type_rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/", "example": "pallet_name" }
+        }
+      },
+      "trappist-overhead": {
+        "description": "Runs `benchmark overhead` and commits back to PR",
+        "repos": ["trappist"],
+        "args": {
+          "subcommand": { "label": "Subcommand", "type_one_of": ["overhead"] },
+          "runtime":    { "label": "Runtime", "type_one_of": ["trappist", "stout"] }
         }
       }
     }
