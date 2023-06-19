@@ -50,4 +50,4 @@ main() {
     live --uri "wss://${chain}-try-runtime-node.parity-chains.parity.io:443"
 }
 
-main
+main "$@"
