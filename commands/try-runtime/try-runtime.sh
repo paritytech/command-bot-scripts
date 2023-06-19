@@ -16,15 +16,20 @@ main() {
 
   cmd_runner_apply_patches --setup-cleanup true
 
-  local network="$1"
+  local chain="$1"
+  local chain_node=""
 
-  # remove $1 and let the rest args to be passed later as "$@"
-  shift
-
-  if [ -z "$network" ];
-  then
-      die "the network should be provided"
-  fi
+  case "$chain" in
+      polkadot|kusama|westend|rococo)
+        chain_node="polkadot"
+      ;;
+      trappist)
+        chain_node="trappist-node"
+      ;;
+      *)
+        die "Invalid chain $chain"
+      ;;
+    esac
 
   set -x
   export RUST_LOG="${RUST_LOG:-remote-ext=debug,runtime=trace}"
@@ -34,16 +39,15 @@ main() {
 
   cargo build --release --features try-runtime
 
-  cp "./target/release/${repository}" node-try-runtime
-  cp "./target/release/wbuild/${network}-runtime/${network}_runtime.wasm" runtime-try-runtime.wasm
+  cp "./target/release/${chain_node}" node-try-runtime
+  cp "./target/release/wbuild/${chain}-runtime/${chain}_runtime.wasm" runtime-try-runtime.wasm
 
   ./node-try-runtime \
     try-runtime \
     --runtime runtime-try-runtime.wasm \
     -lruntime=debug \
     on-runtime-upgrade \
-    live --uri "wss://${network}-try-runtime-node.parity-chains.parity.io:443" \
-    "$@"
+    live --uri "wss://${chain}-try-runtime-node.parity-chains.parity.io:443"
 }
 
 main "$@"
