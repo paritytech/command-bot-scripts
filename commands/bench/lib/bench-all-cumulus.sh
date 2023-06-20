@@ -10,81 +10,52 @@ run_cumulus_bench() {
   local artifactsDir="$ARTIFACTS_DIR"
   local category=$1
   local runtimeName=$2
+  local paraId=$3
 
   local benchmarkOutput=./parachains/runtimes/$category/$runtimeName/src/weights
+  local benchmarkRuntimeChain
+  if [[ ! -z "$paraId" ]]; then
+     benchmarkRuntimeChain="${runtimeName}-dev-$paraId"
+  else
+     benchmarkRuntimeChain="$runtimeName-dev"
+  fi
 
-  if [[ $runtimeName =~ ^(statemint|statemine|westmint)$ ]]; then
-    local pallets=(
-      pallet_assets
-      pallet_balances
-      pallet_collator_selection
-      pallet_multisig
-      pallet_proxy
-      pallet_session
-      pallet_timestamp
-      pallet_utility
-      pallet_uniques
-      cumulus_pallet_xcmp_queue
-      frame_system
-      pallet_xcm_benchmarks::generic
-      pallet_xcm_benchmarks::fungible
-    )
-  elif [[ $runtimeName == "collectives-polkadot" ]]; then
-    local pallets=(
-      pallet_alliance
-      pallet_balances
-      pallet_collator_selection
-      pallet_collective
-      pallet_multisig
-      pallet_proxy
-      pallet_session
-      pallet_timestamp
-      pallet_utility
-      cumulus_pallet_xcmp_queue
-      frame_system
-    )
-  elif [[ $runtimeName =~ ^(bridge-hub-kusama|bridge-hub-polkadot)$ ]]; then
-    local pallets=(
-      frame_system
-      pallet_balances
-      pallet_collator_selection
-      pallet_multisig
-      pallet_session
-      pallet_timestamp
-      pallet_utility
-      cumulus_pallet_xcmp_queue
-      pallet_xcm_benchmarks::generic
-      pallet_xcm_benchmarks::fungible
-    )
-  elif [[ $runtimeName == "bridge-hub-rococo" ]]; then
-    local pallets=(
-      frame_system
-      pallet_balances
-      pallet_collator_selection
-      pallet_multisig
-      pallet_session
-      pallet_timestamp
-      pallet_utility
-      cumulus_pallet_xcmp_queue
-      pallet_xcm_benchmarks::generic
-      pallet_xcm_benchmarks::fungible
-    )
+  local benchmarkMetadataOutputDir="$artifactsDir/$runtimeName"
+  mkdir -p "$benchmarkMetadataOutputDir"
+
+  # Load all pallet names in an array.
+  echo "[+] Listing pallets for runtime $runtimeName for chain: $benchmarkRuntimeChain ..."
+  local pallets=($(
+    $POLKADOT_PARACHAIN benchmark pallet --list --chain="${benchmarkRuntimeChain}" |\
+      tail -n+2 |\
+      cut -d',' -f1 |\
+      sort |\
+      uniq
+  ))
+
+  if [ ${#pallets[@]} -ne 0 ]; then
+    echo "[+] Benchmarking ${#pallets[@]} pallets for runtime $runtimeName for chain: $benchmarkRuntimeChain, pallets:"
+    for pallet in "${pallets[@]}"; do
+        echo "   [+] $pallet"
+    done
   else
     echo "$runtimeName pallet list not found in benchmarks-ci.sh"
     exit 1
   fi
 
   for pallet in "${pallets[@]}"; do
-    local output_file="${pallet//::/_}"
+    # (by default) do not choose output_file, like `pallet_assets.rs` because it does not work for multiple instances
+    # `benchmark pallet` command will decide the output_file name if there are multiple instances
+    local output_file=""
     local extra_args=""
     # a little hack for pallet_xcm_benchmarks - we want to force custom implementation for XcmWeightInfo
     if [[ "$pallet" == "pallet_xcm_benchmarks::generic" ]] || [[ "$pallet" == "pallet_xcm_benchmarks::fungible" ]]; then
-      output_file="xcm/$output_file"
+      output_file="xcm/${pallet//::/_}.rs"
       extra_args="--template=./templates/xcm-bench-template.hbs"
     fi
     $POLKADOT_PARACHAIN benchmark pallet \
       $extra_args \
-      --chain="$runtimeName-dev" \
+      --chain="${benchmarkRuntimeChain}" \
       --execution=wasm \
       --wasm-execution=compiled \
       --pallet="$pallet" \
@@ -96,7 +67,7 @@ run_cumulus_bench() {
       --repeat=20 \
       --json \
       --header=./file_header.txt \
-      --output="${benchmarkOutput}/${output_file}.rs" >> "$artifactsDir/${pallet}_benchmark.json"
+      --output="${benchmarkOutput}/${output_file}" >> "$benchmarkMetadataOutputDir/${pallet//::/_}_benchmark.json"
   done
 }
 
@@ -105,9 +76,9 @@ echo "[+] Compiling benchmarks..."
 cargo build --profile production --locked --features=runtime-benchmarks
 
 # Assets
-run_cumulus_bench assets statemine
-run_cumulus_bench assets statemint
-run_cumulus_bench assets westmint
+run_cumulus_bench assets asset-hub-kusama
+run_cumulus_bench assets asset-hub-polkadot
+run_cumulus_bench assets asset-hub-westend
 
 # Collectives
 run_cumulus_bench collectives collectives-polkadot
@@ -118,4 +89,4 @@ run_cumulus_bench bridge-hubs bridge-hub-kusama
 run_cumulus_bench bridge-hubs bridge-hub-rococo
 
 # Glutton
-run_cumulus_bench glutton glutton-kusama
+run_cumulus_bench glutton glutton-kusama 1300
