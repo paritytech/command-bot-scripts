@@ -11,7 +11,8 @@ main() {
 
   cmd_runner_apply_patches --setup-cleanup true
 
-  local chain="$1"
+  get_arg required --chain "$@"
+  local chain="${out:-""}"
   local chain_node=""
 
   case "$chain" in

@@ -23,7 +23,14 @@ current_folder_name="$(basename "$PWD")"
 # This is a hack to allow targets to be ran from the root of the monorepo "./<target_dir>/target/..."
 # if it's empty, then it's supposed to find /target/ in the current repo root
 get_arg optional --dir "$@"
-target_dir="./${out:-""}"
+target_dir="${out:-""}"
+
+# if current_folder_name is "polkadot-sdk"
+if [[ "$current_folder_name" == "polkadot-sdk" ]]; then
+  # then the context_dir is "polkadot"
+  context_dir="polkadot"
+fi
+
 
 # this should be always either the current repo name, or the --dir argument
 context_dir="${target_dir:-$current_folder_name}"

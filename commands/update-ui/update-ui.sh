@@ -10,7 +10,9 @@ main() {
   # setup.
   cmd_runner_setup
 
-  rust_version="$1"
+  get_arg required --rust_version "$@"
+  rust_version="${out:-""}"
+
   if [[ -z "${rust_version}" ]]; then
     die "missing rust version argument"
   fi

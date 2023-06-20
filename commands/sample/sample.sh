@@ -3,4 +3,8 @@
 set -eu -o pipefail
 shopt -s inherit_errexit
 
-echo "$@"
+get_arg optional --input "$@"
+input="${out:-"no input"}"
+
+
+echo "$input"
