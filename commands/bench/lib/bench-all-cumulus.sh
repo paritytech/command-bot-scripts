@@ -10,7 +10,7 @@ run_cumulus_bench() {
   local artifactsDir="$ARTIFACTS_DIR"
   local category=$1
   local runtimeName=$2
-  local paraId=$3
+  local paraId=${3:-}
 
   local benchmarkOutput=./parachains/runtimes/$category/$runtimeName/src/weights
   local benchmarkRuntimeChain
