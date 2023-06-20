@@ -5,7 +5,8 @@
 # current reference machine: https://github.com/paritytech/polkadot/pull/6508/files
 # original source: https://github.com/paritytech/polkadot/blob/b9842c4b52f6791fef6c11ecd020b22fe614f041/scripts/run_all_benches.sh
 
-runtime="$1"
+get_arg required --runtime "$@"
+runtime="${out:-""}"
 
 # default RUST_LOG is error, but could be overridden
 export RUST_LOG="${RUST_LOG:-error}"
@@ -13,7 +14,7 @@ export RUST_LOG="${RUST_LOG:-error}"
 echo "[+] Compiling benchmarks..."
 cargo build --profile production --locked --features=runtime-benchmarks -p polkadot
 
-POLKADOT_BIN=./target/production/polkadot
+POLKADOT_BIN="$output_path/target/production/polkadot"
 
 # Update the block and extrinsic overhead weights.
 echo "[+] Benchmarking block and extrinsic overheads..."
@@ -22,7 +23,7 @@ OUTPUT=$(
   --chain="${runtime}-dev" \
   --execution=wasm \
   --wasm-execution=compiled \
-  --weight-path="runtime/${runtime}/constants/src/weights/" \
+  --weight-path="$output_path/runtime/${runtime}/constants/src/weights/" \
   --warmup=10 \
   --repeat=100 \
   --header=./file_header.txt
@@ -71,8 +72,8 @@ for PALLET in "${PALLETS[@]}"; do
     --extrinsic="*" \
     --execution=wasm \
     --wasm-execution=compiled \
-    --header=./file_header.txt \
-    --output="./runtime/${runtime}/src/weights/${output_file}" 2>&1
+    --header="$output_path/file_header.txt" \
+    --output="$output_path/runtime/${runtime}/src/weights/${output_file}" 2>&1
   )
   if [ $? -ne 0 ]; then
     echo "$OUTPUT" >> "$ERR_FILE"

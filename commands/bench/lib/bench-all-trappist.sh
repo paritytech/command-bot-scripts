@@ -11,8 +11,9 @@ ln -sfn /usr/local/rustup/toolchains/nightly-2023-01-01-x86_64-unknown-linux-gnu
 echo "Toolchains available:"
 rustup toolchain list
 
+get_arg required --runtime "$@"
+runtime="${out:-""}"
 
-runtime="$1"
 chain="${runtime}-dev"
 
 # default RUST_LOG is error, but could be overridden
@@ -21,7 +22,7 @@ export RUST_LOG="${RUST_LOG:-error}"
 echo "[+] Compiling benchmarks..."
 cargo build --profile production --locked --features=runtime-benchmarks
 
-TRAPPIST_BIN=./target/production/trappist-node
+TRAPPIST_BIN="./target/production/trappist-node"
 
 # Update the block and extrinsic overhead weights.
 echo "[+] Benchmarking block and extrinsic overheads..."

@@ -18,29 +18,20 @@ BENCH_ROOT_DIR=$(realpath "$(dirname "${BASH_SOURCE[0]}")")
 . "$BENCH_ROOT_DIR/../cmd_runner.sh"
 
 cargo_run_benchmarks="cargo run --quiet --profile=production"
-current_folder_name="$(basename "$PWD")"
+repository_name="$(basename "$PWD")"
 
-# This is a hack to allow targets to be ran from the root of the monorepo "./<target_dir>/target/..."
-# if it's empty, then it's supposed to find /target/ in the current repo root
-get_arg optional --dir "$@"
+get_arg optional --target_dir "$@"
 target_dir="${out:-""}"
 
-# if current_folder_name is "polkadot-sdk"
-if [[ "$current_folder_name" == "polkadot-sdk" ]]; then
-  # then the context_dir is "polkadot"
-  context_dir="polkadot"
+output_path="."
+
+if [[ "$repository_name" == "polkadot-sdk" ]]; then
+  output_path="./$target_dir"
 fi
 
-
-# this should be always either the current repo name, or the --dir argument
-context_dir="${target_dir:-$current_folder_name}"
-
-# there should be 2 variables.
-# One is always set either inferred from the repo name, or from --dir arg
-# The other is set only if --dir is used for "./<folder>/target/...." paths
-
+echo "Repository: $repository_name"
 echo "Target Dir: $target_dir"
-echo "Context Dir: $context_dir"
+echo "Output Path: $output_path"
 
 cargo_run() {
   echo "Running $cargo_run_benchmarks" "${args[@]}"
@@ -91,21 +82,21 @@ main() {
 
   set -x
 
-  local subcommand="$1"
-  shift
+  get_arg required --subcommand "$@"
+  local subcommand="${out:-""}"
 
   case "$subcommand" in
     runtime|pallet|xcm)
       echo 'Running bench_pallet'
-      . "$BENCH_ROOT_DIR/lib/bench-pallet.sh" "$subcommand" "$@"
+      . "$BENCH_ROOT_DIR/lib/bench-pallet.sh" "$@"
     ;;
     overhead)
       echo 'Running bench_overhead'
-      . "$BENCH_ROOT_DIR/lib/bench-overhead.sh" "$subcommand" "$@"
+      . "$BENCH_ROOT_DIR/lib/bench-overhead.sh" "$@"
     ;;
     all)
-      echo "Running all-$context_dir"
-      . "$BENCH_ROOT_DIR/lib/bench-all-${context_dir}.sh" "$@"
+      echo "Running all-$target_dir"
+      . "$BENCH_ROOT_DIR/lib/bench-all-${target_dir}.sh" "$@"
     ;;
     *)
       die "Invalid subcommand $subcommand to process_args"

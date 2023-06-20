@@ -40,7 +40,7 @@ echo "[+] Compiling Substrate benchmarks..."
 cargo build --profile=production --locked --features=runtime-benchmarks -p node-cli
 
 # The executable to use.
-SUBSTRATE="./target/production/substrate"
+SUBSTRATE="$output_path/target/production/substrate"
 
 # Manually exclude some pallets.
 EXCLUDED_PALLETS=(
@@ -81,8 +81,8 @@ OUTPUT=$(
   --chain=dev \
   --execution=wasm \
   --wasm-execution=compiled \
-  --weight-path="./frame/support/src/weights/" \
-  --header="./HEADER-APACHE2" \
+  --weight-path="$output_path/frame/support/src/weights/" \
+  --header="$output_path/HEADER-APACHE2" \
   --warmup=10 \
   --repeat=100 2>&1
 )
@@ -94,7 +94,7 @@ fi
 # Benchmark each pallet.
 for PALLET in "${PALLETS[@]}"; do
   FOLDER="$(echo "${PALLET#*_}" | tr '_' '-')";
-  WEIGHT_FILE="./frame/${FOLDER}/src/weights.rs"
+  WEIGHT_FILE="$output_path/frame/${FOLDER}/src/weights.rs"
   echo "[+] Benchmarking $PALLET with weight file $WEIGHT_FILE";
 
   OUTPUT=$(
@@ -111,8 +111,8 @@ for PALLET in "${PALLETS[@]}"; do
     --wasm-execution=compiled \
     --heap-pages=4096 \
     --output="$WEIGHT_FILE" \
-    --header="./HEADER-APACHE2" \
-    --template=./.maintain/frame-weight-template.hbs 2>&1
+    --header="$output_path/HEADER-APACHE2" \
+    --template="$output_path/.maintain/frame-weight-template.hbs" 2>&1
   )
   if [ $? -ne 0 ]; then
     echo "$OUTPUT" >> "$ERR_FILE"
