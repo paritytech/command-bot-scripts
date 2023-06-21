@@ -13,14 +13,14 @@
       }
     },
     "presets": {
-      "substrate-all": {
+      "substrate": {
         "description": "Pallet + Overhead + Machine Benchmark for Substrate for all pallets",
         "repos": ["substrate", "polkadot-sdk"],
         "args": {
           "target_dir":   { "label": "Target Directory", "type_string": "substrate" }
         }
       },
-      "polkadot-all": {
+      "polkadot": {
         "description": "Pallet + Overhead Benchmark for Polkadot",
         "repos": ["polkadot", "polkadot-sdk"],
         "args": {
@@ -28,14 +28,14 @@
           "target_dir":   { "label": "Target Directory", "type_string":"polkadot" }
         }
       },
-      "cumulus-all": {
+      "cumulus": {
         "description": "Pallet Benchmark for Cumulus",
         "repos": ["cumulus", "polkadot-sdk"],
         "args": {
           "target_dir":   { "label": "Target Directory", "type_string": "cumulus" }
         }
       },
-      "trappist-all": {
+      "trappist": {
         "description": "Pallet Benchmark for Trappist",
         "repos": ["trappist"],
         "args": {
