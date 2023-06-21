@@ -102,11 +102,9 @@ bench_pallet() {
     cumulus)
       get_arg required --runtime_dir "$@"
       local runtime_dir="${out:-""}"
-
-      local chain_type="$3"
-      local pallet="$4"
       local chain="$runtime"
 
+      # to support specifying parachain id from runtime name (e.g. ["glutton-kusama", "glutton-kusama-dev-1300"])
       # If runtime ends with "-dev" or "-dev-\d+", leave as it is, otherwise concat "-dev" at the end of $chain
       if [[ ! "$runtime" =~ -dev(-[0-9]+)?$ ]]; then
           chain="${runtime}-dev"
