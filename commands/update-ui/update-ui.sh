@@ -13,6 +13,9 @@ main() {
   get_arg required --rust_version "$@"
   rust_version="${out:-""}"
 
+  get_arg required --target_path "$@"
+  target_path="${out:-""}"
+
   if [[ -z "${rust_version}" ]]; then
     die "missing rust version argument"
   fi
@@ -21,7 +24,7 @@ main() {
   # Doing that in CI feels rather ugly, but sadly there's currently no mechanism
   # in command-bot to use a different CI image for individual jobs, so this is
   # the best we can do.
-  .maintain/update-rust-stable.sh "${rust_version}"
+  "$target_path/maintain/update-rust-stable.sh" "${rust_version}"
 
   # commit.
   git add .

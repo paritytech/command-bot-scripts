@@ -13,19 +13,12 @@ main() {
 
   get_arg required --chain "$@"
   local chain="${out:-""}"
-  local chain_node=""
 
-  case "$chain" in
-      polkadot|kusama|westend|rococo)
-        chain_node="polkadot"
-      ;;
-      trappist)
-        chain_node="trappist-node"
-      ;;
-      *)
-        die "Invalid chain $chain"
-      ;;
-    esac
+  get_arg required --chain_node "$@"
+  local chain_node="${out:-""}"
+
+  get_arg optional --output_path "$@"
+  local output_path="${out:-"."}"
 
   set -x
   export RUST_LOG="${RUST_LOG:-remote-ext=debug,runtime=trace}"
@@ -35,8 +28,8 @@ main() {
 
   cargo build --release --features try-runtime
 
-  cp "./target/release/${chain_node}" node-try-runtime
-  cp "./target/release/wbuild/${chain}-runtime/${chain}_runtime.wasm" runtime-try-runtime.wasm
+  cp "$output_path/target/release/${chain_node}" node-try-runtime
+  cp "$output_path/target/release/wbuild/${chain}-runtime/${chain}_runtime.wasm" runtime-try-runtime.wasm
 
   ./node-try-runtime \
     try-runtime \
