@@ -13,14 +13,14 @@
       }
     },
     "presets": {
-      "substrate-overhead": {
+      "substrate": {
         "description": "Runs `benchmark overhead` and commits back to PR the updated `extrinsic_weights.rs` files",
         "repos": ["substrate", "polkadot-sdk"],
         "args": {
           "target_dir":   { "label": "Target Directory", "type_string": "substrate" }
         }
       },
-      "polkadot-overhead": {
+      "polkadot": {
         "description": "Runs `benchmark overhead` and commits back to PR the updated `extrinsic_weights.rs` files",
         "repos": ["polkadot", "polkadot-sdk"],
         "args": {
@@ -28,7 +28,7 @@
           "target_dir":   { "label": "Target Directory", "type_string": "polkadot" }
         }
       },
-      "cumulus-overhead": {
+      "cumulus": {
         "description": "Runs `benchmark overhead` and commits back to PR the updated `extrinsic_weights.rs` files",
         "repos": ["cumulus", "polkadot-sdk"],
         "args": {
@@ -36,7 +36,7 @@
           "target_dir":   { "label": "Target Directory", "type_string": "cumulus" }
         }
       },
-      "trappist-overhead": {
+      "trappist": {
         "description": "Runs `benchmark overhead` and commits back to PR",
         "repos": ["trappist"],
         "args": {
