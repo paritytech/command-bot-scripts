@@ -17,7 +17,6 @@ BENCH_ROOT_DIR=$(realpath "$(dirname "${BASH_SOURCE[0]}")")
 . "$BENCH_ROOT_DIR/../utils.sh"
 . "$BENCH_ROOT_DIR/../cmd_runner.sh"
 
-cargo_run_benchmarks="cargo run --quiet --profile=production"
 repository_name="$(basename "$PWD")"
 
 get_arg optional --target_dir "$@"
@@ -25,9 +24,14 @@ target_dir="${out:-""}"
 
 output_path="."
 
+profile="production"
+
 if [[ "$repository_name" == "polkadot-sdk" ]]; then
   output_path="./$target_dir"
+  profile="release"
 fi
+
+cargo_run_benchmarks="cargo run --quiet --profile=${profile}"
 
 echo "Repository: $repository_name"
 echo "Target Dir: $target_dir"

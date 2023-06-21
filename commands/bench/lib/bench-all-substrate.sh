@@ -37,10 +37,10 @@ set -E
 export RUST_LOG="${RUST_LOG:-error}"
 
 echo "[+] Compiling Substrate benchmarks..."
-cargo build --profile=production --locked --features=runtime-benchmarks -p node-cli
+cargo build --profile=$profile --locked --features=runtime-benchmarks -p node-cli
 
 # The executable to use.
-SUBSTRATE="$output_path/target/production/substrate"
+SUBSTRATE="$output_path/target/$profile/substrate"
 
 # Manually exclude some pallets.
 EXCLUDED_PALLETS=(

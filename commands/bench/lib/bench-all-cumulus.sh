@@ -4,7 +4,7 @@
 # default RUST_LOG is warn, but could be overridden
 export RUST_LOG="${RUST_LOG:-error}"
 
-POLKADOT_PARACHAIN="$output_path/target/production/polkadot-parachain"
+POLKADOT_PARACHAIN="$output_path/target/$profile/polkadot-parachain"
 
 run_cumulus_bench() {
   local artifactsDir="$ARTIFACTS_DIR"
@@ -73,7 +73,7 @@ run_cumulus_bench() {
 
 
 echo "[+] Compiling benchmarks..."
-cargo build --profile production --locked --features=runtime-benchmarks
+cargo build --profile $profile --locked --features=runtime-benchmarks
 
 # Assets
 run_cumulus_bench assets asset-hub-kusama
