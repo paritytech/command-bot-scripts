@@ -18,6 +18,7 @@ main() {
 
   local chain="$1"
   local chain_node=""
+  local live_uri="$1"
 
   case "$chain" in
       polkadot|kusama|westend|rococo)
@@ -25,6 +26,7 @@ main() {
       ;;
       trappist)
         chain_node="trappist-node"
+        live_uri="rococo-trappist"
       ;;
       *)
         die "Invalid chain $chain"
@@ -47,7 +49,7 @@ main() {
     --runtime runtime-try-runtime.wasm \
     -lruntime=debug \
     on-runtime-upgrade \
-    live --uri "wss://rococo-${chain}-try-runtime-node.parity-chains.parity.io:443"
+    live --uri "wss://${live_uri}-try-runtime-node.parity-chains.parity.io:443"
 }
 
 main "$@"
