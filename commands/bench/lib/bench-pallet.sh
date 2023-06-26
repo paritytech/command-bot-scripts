@@ -74,6 +74,7 @@ bench_pallet() {
       local weights_dir="$output_path/runtime/${runtime}/src/weights"
 
       args=(
+        --bin=polkadot
         --features=runtime-benchmarks
         "${bench_pallet_common_args[@]}"
         --pallet="$pallet"

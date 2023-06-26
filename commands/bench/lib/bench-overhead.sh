@@ -18,6 +18,7 @@ bench_overhead() {
   case "$target_dir" in
     substrate)
       args=(
+        --bin=substrate
         "${bench_overhead_common_args[@]}"
         --header="$output_path/HEADER-APACHE2"
         --weight-path="$output_path/frame/support/src/weights"
@@ -28,6 +29,7 @@ bench_overhead() {
       get_arg required --runtime "$@"
       local runtime="${out:-""}"
       args=(
+        --bin=polkadot
         "${bench_overhead_common_args[@]}"
         --header="$output_path/file_header.txt"
         --weight-path="$output_path/runtime/$runtime/constants/src/weights"
