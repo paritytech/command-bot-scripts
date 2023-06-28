@@ -20,6 +20,9 @@ main() {
   get_arg optional --output_path "$@"
   local output_path="${out:-"."}"
 
+  get_arg optional --live_uri "$@"
+  local live_uri="${out:-"$chain"}"
+
   set -x
   export RUST_LOG="${RUST_LOG:-remote-ext=debug,runtime=trace}"
 
@@ -36,7 +39,7 @@ main() {
     --runtime runtime-try-runtime.wasm \
     -lruntime=debug \
     on-runtime-upgrade \
-    live --uri "wss://${chain}-try-runtime-node.parity-chains.parity.io:443"
+    live --uri "wss://${live_uri}-try-runtime-node.parity-chains.parity.io:443"
 }
 
 main "$@"

@@ -1,12 +1,12 @@
 {
   "$schema": "../../node_modules/command-bot/src/schema/schema.cmd.json",
   "command": {
-    "description": "This is a testing for `bench` command running on VM machine",
+    "description": "This is a testing for `bench` command running on legacy BM machines",
     "configuration": {
       "gitlab": {
         "job": {
           "tags": [
-            "weights-vm"
+            "bench-bot"
           ],
           "variables": {}
         }
