@@ -15,7 +15,7 @@
         "description": "Update substrate UI tests in Substrate Repo",
         "repos": ["substrate"],
         "args": {
-          "rust_version":  { "label": "Rust version", "type_rule": "/^[0-9.]+$/", "example": "1.70" },
+          "rust_version":  { "label": "Rust version", "type_rule": "^[0-9.]+$", "example": "1.70" },
           "target_path":    { "label": "Target path", "type_string": "." }
         }
       },
@@ -23,7 +23,7 @@
         "description": "Update substrate UI tests in Monorepo/substrate",
         "repos": ["polkadot-sdk"],
         "args": {
-          "rust_version":  { "label": "Rust version", "type_rule": "/^[0-9.]+$/", "example": "1.70" },
+          "rust_version":  { "label": "Rust version", "type_rule": "^[0-9.]+$", "example": "1.70" },
           "target_path":    { "label": "Target path", "type_string": "./substrate" }
         }
       }
