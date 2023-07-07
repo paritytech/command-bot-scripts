@@ -26,7 +26,7 @@ OUTPUT=$(
   --weight-path="$output_path/runtime/${runtime}/constants/src/weights/" \
   --warmup=10 \
   --repeat=100 \
-  --header=./file_header.txt
+  --header="$output_path/file_header.txt"
 )
 if [ $? -ne 0 ]; then
   echo "$OUTPUT" >> "$ERR_FILE"
