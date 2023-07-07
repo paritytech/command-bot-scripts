@@ -40,7 +40,7 @@ echo "[+] Compiling Substrate benchmarks..."
 cargo build --profile=$profile --locked --features=runtime-benchmarks -p node-cli
 
 # The executable to use.
-SUBSTRATE="$output_path/target/$profile/substrate"
+SUBSTRATE="./target/$profile/substrate"
 
 # Manually exclude some pallets.
 EXCLUDED_PALLETS=(

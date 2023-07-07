@@ -4,7 +4,7 @@
 # default RUST_LOG is warn, but could be overridden
 export RUST_LOG="${RUST_LOG:-error}"
 
-POLKADOT_PARACHAIN="$output_path/target/$profile/polkadot-parachain"
+POLKADOT_PARACHAIN="./target/$profile/polkadot-parachain"
 
 run_cumulus_bench() {
   local artifactsDir="$ARTIFACTS_DIR"
