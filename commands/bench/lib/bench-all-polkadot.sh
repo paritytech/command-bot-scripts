@@ -20,7 +20,6 @@ echo "[+] Benchmarking block and extrinsic overheads..."
 OUTPUT=$(
   $POLKADOT_BIN benchmark overhead \
   --chain="${runtime}-dev" \
-  --execution=wasm \
   --wasm-execution=compiled \
   --weight-path="runtime/${runtime}/constants/src/weights/" \
   --warmup=10 \
