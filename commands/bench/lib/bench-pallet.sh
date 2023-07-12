@@ -11,7 +11,6 @@ bench_pallet_common_args=(
   --steps=50
   --repeat=20
   --extrinsic="*"
-  --execution=wasm
   --wasm-execution=compiled
   --heap-pages=4096
   --json-file="${ARTIFACTS_DIR}/bench.json"

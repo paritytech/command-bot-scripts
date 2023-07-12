@@ -8,7 +8,6 @@ bench_overhead_common_args=(
   --
   benchmark
   overhead
-  --execution=wasm
   --wasm-execution=compiled
   --warmup=10
   --repeat=100
