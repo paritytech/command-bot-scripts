@@ -29,7 +29,6 @@ echo "[+] Benchmarking block and extrinsic overheads..."
 OUTPUT=$(
   $TRAPPIST_BIN benchmark overhead \
   --chain=$chain \
-  --execution=wasm \
   --wasm-execution=compiled \
   --weight-path="./runtime/${runtime}/src/weights/" \
   --warmup=10 \
@@ -84,7 +83,6 @@ for PALLET in "${PALLETS[@]}"; do
     --no-min-squares \
     --pallet="$PALLET" \
     --extrinsic="*" \
-    --execution=wasm \
     --wasm-execution=compiled \
     --header=./templates/file_header.txt \
     --output="./runtime/${runtime}/src/weights/${output_file}" 2>&1

@@ -56,7 +56,6 @@ run_cumulus_bench() {
     $POLKADOT_PARACHAIN benchmark pallet \
       $extra_args \
       --chain="${benchmarkRuntimeChain}" \
-      --execution=wasm \
       --wasm-execution=compiled \
       --pallet="$pallet" \
       --no-storage-info \
