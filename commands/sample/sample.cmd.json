@@ -5,6 +5,7 @@
     "configuration": {
       "gitlab": {
         "job": {
+          "image": "paritytech/ci-unified:bullseye-1.70.0-2023-05-23",
           "tags": ["kubernetes-parity-build"],
           "variables": {}
         }

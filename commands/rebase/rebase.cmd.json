@@ -2,6 +2,6 @@
   "$schema": "../../node_modules/command-bot/src/schema/schema.cmd.json",
   "command": {
     "description": "create a merge commit from the target branch into the PR. Read more: https://github.com/paritytech/parity-processbot/",
-    "configuration": {"gitlab": {"job": {"tags": [""]}}}
+    "configuration": {"gitlab": {"job": {"tags": [""], "image": "paritytech/ci-unified:bullseye-1.70.0-2023-05-23"}}}
   }
 }
