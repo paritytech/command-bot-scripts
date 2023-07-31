@@ -2,14 +2,8 @@
 
 # Runs all benchmarks for all pallets, for a given runtime, provided by $1
 
-# This is a workaround for `UnknownOpcode(192)` error.
-# TODO. Remove this when migrated to 0.9.42+
-echo "[+] Apply workaround... (remove after 0.9.42+)"
-rustup toolchain install nightly-2023-01-01 --profile minimal --component rustfmt
-rustup target add wasm32-unknown-unknown --toolchain nightly-2023-01-01
-ln -sfn /usr/local/rustup/toolchains/nightly-2023-01-01-x86_64-unknown-linux-gnu /usr/local/rustup/toolchains/nightly-x86_64-unknown-linux-gnu
-echo "Toolchains available:"
-rustup toolchain list
+echo "Rust setup:"
+rustup show
 
 get_arg required --runtime "$@"
 runtime="${out:-""}"
