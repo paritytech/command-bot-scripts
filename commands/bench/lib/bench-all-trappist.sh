@@ -5,16 +5,18 @@
 echo "Rust setup:"
 rustup show
 
-runtime="$1"
+get_arg required --runtime "$@"
+runtime="${out:-""}"
+
 chain="${runtime}-dev"
 
 # default RUST_LOG is error, but could be overridden
 export RUST_LOG="${RUST_LOG:-error}"
 
 echo "[+] Compiling benchmarks..."
-cargo build --profile production --locked --features=runtime-benchmarks
+cargo build --profile $profile --locked --features=runtime-benchmarks
 
-TRAPPIST_BIN=./target/production/trappist-node
+TRAPPIST_BIN="./target/$profile/trappist-node"
 
 # Update the block and extrinsic overhead weights.
 echo "[+] Benchmarking block and extrinsic overheads..."

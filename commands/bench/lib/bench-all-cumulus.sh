@@ -4,7 +4,7 @@
 # default RUST_LOG is warn, but could be overridden
 export RUST_LOG="${RUST_LOG:-error}"
 
-POLKADOT_PARACHAIN=./target/production/polkadot-parachain
+POLKADOT_PARACHAIN="./target/$profile/polkadot-parachain"
 
 run_cumulus_bench() {
   local artifactsDir="$ARTIFACTS_DIR"
@@ -12,7 +12,7 @@ run_cumulus_bench() {
   local runtimeName=$2
   local paraId=${3:-}
 
-  local benchmarkOutput=./parachains/runtimes/$category/$runtimeName/src/weights
+  local benchmarkOutput="$output_path/parachains/runtimes/$category/$runtimeName/src/weights"
   local benchmarkRuntimeChain
   if [[ ! -z "$paraId" ]]; then
      benchmarkRuntimeChain="${runtimeName}-dev-$paraId"
@@ -51,7 +51,7 @@ run_cumulus_bench() {
     # a little hack for pallet_xcm_benchmarks - we want to force custom implementation for XcmWeightInfo
     if [[ "$pallet" == "pallet_xcm_benchmarks::generic" ]] || [[ "$pallet" == "pallet_xcm_benchmarks::fungible" ]]; then
       output_file="xcm/${pallet//::/_}.rs"
-      extra_args="--template=./templates/xcm-bench-template.hbs"
+      extra_args="--template=$output_path/templates/xcm-bench-template.hbs"
     fi
     $POLKADOT_PARACHAIN benchmark pallet \
       $extra_args \
@@ -65,14 +65,14 @@ run_cumulus_bench() {
       --steps=50 \
       --repeat=20 \
       --json \
-      --header=./file_header.txt \
+      --header="$output_path/file_header.txt" \
       --output="${benchmarkOutput}/${output_file}" >> "$benchmarkMetadataOutputDir/${pallet//::/_}_benchmark.json"
   done
 }
 
 
 echo "[+] Compiling benchmarks..."
-cargo build --profile production --locked --features=runtime-benchmarks
+cargo build --profile $profile --locked --features=runtime-benchmarks
 
 # Assets
 run_cumulus_bench assets asset-hub-kusama

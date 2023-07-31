@@ -1,0 +1,48 @@
+{
+  "$schema": "../../node_modules/command-bot/src/schema/schema.cmd.json",
+  "command": {
+    "description": "Run benchmarks overhead and commit back results to PR",
+    "configuration": {
+      "gitlab": {
+        "job": {
+          "tags": [
+            "weights-vm"
+          ],
+          "variables": {}
+        }
+      }
+    },
+    "presets": {
+      "default": {
+        "description": "Runs `benchmark overhead` and commits back to PR the updated `extrinsic_weights.rs` files",
+        "repos": ["polkadot", "polkadot-sdk"],
+        "args": {
+          "runtime":      { "label": "Runtime", "type_one_of": ["polkadot", "kusama", "rococo", "westend"] },
+          "target_dir":   { "label": "Target Directory", "type_string": "polkadot" }
+        }
+      },
+      "substrate": {
+        "description": "Runs `benchmark overhead` and commits back to PR the updated `extrinsic_weights.rs` files",
+        "repos": ["substrate", "polkadot-sdk"],
+        "args": {
+          "target_dir":   { "label": "Target Directory", "type_string": "substrate" }
+        }
+      },
+      "cumulus": {
+        "description": "Runs `benchmark overhead` and commits back to PR the updated `extrinsic_weights.rs` files",
+        "repos": ["cumulus", "polkadot-sdk"],
+        "args": {
+          "runtime":      { "label": "Runtime", "type_one_of": ["asset-hub-polkadot", "asset-hub-kusama", "asset-hub-westend"] },
+          "target_dir":   { "label": "Target Directory", "type_string": "cumulus" }
+        }
+      },
+      "trappist": {
+        "description": "Runs `benchmark overhead` and commits back to PR",
+        "repos": ["trappist"],
+        "args": {
+          "runtime":    { "label": "Runtime", "type_one_of": ["trappist", "stout"] }
+        }
+      }
+    }
+  }
+}

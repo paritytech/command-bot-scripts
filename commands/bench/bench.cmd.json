@@ -13,115 +13,99 @@
     "presets": {
       "substrate-pallet": {
         "description": "Pallet Benchmark for Substrate for specific pallet",
-        "repos": ["substrate"],
+        "repos": ["substrate", "polkadot-sdk"],
         "args": {
-          "subcommand": { "label": "Subcommand", "type_one_of": [ "pallet" ] },
-          "runtime":    { "label": "Runtime", "type_one_of": ["dev"] },
-          "pallet":     { "label": "pallet", "type_rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/", "example": "pallet_name" }
+          "subcommand":   { "label": "Subcommand", "type_one_of": ["pallet"] },
+          "runtime":      { "label": "Runtime", "type_one_of": ["dev"] },
+          "pallet":       { "label": "pallet", "type_rule": "^([a-z_]+)([:]{2}[a-z_]+)?$", "example": "pallet_name" },
+          "target_dir":   { "label": "Target Directory", "type_string": "substrate" }
         }
       },
       "polkadot-pallet": {
         "description": "Pallet Benchmark for Polkadot for specific pallet",
-        "repos": ["polkadot", "command-bot-test"],
+        "repos": ["polkadot", "command-bot-test", "polkadot-sdk"],
         "args": {
-          "subcommand": { "label": "Subcommand", "type_one_of": ["runtime", "xcm"] },
-          "runtime":    { "label": "Runtime", "type_one_of": ["dev", "kusama", "polkadot", "rococo", "westend"] },
-          "pallet":     { "label": "Pallet", "type_rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/", "example": "pallet_name" }
+          "subcommand":   { "label": "Subcommand", "type_one_of": ["runtime", "xcm"] },
+          "runtime":      { "label": "Runtime", "type_one_of": ["polkadot", "kusama", "rococo", "westend"] },
+          "pallet":       { "label": "Pallet", "type_rule": "^([a-z_]+)([:]{2}[a-z_]+)?$", "example": "pallet_name" },
+          "target_dir":   { "label": "Target Directory", "type_string": "polkadot" }
         }
       },
       "cumulus-assets": {
         "description": "Pallet Benchmark for Cumulus [assets]",
-        "repos": ["cumulus"],
+        "repos": ["cumulus", "polkadot-sdk"],
         "args": {
-          "subcommand": { "label": "Subcommand", "type_one_of": ["xcm", "pallet"] },
-          "runtime":    { "label": "Runtime", "type_one_of": ["statemine", "statemint", "test-utils", "westmint"] },
-          "kind":       { "label": "Kind", "type_one_of": ["assets"] },
-          "pallet":     { "label": "Pallet", "type_rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/", "example": "pallet_name" }
+          "subcommand":   { "label": "Subcommand", "type_one_of": ["pallet", "xcm"] },
+          "runtime":      { "label": "Runtime", "type_one_of": ["asset-hub-polkadot", "asset-hub-kusama", "asset-hub-westend"] },
+          "pallet":       { "label": "Pallet", "type_rule": "^([a-z_]+)([:]{2}[a-z_]+)?$", "example": "pallet_name" },
+          "runtime_dir":  { "label": "Runtime Dir", "type_string": "assets" },
+          "target_dir":   { "label": "Target Directory", "type_string": "cumulus" }
         }
       },
       "cumulus-collectives": {
         "description": "Pallet Benchmark for Cumulus [collectives]",
-        "repos": ["cumulus"],
+        "repos": ["cumulus", "polkadot-sdk"],
         "args": {
-          "subcommand": { "label": "Subcommand", "type_one_of": ["xcm", "pallet"] },
-          "runtime":    { "label": "Runtime", "type_one_of": ["collectives-polkadot"] },
-          "kind":       { "label": "Kind", "type_one_of": ["collectives"] },
-          "pallet":     { "label": "Pallet", "type_rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/", "example": "pallet_name" }
+          "subcommand":   { "label": "Subcommand", "type_one_of": ["pallet", "xcm"] },
+          "runtime":      { "label": "Runtime", "type_one_of": ["collectives-polkadot"] },
+          "pallet":       { "label": "Pallet", "type_rule": "^([a-z_]+)([:]{2}[a-z_]+)?$", "example": "pallet_name" },
+          "runtime_dir":  { "label": "Runtime Dir", "type_string": "collectives" },
+          "target_dir":   { "label": "Target Directory", "type_string": "cumulus" }
         }
       },
       "cumulus-bridge-hubs": {
         "description": "Pallet Benchmark for Cumulus [bridge-hubs]",
-        "repos": ["cumulus"],
+        "repos": ["cumulus", "polkadot-sdk"],
         "args": {
-          "subcommand": { "label": "Subcommand", "type_one_of": ["xcm", "pallet"] },
-          "runtime":    { "label": "Runtime", "type_one_of": ["bridge-hub-polkadot", "bridge-hub-kusama", "bridge-hub-rococo"] },
-          "kind":       { "label": "Kind", "type_one_of": ["bridge-hubs"] },
-          "pallet":     { "label": "Pallet", "type_rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/", "example": "pallet_name" }
+          "subcommand":   { "label": "Subcommand", "type_one_of": ["pallet", "xcm"] },
+          "runtime":      { "label": "Runtime", "type_one_of": ["bridge-hub-polkadot", "bridge-hub-kusama", "bridge-hub-rococo"] },
+          "pallet":       { "label": "Pallet", "type_rule": "^([a-z_]+)([:]{2}[a-z_]+)?$", "example": "pallet_name" },
+          "runtime_dir":  { "label": "Runtime Dir", "type_string": "bridge-hubs" },
+          "target_dir":   { "label": "Target Directory", "type_string": "cumulus" }
         }
       },
       "cumulus-contracts": {
         "description": "Pallet Benchmark for Cumulus [contracts]",
-        "repos": ["cumulus"],
+        "repos": ["cumulus", "polkadot-sdk"],
         "args": {
-          "subcommand": { "label": "Subcommand", "type_one_of": ["xcm", "pallet"] },
-          "runtime":    { "label": "Runtime", "type_one_of": ["contracts-rococo"] },
-          "kind":       { "label": "Kind", "type_one_of": ["contracts"] },
-          "pallet":     { "label": "Pallet", "type_rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/", "example": "pallet_name" }
+          "subcommand":     { "label": "Subcommand", "type_one_of": ["pallet", "xcm"] },
+          "runtime":        { "label": "Runtime", "type_one_of": ["contracts-rococo"] },
+          "runtime_dir":    { "label": "Runtime Dir", "type_string": "contracts" },
+          "pallet":         { "label": "Pallet", "type_rule": "^([a-z_]+)([:]{2}[a-z_]+)?$", "example": "pallet_name" },
+          "target_dir":     { "label": "Target Directory", "type_string": "cumulus" }
         }
       },
       "cumulus-glutton": {
         "description": "Pallet Benchmark for Cumulus [glutton]",
-        "repos": ["cumulus"],
+        "repos": ["cumulus", "polkadot-sdk"],
         "args": {
-          "subcommand": { "label": "Subcommand", "type_one_of": ["pallet"] },
-          "runtime":    { "label": "Runtime", "type_one_of": ["glutton-kusama", "glutton-kusama-dev-1300"] },
-          "kind":       { "label": "Kind", "type_one_of": ["glutton"] },
-          "pallet":     { "label": "Pallet", "type_rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/", "example": "pallet_name" }
+          "subcommand":   { "label": "Subcommand", "type_one_of": ["pallet"] },
+          "runtime":      { "label": "Runtime", "type_one_of": ["glutton-kusama", "glutton-kusama-dev-1300"] },
+          "pallet":       { "label": "Pallet", "type_rule": "^([a-z_]+)([:]{2}[a-z_]+)?$", "example": "pallet_name" },
+          "runtime_dir":  { "label": "Runtime Dir", "type_string": "glutton" },
+          "target_dir":   { "label": "Target Directory", "type_string": "cumulus" }
         }
       },
       "cumulus-starters": {
         "description": "Pallet Benchmark for Cumulus [starters]",
-        "repos": ["cumulus"],
+        "repos": ["cumulus", "polkadot-sdk"],
         "args": {
-          "subcommand": { "label": "Subcommand", "type_one_of": ["xcm", "pallet"] },
-          "runtime":    { "label": "Runtime", "type_one_of": ["seedling", "shell"] },
-          "kind":       { "label": "Kind", "type_one_of": ["starters"] },
-          "pallet":     { "label": "Pallet", "type_rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/", "example": "pallet_name" }
+          "subcommand":   { "label": "Subcommand", "type_one_of": ["pallet", "xcm"] },
+          "runtime":      { "label": "Runtime", "type_one_of": ["seedling", "shell"] },
+          "pallet":       { "label": "Pallet", "type_rule": "^([a-z_]+)([:]{2}[a-z_]+)?$", "example": "pallet_name" },
+          "runtime_dir":  { "label": "Runtime Dir", "type_string": "starters" },
+          "target_dir":   { "label": "Target Directory", "type_string": "cumulus" }
         }
       },
       "cumulus-testing": {
         "description": "Pallet Benchmark for Cumulus [testing]",
-        "repos": ["cumulus"],
+        "repos": ["cumulus", "polkadot-sdk"],
         "args": {
-          "subcommand": { "label": "Subcommand", "type_one_of": ["xcm", "pallet"] },
-          "runtime":    { "label": "Runtime", "type_one_of": ["penpal", "rococo-parachain"] },
-          "kind":       { "label": "Kind", "type_one_of": ["testing"] },
-          "pallet":     { "label": "Pallet", "type_rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/", "example": "pallet_name"
-          }
-        }
-      },
-      "substrate-overhead": {
-        "description": "Runs `benchmark overhead` and commits back to PR the updated `extrinsic_weights.rs` files",
-        "repos": ["substrate"],
-        "args": {
-          "subcommand": { "label": "Subcommand", "type_one_of": ["overhead"] }
-        }
-      },
-      "polkadot-overhead": {
-        "description": "Runs `benchmark overhead` and commits back to PR the updated `extrinsic_weights.rs` files",
-        "repos": ["polkadot"],
-        "args": {
-          "subcommand": { "label": "Subcommand", "type_one_of": ["overhead"] },
-          "runtime":    { "label": "Runtime", "type_one_of": ["kusama-dev", "polkadot-dev", "rococo-dev", "westend-dev"] }
-        }
-      },
-      "cumulus-overhead": {
-        "description": "Runs `benchmark overhead` and commits back to PR the updated `extrinsic_weights.rs` files",
-        "repos": ["cumulus"],
-        "args": {
-          "subcommand": { "label": "Subcommand", "type_one_of": ["overhead"] },
-          "kind":       { "label": "Kind", "type_one_of": ["assets"] },
-          "runtime":    { "label": "Runtime", "type_one_of": ["statemine", "statemint", "test-utils", "westmint"] }
+          "subcommand":   { "label": "Subcommand", "type_one_of": ["pallet", "xcm"] },
+          "runtime":      { "label": "Runtime", "type_one_of": ["penpal", "rococo-parachain"] },
+          "pallet":       { "label": "Pallet", "type_rule": "^([a-z_]+)([:]{2}[a-z_]+)?$", "example": "pallet_name" },
+          "runtime_dir":  { "label": "Runtime Dir", "type_string": "testing" },
+          "target_dir":   { "label": "Target Directory", "type_string": "cumulus" }
         }
       },
       "trappist-pallet": {
@@ -130,15 +114,7 @@
         "args": {
           "subcommand": { "label": "Subcommand", "type_one_of": ["runtime", "xcm"] },
           "runtime":    { "label": "Runtime", "type_one_of": ["trappist", "stout"] },
-          "pallet":     { "label": "Pallet", "type_rule": "/^([a-z_]+)([:]{2}[a-z_]+)?$/", "example": "pallet_name" }
-        }
-      },
-      "trappist-overhead": {
-        "description": "Runs `benchmark overhead` and commits back to PR",
-        "repos": ["trappist"],
-        "args": {
-          "subcommand": { "label": "Subcommand", "type_one_of": ["overhead"] },
-          "runtime":    { "label": "Runtime", "type_one_of": ["trappist", "stout"] }
+          "pallet":     { "label": "Pallet", "type_rule": "^([a-z_]+)([:]{2}[a-z_]+)?$", "example": "pallet_name" }
         }
       }
     }

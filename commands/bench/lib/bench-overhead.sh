@@ -14,47 +14,50 @@ bench_overhead_common_args=(
 )
 bench_overhead() {
   local args
-  case "$repository" in
+  case "$target_dir" in
     substrate)
       args=(
+        --bin=substrate
         "${bench_overhead_common_args[@]}"
-        --header=./HEADER-APACHE2
-        --weight-path="./frame/support/src/weights"
+        --header="$output_path/HEADER-APACHE2"
+        --weight-path="$output_path/frame/support/src/weights"
         --chain="dev"
       )
     ;;
     polkadot)
-      local runtime="$2"
+      get_arg required --runtime "$@"
+      local runtime="${out:-""}"
       args=(
+        --bin=polkadot
         "${bench_overhead_common_args[@]}"
-        --header=./file_header.txt
-        --weight-path="./runtime/$runtime/constants/src/weights"
+        --header="$output_path/file_header.txt"
+        --weight-path="$output_path/runtime/$runtime/constants/src/weights"
         --chain="$runtime-dev"
       )
     ;;
     cumulus)
-      local chain_type="$2"
-      local runtime="$3"
-
+      get_arg required --runtime "$@"
+      local runtime="${out:-""}"
       args=(
         --bin=polkadot-parachain
         "${bench_overhead_common_args[@]}"
-        --header=./file_header.txt
-        --weight-path="./cumulus/parachains/runtimes/$chain_type/$runtime/src/weights"
+        --header="$output_path/file_header.txt"
+        --weight-path="$output_path/parachains/runtimes/assets/$runtime/src/weights"
         --chain="$runtime"
       )
     ;;
     trappist)
-      local runtime="$2"
+      get_arg required --runtime "$@"
+      local runtime="${out:-""}"
       args=(
         "${bench_overhead_common_args[@]}"
-        --header=./templates/file_header.txt
-        --weight-path="./runtime/$runtime/src/weights"
+        --header="$output_path/templates/file_header.txt"
+        --weight-path="$output_path/runtime/$runtime/src/weights"
         --chain="$runtime-dev"
       )
     ;;
     *)
-      die "Repository $repository is not supported in bench_overhead"
+      die "Target Dir \"$target_dir\" is not supported in bench_overhead"
     ;;
   esac
 
