@@ -5,4 +5,7 @@ shopt -s inherit_errexit
 
 . "$(dirname "${BASH_SOURCE[0]}")/../utils.sh"
 
-echo "$@"
+get_arg optional --input "$@"
+input="${out:-"no input"}"
+
+echo "$input"

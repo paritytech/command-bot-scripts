@@ -13,26 +13,33 @@
       }
     },
     "presets": {
-      "substrate-all": {
+      "substrate": {
         "description": "Pallet + Overhead + Machine Benchmark for Substrate for all pallets",
-        "repos": ["substrate"]
-      },
-      "polkadot-all": {
-        "description": "Pallet + Overhead Benchmark for Polkadot",
-        "repos": ["polkadot"],
+        "repos": ["substrate", "polkadot-sdk"],
         "args": {
-          "runtime":    { "label": "Runtime", "type_one_of": ["kusama", "polkadot", "rococo", "westend"] }
+          "target_dir":   { "label": "Target Directory", "type_string": "substrate" }
         }
       },
-      "cumulus-all": {
-        "description": "Pallet Benchmark for Cumulus",
-        "repos": ["cumulus"]
+      "polkadot": {
+        "description": "Pallet + Overhead Benchmark for Polkadot",
+        "repos": ["polkadot", "polkadot-sdk"],
+        "args": {
+          "runtime":      { "label": "Runtime", "type_one_of": ["kusama", "polkadot", "rococo", "westend"] },
+          "target_dir":   { "label": "Target Directory", "type_string":"polkadot" }
+        }
       },
-      "trappist-all": {
+      "cumulus": {
+        "description": "Pallet Benchmark for Cumulus",
+        "repos": ["cumulus", "polkadot-sdk"],
+        "args": {
+          "target_dir":   { "label": "Target Directory", "type_string": "cumulus" }
+        }
+      },
+      "trappist": {
         "description": "Pallet Benchmark for Trappist",
         "repos": ["trappist"],
         "args": {
-          "runtime":    { "label": "Runtime", "type_one_of": ["trappist", "stout"] }
+          "runtime":      { "label": "Runtime", "type_one_of": ["trappist", "stout"] }
         }
       }
     }

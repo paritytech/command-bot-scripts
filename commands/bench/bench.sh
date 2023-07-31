@@ -17,13 +17,25 @@ BENCH_ROOT_DIR=$(realpath "$(dirname "${BASH_SOURCE[0]}")")
 . "$BENCH_ROOT_DIR/../utils.sh"
 . "$BENCH_ROOT_DIR/../cmd_runner.sh"
 
-cargo_run_benchmarks="cargo run --quiet --profile=production"
-current_folder="$(basename "$PWD")"
+repository_name="$(basename "$PWD")"
 
-get_arg optional --repo "$@"
-repository="${out:=$current_folder}"
+get_arg optional --target_dir "$@"
+target_dir="${out:-""}"
 
-echo "Repo: $repository"
+output_path="."
+
+profile="production"
+
+if [[ "$repository_name" == "polkadot-sdk" ]]; then
+  output_path="./$target_dir"
+  profile="release"
+fi
+
+cargo_run_benchmarks="cargo run --quiet --profile=${profile}"
+
+echo "Repository: $repository_name"
+echo "Target Dir: $target_dir"
+echo "Output Path: $output_path"
 
 cargo_run() {
   echo "Running $cargo_run_benchmarks" "${args[@]}"
@@ -74,21 +86,21 @@ main() {
 
   set -x
 
-  local subcommand="$1"
-  shift
+  get_arg required --subcommand "$@"
+  local subcommand="${out:-""}"
 
   case "$subcommand" in
     runtime|pallet|xcm)
       echo 'Running bench_pallet'
-      . "$BENCH_ROOT_DIR/lib/bench-pallet.sh" "$subcommand" "$@"
+      . "$BENCH_ROOT_DIR/lib/bench-pallet.sh" "$@"
     ;;
     overhead)
       echo 'Running bench_overhead'
-      . "$BENCH_ROOT_DIR/lib/bench-overhead.sh" "$subcommand" "$@"
+      . "$BENCH_ROOT_DIR/lib/bench-overhead.sh" "$@"
     ;;
     all)
-      echo "Running all-$repository"
-      . "$BENCH_ROOT_DIR/lib/bench-all-${repository}.sh" "$@"
+      echo "Running all-$target_dir"
+      . "$BENCH_ROOT_DIR/lib/bench-all-${target_dir}.sh" "$@"
     ;;
     *)
       die "Invalid subcommand $subcommand to process_args"

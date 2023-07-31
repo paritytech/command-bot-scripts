@@ -16,23 +16,27 @@ bench_pallet_common_args=(
   --json-file="${ARTIFACTS_DIR}/bench.json"
 )
 bench_pallet() {
-  local kind="$1"
-  local runtime="$2"
+  get_arg required --subcommand "$@"
+  local subcommand="${out:-""}"
+
+  get_arg required --runtime "$@"
+  local runtime="${out:-""}"
+
+  get_arg required --pallet "$@"
+  local pallet="${out:-""}"
 
   local args
-  case "$repository" in
+  case "$target_dir" in
     substrate)
-      local pallet="$3"
-
       args=(
         --features=runtime-benchmarks
-        --manifest-path=bin/node/cli/Cargo.toml
+        --manifest-path="$output_path/bin/node/cli/Cargo.toml"
         "${bench_pallet_common_args[@]}"
         --pallet="$pallet"
         --chain="$runtime"
       )
 
-      case "$kind" in
+      case "$subcommand" in
         pallet)
           # Translates e.g. "pallet_foo::bar" to "pallet_foo_bar"
           local output_dir="${pallet//::/_}"
@@ -52,67 +56,62 @@ bench_pallet() {
           output_dir="${output_dir//_/-}"
 
           args+=(
-            --header="./HEADER-APACHE2"
-            --output="./frame/$output_dir/src/weights.rs"
-            --template=./.maintain/frame-weight-template.hbs
+            --header="$output_path/HEADER-APACHE2"
+            --output="$output_path/frame/$output_dir/src/weights.rs"
+            --template="$output_path/.maintain/frame-weight-template.hbs"
           )
         ;;
         *)
-          die "Kind $kind is not supported for $repository in bench_pallet"
+          die "Subcommand $subcommand is not supported for $target_dir in bench_pallet"
         ;;
       esac
     ;;
     polkadot)
-      local pallet="$3"
-
       # For backward compatibility: replace "-dev" with ""
       runtime=${runtime/-dev/}
 
-      local runtime_dir=$runtime
-      if [ "$runtime" == dev ]; then
-        runtime_dir=polkadot
-      fi
-
-      local weights_dir="./runtime/${runtime_dir}/src/weights"
+      local weights_dir="$output_path/runtime/${runtime}/src/weights"
 
       args=(
+        --bin=polkadot
         --features=runtime-benchmarks
         "${bench_pallet_common_args[@]}"
         --pallet="$pallet"
         --chain="${runtime}-dev"
       )
 
-      case "$kind" in
+      case "$subcommand" in
         runtime)
           args+=(
-            --header=./file_header.txt
+            --header="$output_path/file_header.txt"
             --output="${weights_dir}/"
           )
         ;;
         xcm)
           args+=(
-            --header=./file_header.txt
-            --template=./xcm/pallet-xcm-benchmarks/template.hbs
+            --header="$output_path/file_header.txt"
+            --template="$output_path/xcm/pallet-xcm-benchmarks/template.hbs"
             --output="${weights_dir}/xcm/"
           )
         ;;
         *)
-          die "Kind $kind is not supported for $repository in bench_pallet"
+          die "Subcommand $subcommand is not supported for $target_dir in bench_pallet"
         ;;
       esac
     ;;
     cumulus)
-      local chain_type="$3"
-      local pallet="$4"
+      get_arg required --runtime_dir "$@"
+      local runtime_dir="${out:-""}"
       local chain="$runtime"
 
+      # to support specifying parachain id from runtime name (e.g. ["glutton-kusama", "glutton-kusama-dev-1300"])
       # If runtime ends with "-dev" or "-dev-\d+", leave as it is, otherwise concat "-dev" at the end of $chain
       if [[ ! "$runtime" =~ -dev(-[0-9]+)?$ ]]; then
           chain="${runtime}-dev"
       fi
 
       # replace "-dev" or "-dev-\d+" with "" for runtime
-      local runtime_dir=$(echo "$runtime" | sed 's/-dev.*//g')
+      runtime=$(echo "$runtime" | sed 's/-dev.*//g')
 
       args=(
         --bin=polkadot-parachain
@@ -120,40 +119,39 @@ bench_pallet() {
         "${bench_pallet_common_args[@]}"
         --pallet="$pallet"
         --chain="${chain}"
-        --header=./file_header.txt
+        --header="$output_path/file_header.txt"
       )
 
-      case "$kind" in
+      case "$subcommand" in
         pallet)
           args+=(
-            --output="./parachains/runtimes/$chain_type/$runtime_dir/src/weights/"
+            --output="$output_path/parachains/runtimes/$runtime_dir/$runtime/src/weights/"
           )
         ;;
         xcm)
-          mkdir -p "./parachains/runtimes/$chain_type/$runtime_dir/src/weights/xcm"
+          mkdir -p "$output_path/parachains/runtimes/$runtime_dir/$runtime/src/weights/xcm"
           args+=(
-            --template=./templates/xcm-bench-template.hbs
-            --output="./parachains/runtimes/$chain_type/$runtime_dir/src/weights/xcm/"
+            --template="$output_path/templates/xcm-bench-template.hbs"
+            --output="$output_path/parachains/runtimes/$runtime_dir/$runtime/src/weights/xcm/"
           )
         ;;
         *)
-          die "Kind $kind is not supported for $repository in bench_pallet"
+          die "Subcommand $subcommand is not supported for $target_dir in bench_pallet"
         ;;
       esac
     ;;
     trappist)
-      local pallet="$3"
-      local weights_dir="./runtime/$runtime/src/weights"
+      local weights_dir="$output_path/runtime/$runtime/src/weights"
 
       args=(
         --features=runtime-benchmarks
         "${bench_pallet_common_args[@]}"
         --pallet="$pallet"
         --chain="${runtime}-dev"
-        --header=./templates/file_header.txt
+        --header="$output_path/templates/file_header.txt"
       )
 
-      case "$kind" in
+      case "$subcommand" in
         runtime)
           args+=(
             --output="${weights_dir}/"
@@ -161,17 +159,17 @@ bench_pallet() {
         ;;
         xcm)
           args+=(
-            --template=./templates/xcm-bench-template.hbs
+            --template="$output_path/templates/xcm-bench-template.hbs"
             --output="${weights_dir}/xcm/"
           )
         ;;
         *)
-          die "Kind $kind is not supported for $repository in bench_pallet"
+          die "Subcommand $subcommand is not supported for $target_dir in bench_pallet"
         ;;
       esac
     ;;
     *)
-      die "Repository $repository is not supported in bench_pallet"
+      die "Repository $target_dir is not supported in bench_pallet"
     ;;
   esac
 

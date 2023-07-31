@@ -4,18 +4,32 @@
     "description": "Runs `node-try-runtime try-runtime --runtime runtime-try-runtime.wasm -lruntime=debug on-runtime-upgrade live --uri wss://${NETWORK}-try-runtime-node.parity-chains.parity.io:443`",
     "configuration": { "gitlab": { "job": { "tags": ["linux-docker-vm-c2"], "variables": {} } } },
     "presets": {
-      "polkadot": {
-        "description": "Run try-runtime with specified runtime for Polkadot",
+      "default": {
+        "description": "Run try-runtime with specified runtime for Polkadot repo",
         "repos": ["polkadot", "command-bot-test"],
         "args": {
-          "chain":{ "label": "Chain", "type_one_of": ["polkadot", "kusama", "westend", "rococo"] }
+          "chain":      { "label": "Chain", "type_one_of": ["polkadot", "kusama", "westend", "rococo"] },
+          "target_path":{ "label": "Target Path", "type_string": "." },
+          "chain_node": { "label": "Chain Node", "type_string": "polkadot" }
+        }
+      },
+      "polkadot": {
+        "description": "Run try-runtime with specified runtime for monorepo Polkadot SDK",
+        "repos": ["polkadot-sdk"],
+        "args": {
+          "chain":      { "label": "Chain", "type_one_of": ["polkadot", "kusama", "westend", "rococo"] },
+          "target_path":{ "label": "Target Path", "type_string": "./polkadot" },
+          "chain_node": { "label": "Chain Node", "type_string": "polkadot" }
         }
       },
       "trappist": {
         "description": "Run try-runtime for Trappist",
         "repos": ["trappist"],
         "args": {
-          "chain":{ "label": "Chain", "type_one_of": ["trappist"] }
+          "chain":      { "label": "Chain", "type_one_of": ["trappist"] },
+          "chain_node": { "label": "Chain Node", "type_string": "trappist-node" },
+          "target_path":{ "label": "Target Path", "type_string": "." },
+          "live_uri":   { "label": "Live Node URI ID", "type_string": "rococo-trappist" }
         }
       }
     }

@@ -6,32 +6,22 @@ shopt -s inherit_errexit
 . "$(dirname "${BASH_SOURCE[0]}")/../utils.sh"
 . "$(dirname "${BASH_SOURCE[0]}")/../cmd_runner.sh"
 
-current_folder="$(basename "$PWD")"
-
-get_arg optional --repo "$@"
-repository="${out:=$current_folder}"
-
 main() {
   cmd_runner_setup
 
   cmd_runner_apply_patches --setup-cleanup true
 
-  local chain="$1"
-  local chain_node=""
-  local live_uri="$1"
+  get_arg required --chain "$@"
+  local chain="${out:-""}"
 
-  case "$chain" in
-      polkadot|kusama|westend|rococo)
-        chain_node="polkadot"
-      ;;
-      trappist)
-        chain_node="trappist-node"
-        live_uri="rococo-trappist"
-      ;;
-      *)
-        die "Invalid chain $chain"
-      ;;
-    esac
+  get_arg required --chain_node "$@"
+  local chain_node="${out:-""}"
+
+  get_arg optional --output_path "$@"
+  local output_path="${out:-"."}"
+
+  get_arg optional --live_uri "$@"
+  local live_uri="${out:-"$chain"}"
 
   set -x
   export RUST_LOG="${RUST_LOG:-remote-ext=debug,runtime=trace}"
@@ -41,8 +31,8 @@ main() {
 
   cargo build --release --features try-runtime
 
-  cp "./target/release/${chain_node}" node-try-runtime
-  cp "./target/release/wbuild/${chain}-runtime/${chain}_runtime.wasm" runtime-try-runtime.wasm
+  cp "$output_path/target/release/${chain_node}" node-try-runtime
+  cp "$output_path/target/release/wbuild/${chain}-runtime/${chain}_runtime.wasm" runtime-try-runtime.wasm
 
   ./node-try-runtime \
     try-runtime \
