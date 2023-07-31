@@ -40,6 +40,7 @@
         "repos": ["trappist"],
         "args": {
           "runtime":      { "label": "Runtime", "type_one_of": ["trappist", "stout"] }
+          "target_dir":   { "label": "Target Directory", "type_string": "trappist" }
         }
       }
     }
