@@ -15,8 +15,7 @@
     "presets": {
       "default": {
         "description": "pull latest from the base",
-        "repos": ["substrate", "polkadot", "cumulus"],
-        "args": []
+        "repos": ["substrate", "polkadot", "cumulus"]
       }
     }
   }
