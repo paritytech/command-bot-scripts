@@ -10,12 +10,12 @@
           ]
         }
       }
-    }
-  },
-  "presets": {
-    "default": {
-      "description": "merge PR",
-      "repos": ["substrate", "polkadot", "cumulus"]
+    },
+    "presets": {
+      "default": {
+        "description": "merge PR",
+        "repos": ["substrate", "polkadot", "cumulus"]
+      }
     }
   }
 }
