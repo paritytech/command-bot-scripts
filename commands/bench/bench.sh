@@ -26,11 +26,6 @@ output_path="."
 
 profile="production"
 
-if [[ "$repository_name" == "polkadot-sdk" ]]; then
-  output_path="./$target_dir"
-  profile="release"
-fi
-
 cargo_run_benchmarks="cargo run --quiet --profile=${profile}"
 
 echo "Repository: $repository_name"
