@@ -114,7 +114,7 @@ bench_pallet() {
       runtime=$(echo "$runtime" | sed 's/-dev.*//g')
 
       args=(
-        --bin=polkadot-parachain
+        --p=polkadot-parachain-bin
         --features=runtime-benchmarks
         "${bench_pallet_common_args[@]}"
         --pallet="$pallet"
