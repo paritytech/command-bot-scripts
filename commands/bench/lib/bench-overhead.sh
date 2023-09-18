@@ -39,7 +39,7 @@ bench_overhead() {
       get_arg required --runtime "$@"
       local runtime="${out:-""}"
       args=(
-        --bin=polkadot-parachain
+        -p=polkadot-parachain-bin
         "${bench_overhead_common_args[@]}"
         --header="$output_path/file_header.txt"
         --weight-path="$output_path/parachains/runtimes/assets/$runtime/src/weights"
