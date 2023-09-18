@@ -78,6 +78,7 @@ cargo build --profile $profile --locked --features=runtime-benchmarks
 run_cumulus_bench assets asset-hub-kusama
 run_cumulus_bench assets asset-hub-polkadot
 run_cumulus_bench assets asset-hub-westend
+run_cumulus_bench assets asset-hub-rococo
 
 # Collectives
 run_cumulus_bench collectives collectives-polkadot

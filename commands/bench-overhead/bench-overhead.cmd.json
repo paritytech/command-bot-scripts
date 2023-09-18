@@ -32,7 +32,7 @@
         "description": "Runs `benchmark overhead` and commits back to PR the updated `extrinsic_weights.rs` files",
         "repos": ["cumulus", "polkadot-sdk"],
         "args": {
-          "runtime":      { "label": "Runtime", "type_one_of": ["asset-hub-polkadot", "asset-hub-kusama", "asset-hub-westend"] },
+          "runtime":      { "label": "Runtime", "type_one_of": ["asset-hub-polkadot", "asset-hub-kusama", "asset-hub-westend", "asset-hub-rococo"] },
           "target_dir":   { "label": "Target Directory", "type_string": "cumulus" }
         }
       },
