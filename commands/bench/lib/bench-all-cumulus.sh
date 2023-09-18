@@ -72,7 +72,7 @@ run_cumulus_bench() {
 
 
 echo "[+] Compiling benchmarks..."
-cargo build --profile $profile --locked --features=runtime-benchmarks
+cargo build --profile $profile --locked --features=runtime-benchmarks -p polkadot-parachain-bin
 
 # Assets
 run_cumulus_bench assets asset-hub-kusama
