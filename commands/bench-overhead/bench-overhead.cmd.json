@@ -15,7 +15,7 @@
     "presets": {
       "default": {
         "description": "Runs `benchmark overhead` and commits back to PR the updated `extrinsic_weights.rs` files",
-        "repos": ["polkadot", "polkadot-sdk"],
+        "repos": ["polkadot-sdk"],
         "args": {
           "runtime":      { "label": "Runtime", "type_one_of": ["polkadot", "kusama", "rococo", "westend"] },
           "target_dir":   { "label": "Target Directory", "type_string": "polkadot" }
@@ -23,14 +23,14 @@
       },
       "substrate": {
         "description": "Runs `benchmark overhead` and commits back to PR the updated `extrinsic_weights.rs` files",
-        "repos": ["substrate", "polkadot-sdk"],
+        "repos": ["polkadot-sdk"],
         "args": {
           "target_dir":   { "label": "Target Directory", "type_string": "substrate" }
         }
       },
       "cumulus": {
         "description": "Runs `benchmark overhead` and commits back to PR the updated `extrinsic_weights.rs` files",
-        "repos": ["cumulus", "polkadot-sdk"],
+        "repos": ["polkadot-sdk"],
         "args": {
           "runtime":      { "label": "Runtime", "type_one_of": ["asset-hub-polkadot", "asset-hub-kusama", "asset-hub-westend", "asset-hub-rococo"] },
           "target_dir":   { "label": "Target Directory", "type_string": "cumulus" }

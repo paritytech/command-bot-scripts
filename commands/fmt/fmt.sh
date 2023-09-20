@@ -8,7 +8,6 @@ shopt -s inherit_errexit
 main() {
   # setup.
   cmd_runner_setup
-  cmd_runner_apply_patches --setup-cleanup true
 
   # format.
   cargo +nightly fmt

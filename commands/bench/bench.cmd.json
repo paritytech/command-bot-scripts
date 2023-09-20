@@ -13,7 +13,7 @@
     "presets": {
       "substrate-pallet": {
         "description": "Pallet Benchmark for Substrate for specific pallet",
-        "repos": ["substrate", "polkadot-sdk"],
+        "repos": ["polkadot-sdk"],
         "args": {
           "subcommand":   { "label": "Subcommand", "type_one_of": ["pallet"] },
           "runtime":      { "label": "Runtime", "type_one_of": ["dev"] },
@@ -23,7 +23,7 @@
       },
       "polkadot-pallet": {
         "description": "Pallet Benchmark for Polkadot for specific pallet",
-        "repos": ["polkadot", "command-bot-test", "polkadot-sdk"],
+        "repos": ["command-bot-test", "polkadot-sdk"],
         "args": {
           "subcommand":   { "label": "Subcommand", "type_one_of": ["runtime", "xcm"] },
           "runtime":      { "label": "Runtime", "type_one_of": ["polkadot", "kusama", "rococo", "westend"] },
@@ -33,7 +33,7 @@
       },
       "cumulus-assets": {
         "description": "Pallet Benchmark for Cumulus [assets]",
-        "repos": ["cumulus", "polkadot-sdk"],
+        "repos": ["polkadot-sdk"],
         "args": {
           "subcommand":   { "label": "Subcommand", "type_one_of": ["pallet", "xcm"] },
           "runtime":      { "label": "Runtime", "type_one_of": ["asset-hub-polkadot", "asset-hub-kusama", "asset-hub-westend", "asset-hub-rococo"] },
@@ -44,7 +44,7 @@
       },
       "cumulus-collectives": {
         "description": "Pallet Benchmark for Cumulus [collectives]",
-        "repos": ["cumulus", "polkadot-sdk"],
+        "repos": ["polkadot-sdk"],
         "args": {
           "subcommand":   { "label": "Subcommand", "type_one_of": ["pallet", "xcm"] },
           "runtime":      { "label": "Runtime", "type_one_of": ["collectives-polkadot"] },
@@ -55,7 +55,7 @@
       },
       "cumulus-bridge-hubs": {
         "description": "Pallet Benchmark for Cumulus [bridge-hubs]",
-        "repos": ["cumulus", "polkadot-sdk"],
+        "repos": ["polkadot-sdk"],
         "args": {
           "subcommand":   { "label": "Subcommand", "type_one_of": ["pallet", "xcm"] },
           "runtime":      { "label": "Runtime", "type_one_of": ["bridge-hub-polkadot", "bridge-hub-kusama", "bridge-hub-rococo"] },
@@ -66,7 +66,7 @@
       },
       "cumulus-contracts": {
         "description": "Pallet Benchmark for Cumulus [contracts]",
-        "repos": ["cumulus", "polkadot-sdk"],
+        "repos": ["polkadot-sdk"],
         "args": {
           "subcommand":     { "label": "Subcommand", "type_one_of": ["pallet", "xcm"] },
           "runtime":        { "label": "Runtime", "type_one_of": ["contracts-rococo"] },
@@ -77,7 +77,7 @@
       },
       "cumulus-glutton": {
         "description": "Pallet Benchmark for Cumulus [glutton]",
-        "repos": ["cumulus", "polkadot-sdk"],
+        "repos": ["polkadot-sdk"],
         "args": {
           "subcommand":   { "label": "Subcommand", "type_one_of": ["pallet"] },
           "runtime":      { "label": "Runtime", "type_one_of": ["glutton-kusama", "glutton-kusama-dev-1300"] },
@@ -88,7 +88,7 @@
       },
       "cumulus-starters": {
         "description": "Pallet Benchmark for Cumulus [starters]",
-        "repos": ["cumulus", "polkadot-sdk"],
+        "repos": ["polkadot-sdk"],
         "args": {
           "subcommand":   { "label": "Subcommand", "type_one_of": ["pallet", "xcm"] },
           "runtime":      { "label": "Runtime", "type_one_of": ["seedling", "shell"] },
@@ -99,7 +99,7 @@
       },
       "cumulus-testing": {
         "description": "Pallet Benchmark for Cumulus [testing]",
-        "repos": ["cumulus", "polkadot-sdk"],
+        "repos": ["polkadot-sdk"],
         "args": {
           "subcommand":   { "label": "Subcommand", "type_one_of": ["pallet", "xcm"] },
           "runtime":      { "label": "Runtime", "type_one_of": ["penpal", "rococo-parachain"] },

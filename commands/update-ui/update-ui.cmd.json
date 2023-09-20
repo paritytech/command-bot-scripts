@@ -12,19 +12,18 @@
     },
     "presets": {
       "default": {
-        "description": "Update substrate UI tests in Substrate Repo",
-        "repos": ["substrate"],
+        "description": "Update substrate UI tests in Monorepo/substrate with current rust version",
+        "repos": ["polkadot-sdk"],
         "args": {
-          "rust_version":  { "label": "Rust version", "type_rule": "^[0-9.]+$", "example": "1.70" },
-          "target_path":    { "label": "Target path", "type_string": "." }
+          "target_path":   { "label": "Target path", "type_string": "./substrate" }
         }
       },
-      "substrate": {
-        "description": "Update substrate UI tests in Monorepo/substrate",
+      "latest": {
+        "description": "Update substrate UI tests in Monorepo/substrate for latest rust version. You might also want to override an image like `bot update-ui latest -v CMD_IMAGE=paritytech/ci-unified:bullseye-1.70.0-2023-05-23 --rust_version=1.70.0`",
         "repos": ["polkadot-sdk"],
         "args": {
           "rust_version":  { "label": "Rust version", "type_rule": "^[0-9.]+$", "example": "1.70" },
-          "target_path":    { "label": "Target path", "type_string": "./substrate" }
+          "target_path":   { "label": "Target path", "type_string": "./substrate" }
         }
       }
     }
