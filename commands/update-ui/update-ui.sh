@@ -13,29 +13,7 @@ main() {
   get_arg required --rust_version "$@"
   RUST_VERSION="${out:-""}"
 
-  get_arg required --target_path "$@"
-  target_path="${out:-""}"
-
-
-  if [[ ! -z "${RUST_VERSION}" ]]; then
-    rustup install $RUST_VERSION
-    rustup component add rust-src --toolchain $RUST_VERSION
-  fi
-
-  # Ensure we run the ui tests
-  export RUN_UI_TESTS=1
-  # We don't need any wasm files for ui tests
-  export SKIP_WASM_BUILD=1
-  # Let trybuild overwrite the .stderr files
-  export TRYBUILD=overwrite
-
-  # Run all the relevant UI tests
-  #
-  # Any new UI tests in different crates need to be added here as well.
-  rustup run $RUST_VERSION cargo test -p sp-runtime-interface ui
-  rustup run $RUST_VERSION cargo test -p sp-api-test ui
-  rustup run $RUST_VERSION cargo test -p frame-election-provider-solution-type ui
-  rustup run $RUST_VERSION cargo test -p frame-support-test ui
+  . "./scripts/update-ui-tests.sh $RUST_VERSION"
 
   # commit.
   git add .
