@@ -10,7 +10,7 @@ main() {
   # setup.
   cmd_runner_setup
 
-  get_arg required --rust_version "$@"
+  get_arg optional --rust_version "$@"
   RUST_VERSION="${out:-""}"
 
   . "./scripts/update-ui-tests.sh $RUST_VERSION"
