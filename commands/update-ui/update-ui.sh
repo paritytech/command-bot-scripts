@@ -13,11 +13,9 @@ main() {
   get_arg optional --rust_version "$@"
   RUST_VERSION="${out:-""}"
 
-  pwd
-  ls -lsa
-  ls -lsa ../../
+  ls -lsa ./scripts
 
-  "./scripts/update-ui-tests.sh $RUST_VERSION"
+  "scripts/update-ui-tests.sh $RUST_VERSION"
 
   # commit.
   git add .
