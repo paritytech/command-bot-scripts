@@ -9,8 +9,6 @@ shopt -s inherit_errexit
 main() {
   cmd_runner_setup
 
-  cmd_runner_apply_patches --setup-cleanup true
-
   get_arg required --chain "$@"
   local chain="${out:-""}"
 

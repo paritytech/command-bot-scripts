@@ -80,9 +80,6 @@ main() {
     git remote remove github
   fi
 
-  # shellcheck disable=SC2119
-  cmd_runner_apply_patches
-
   set -x
 
   get_arg required --subcommand "$@"

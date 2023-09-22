@@ -22,7 +22,7 @@
       },
       "polkadot": {
         "description": "Pallet + Overhead Benchmark for Polkadot",
-        "repos": ["polkadot", "polkadot-sdk"],
+        "repos": ["polkadot-sdk"],
         "args": {
           "runtime":      { "label": "Runtime", "type_one_of": ["kusama", "polkadot", "rococo", "westend"] },
           "target_dir":   { "label": "Target Directory", "type_string":"polkadot" }
@@ -30,7 +30,7 @@
       },
       "cumulus": {
         "description": "Pallet Benchmark for Cumulus",
-        "repos": ["cumulus", "polkadot-sdk"],
+        "repos": ["polkadot-sdk"],
         "args": {
           "target_dir":   { "label": "Target Directory", "type_string": "cumulus" }
         }

@@ -10,21 +10,10 @@ main() {
   # setup.
   cmd_runner_setup
 
-  get_arg required --rust_version "$@"
-  rust_version="${out:-""}"
+  get_arg optional --rust_version "$@"
+  RUST_VERSION="${out:-""}"
 
-  get_arg required --target_path "$@"
-  target_path="${out:-""}"
-
-  if [[ -z "${rust_version}" ]]; then
-    die "missing rust version argument"
-  fi
-
-  # This script uses rustup to install the required rust version.
-  # Doing that in CI feels rather ugly, but sadly there's currently no mechanism
-  # in command-bot to use a different CI image for individual jobs, so this is
-  # the best we can do.
-  "$target_path/.maintain/update-rust-stable.sh" "${rust_version}"
+  "./scripts/update-ui-tests.sh" "$RUST_VERSION"
 
   # commit.
   git add .
