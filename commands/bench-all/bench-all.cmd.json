@@ -1,7 +1,7 @@
 {
   "$schema": "../../node_modules/command-bot/src/schema/schema.cmd.json",
   "command": {
-    "description": "This is a wrapper to run `bench` for all pallets within BM4,5,6 runners",
+    "description": "This is a wrapper to run `bench` for all pallets",
     "configuration": {
       "gitlab": {
         "job": {
