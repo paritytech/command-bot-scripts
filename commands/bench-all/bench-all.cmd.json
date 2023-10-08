@@ -24,7 +24,7 @@
         "description": "Pallet + Overhead Benchmark for Polkadot",
         "repos": ["polkadot-sdk"],
         "args": {
-          "runtime":      { "label": "Runtime", "type_one_of": ["kusama", "polkadot", "rococo", "westend"] },
+          "runtime":      { "label": "Runtime", "type_one_of": ["rococo", "westend"] },
           "target_dir":   { "label": "Target Directory", "type_string":"polkadot" }
         }
       },
