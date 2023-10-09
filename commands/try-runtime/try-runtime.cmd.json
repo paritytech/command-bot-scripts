@@ -5,20 +5,10 @@
     "configuration": { "gitlab": { "job": { "tags": ["linux-docker-vm-c2"], "variables": {} } } },
     "presets": {
       "default": {
-        "description": "Run try-runtime with specified runtime for Polkadot repo",
-        "repos": ["polkadot", "command-bot-test"],
-        "args": {
-          "chain":      { "label": "Chain", "type_one_of": ["polkadot", "kusama", "westend", "rococo"] },
-          "target_path":{ "label": "Target Path", "type_string": "." },
-          "chain_node": { "label": "Chain Node", "type_string": "polkadot" }
-        }
-      },
-      "polkadot": {
         "description": "Run try-runtime with specified runtime for monorepo Polkadot SDK",
         "repos": ["polkadot-sdk"],
         "args": {
           "chain":      { "label": "Chain", "type_one_of": ["polkadot", "kusama", "westend", "rococo"] },
-          "target_path":{ "label": "Target Path", "type_string": "./polkadot" },
           "chain_node": { "label": "Chain Node", "type_string": "polkadot" }
         }
       },
@@ -28,7 +18,6 @@
         "args": {
           "chain":      { "label": "Chain", "type_one_of": ["trappist"] },
           "chain_node": { "label": "Chain Node", "type_string": "trappist-node" },
-          "target_path":{ "label": "Target Path", "type_string": "." },
           "live_uri":   { "label": "Live Node URI ID", "type_string": "rococo-trappist" }
         }
       }
