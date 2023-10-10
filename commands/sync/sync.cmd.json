@@ -15,7 +15,8 @@
         "description": "Sync chain",
         "repos": ["polkadot-sdk"],
         "args": {
-          "chain": { "label": "Chain", "type_one_of": ["westend", "rococo"] }
+          "chain": { "label": "Chain", "type_one_of": ["westend", "rococo"] },
+          "type": { "label": "Sync type", "type_one_of": ["warp", "full", "fast", "fast-unsafe"] }
         }
       }
     }
