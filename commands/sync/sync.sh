@@ -20,8 +20,9 @@ main() {
 
   cargo build --release
 
-  cp "./target/release/polkadot" polkadot
-  ./polkadot --sync="$type" --chain="$chain"
+  cp "./target/release/polkadot" ./polkadot-bin
+  ls -lsa
+  ./polkadot-bin --sync="$type" --chain="$chain"
 }
 
 main "$@"
