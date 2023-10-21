@@ -15,9 +15,6 @@ main() {
   get_arg required --chain_node "$@"
   local chain_node="${out:-""}"
 
-  get_arg optional --output_path "$@"
-  local output_path="${out:-"."}"
-
   get_arg optional --live_uri "$@"
   local live_uri="${out:-"$chain"}"
 
@@ -29,8 +26,8 @@ main() {
 
   cargo build --release --features try-runtime
 
-  cp "$output_path/target/release/${chain_node}" node-try-runtime
-  cp "$output_path/target/release/wbuild/${chain}-runtime/${chain}_runtime.wasm" runtime-try-runtime.wasm
+  cp "./target/release/${chain_node}" node-try-runtime
+  cp "./target/release/wbuild/${chain}-runtime/${chain}_runtime.wasm" runtime-try-runtime.wasm
 
   ./node-try-runtime \
     try-runtime \
