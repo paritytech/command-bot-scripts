@@ -82,7 +82,8 @@ run_cumulus_bench assets asset-hub-rococo
 
 # Collectives
 run_cumulus_bench collectives collectives-polkadot
-run_cumulus_bench collectives collectives-westend
+# TODO: Waiting for https://github.com/paritytech/polkadot-sdk/pull/2024
+# run_cumulus_bench collectives collectives-westend
 
 # Bridge Hubs
 run_cumulus_bench bridge-hubs bridge-hub-polkadot
@@ -91,4 +92,5 @@ run_cumulus_bench bridge-hubs bridge-hub-rococo
 
 # Glutton
 run_cumulus_bench glutton glutton-kusama 1300
-run_cumulus_bench glutton glutton-westend 1300
+# TODO: Waiting for https://github.com/paritytech/polkadot-sdk/pull/2024
+# run_cumulus_bench glutton glutton-westend 1300
