@@ -40,7 +40,7 @@ echo "[+] Compiling Substrate benchmarks..."
 cargo build --profile=$profile --locked --features=runtime-benchmarks -p staging-node-cli
 
 # The executable to use.
-SUBSTRATE="./target/$profile/staging-node-cli"
+SUBSTRATE="./target/$profile/substrate-node"
 
 # Manually exclude some pallets.
 EXCLUDED_PALLETS=(
