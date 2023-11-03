@@ -5,6 +5,31 @@ shopt -s inherit_errexit
 
 . "$(dirname "${BASH_SOURCE[0]}")/../cmd_runner.sh"
 
+# Function to check syncing status
+check_syncing() {
+  # Send the system_health request and parse the isSyncing field
+  RESPONSE=$(curl --silent --request POST http://127.0.0.1:9944 \
+    --header 'Content-Type: application/json' \
+    --data-raw '{"jsonrpc": "2.0", "method": "system_health", "params": [], "id": "1"}')
+
+  # Check for errors in the curl command
+  if [ $? -ne 0 ]; then
+    echo "Error: Unable to send request to Polkadot node"
+    exit 1
+  fi
+
+  IS_SYNCING=$(echo $RESPONSE | jq -r '.result.isSyncing')
+
+  # Check for errors in the jq command or missing field in the response
+  if [ $? -ne 0 ] || [ "$IS_SYNCING" == "null" ]; then
+    echo "Error: Unable to parse sync status from response"
+    exit 1
+  fi
+
+  # Return the isSyncing value
+  echo $IS_SYNCING
+}
+
 main() {
   # setup.
   cmd_runner_setup
@@ -22,7 +47,28 @@ main() {
 
   cp "./target/release/polkadot" ./polkadot-bin
 
-  ./polkadot-bin --sync="$type" --chain="$chain"
+  nohup ./polkadot-bin --sync="$type" --chain="$chain" > /dev/tty &
+  # Start sync.
+  # "&" runs the process in the background
+  # "> /dev/tty" redirects the output of the process to the terminal
+  nohup polkadot --sync=warp > /dev/tty &
+
+  # Get the PID of the Polkadot node process
+  POLKADOT_SYNC_PID=$!
+
+  # Poll the node every 10 seconds until syncing is complete
+  while [ $(check_syncing) == "true" ]; do
+    echo "Node is still syncing..."
+    sleep 10
+  done
+
+  echo "Syncing is complete!"
+
+  # Stop the Polkadot node process once syncing is complete
+  kill $POLKADOT_SYNC_PID
+
+  # Exit successfully
+  exit 0
 }
 
 main "$@"
