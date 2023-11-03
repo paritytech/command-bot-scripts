@@ -4,6 +4,8 @@
 # default RUST_LOG is warn, but could be overridden
 export RUST_LOG="${RUST_LOG:-error}"
 
+. "$BENCH_ROOT_DIR/../utils.sh"
+
 POLKADOT_PARACHAIN="./target/$profile/polkadot-parachain"
 
 run_cumulus_bench() {
@@ -74,21 +76,54 @@ run_cumulus_bench() {
 echo "[+] Compiling benchmarks..."
 cargo build --profile $profile --locked --features=runtime-benchmarks -p polkadot-parachain-bin
 
-# Assets
-run_cumulus_bench assets asset-hub-kusama
-run_cumulus_bench assets asset-hub-polkadot
-run_cumulus_bench assets asset-hub-westend
-run_cumulus_bench assets asset-hub-rococo
+# Run benchmarks for all pallets of a given runtime if runtime argument provided
+get_arg optional --runtime "$@"
+runtime="${out:-""}"
 
-# Collectives
-run_cumulus_bench collectives collectives-polkadot
-run_cumulus_bench collectives collectives-westend
+if [[ $runtime ]]; then
+  case "$runtime" in
+    asset-*)
+      category="assets"
+    ;;
+    collectives-*)
+      category="collectives"
+    ;;
+    bridge-*)
+      category="bridge-hubs"
+    ;;
+    contracts-*)
+      category="contracts"
+    ;;
+    glutton-*)
+      category="glutton"
+      $paraId="1300"
+    ;;
+    *)
+      echo "Unknown runtime: $runtime"
+      exit 1
+    ;;
+  esac
 
-# Bridge Hubs
-run_cumulus_bench bridge-hubs bridge-hub-polkadot
-run_cumulus_bench bridge-hubs bridge-hub-kusama
-run_cumulus_bench bridge-hubs bridge-hub-rococo
+  run_cumulus_bench $category $runtime $paraId
 
-# Glutton
-run_cumulus_bench glutton glutton-kusama 1300
-run_cumulus_bench glutton glutton-westend 1300
+  exit 0
+else # run all
+  # Assets
+  run_cumulus_bench assets asset-hub-kusama
+  run_cumulus_bench assets asset-hub-polkadot
+  run_cumulus_bench assets asset-hub-westend
+  run_cumulus_bench assets asset-hub-rococo
+  
+  # Collectives
+  run_cumulus_bench collectives collectives-polkadot
+  run_cumulus_bench collectives collectives-westend
+  
+  # Bridge Hubs
+  run_cumulus_bench bridge-hubs bridge-hub-polkadot
+  run_cumulus_bench bridge-hubs bridge-hub-kusama
+  run_cumulus_bench bridge-hubs bridge-hub-rococo
+  
+  # Glutton
+  run_cumulus_bench glutton glutton-kusama 1300
+  run_cumulus_bench glutton glutton-westend 1300
+fi

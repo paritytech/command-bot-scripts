@@ -32,6 +32,24 @@
         "description": "Pallet Benchmark for Cumulus",
         "repos": ["polkadot-sdk"],
         "args": {
+          "runtime": {
+            "label": "Runtime",
+            "type_one_of": [
+              "asset-hub-kusama",
+              "asset-hub-polkadot",
+              "asset-hub-rococo",
+              "asset-hub-westend",
+              "bridge-hub-kusama",
+              "bridge-hub-polkadot",
+              "bridge-hub-rococo",
+              "bridge-hub-westend",
+              "collectives-polkadot",
+              "collectives-westend",
+              "contracts-rococo",
+              "glutton-kusama",
+              "glutton-westend"
+            ]
+          },
           "target_dir":   { "label": "Target Directory", "type_string": "cumulus" }
         }
       },
