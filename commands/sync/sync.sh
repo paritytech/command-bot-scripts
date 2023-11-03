@@ -47,13 +47,12 @@ main() {
 
   cp "./target/release/polkadot" ./polkadot-bin
 
-  nohup ./polkadot-bin --sync="$type" --chain="$chain" > /dev/tty &
   # Start sync.
   # "&" runs the process in the background
   # "> /dev/tty" redirects the output of the process to the terminal
-  nohup polkadot --sync=warp > /dev/tty &
+  nohup ./polkadot-bin --sync="$type" --chain="$chain" > /dev/tty &
 
-  # Get the PID of the Polkadot node process
+  # Get the PID of process
   POLKADOT_SYNC_PID=$!
 
   # Poll the node every 10 seconds until syncing is complete
