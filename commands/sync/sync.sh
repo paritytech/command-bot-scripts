@@ -52,7 +52,7 @@ main() {
   #./polkadot-bin --sync="$type" --chain="$chain" > "$ARTIFACTS_DIR/sync.log" 2>&1 &
 
   # Get the PID of process
-  POLKADOT_SYNC_PID=$!
+  #POLKADOT_SYNC_PID=$!
 
   sleep 10
 
