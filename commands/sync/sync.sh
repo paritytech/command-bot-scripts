@@ -50,10 +50,12 @@ main() {
   # Start sync.
   # "&" runs the process in the background
   # "> /dev/tty" redirects the output of the process to the terminal
-  nohup ./polkadot-bin --sync="$type" --chain="$chain" > /dev/tty &
+  nohup ./polkadot-bin --sync="$type" --chain="$chain" > "$ARTIFACTS_DIR/sync.log" 2>&1 &
 
   # Get the PID of process
   POLKADOT_SYNC_PID=$!
+
+  sleep 10
 
   # Poll the node every 10 seconds until syncing is complete
   while [ $(check_syncing) == "true" ]; do
