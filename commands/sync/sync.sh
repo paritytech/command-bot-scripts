@@ -3,6 +3,8 @@
 set -eu -o pipefail
 shopt -s inherit_errexit
 
+set -x
+
 . "$(dirname "${BASH_SOURCE[0]}")/../cmd_runner.sh"
 
 # Function to check syncing status
