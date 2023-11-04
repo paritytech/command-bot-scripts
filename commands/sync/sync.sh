@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 
 set -eu -o pipefail
-shopt -s inherit_errexit
-
-set -x
 
 . "$(dirname "${BASH_SOURCE[0]}")/../cmd_runner.sh"
 
@@ -17,7 +14,6 @@ check_syncing() {
   # Check for errors in the curl command
   if [ $? -ne 0 ]; then
     echo "Error: Unable to send request to Polkadot node"
-    exit 1
   fi
 
   IS_SYNCING=$(echo $RESPONSE | jq -r '.result.isSyncing')
@@ -25,7 +21,6 @@ check_syncing() {
   # Check for errors in the jq command or missing field in the response
   if [ $? -ne 0 ] || [ "$IS_SYNCING" == "null" ]; then
     echo "Error: Unable to parse sync status from response"
-    exit 1
   fi
 
   # Return the isSyncing value
@@ -44,33 +39,40 @@ main() {
 
   export RUST_LOG="${RUST_LOG:-remote-ext=debug,runtime=trace}"
 
-  #cargo build --release
+  cargo build --release
 
-  #cp "./target/release/polkadot" ./polkadot-bin
+  cp "./target/release/polkadot" ./polkadot-bin
 
   # Start sync.
   # "&" runs the process in the background
   # "> /dev/tty" redirects the output of the process to the terminal
-  #./polkadot-bin --sync="$type" --chain="$chain" > "$ARTIFACTS_DIR/sync.log" 2>&1 &
+  ./polkadot-bin --sync="$type" --chain="$chain" > "$ARTIFACTS_DIR/sync.log" 2>&1 &
 
   # Get the PID of process
-  #POLKADOT_SYNC_PID=$!
+  POLKADOT_SYNC_PID=$!
 
   sleep 10
 
   # Poll the node every 100 seconds until syncing is complete
-  while [[ "$(check_syncing)" == "true" ]]; do
-    echo "Node is still syncing..."
-    sleep 100
+  while :; do
+    SYNC_STATUS="$(check_syncing)"
+    if [ "$SYNC_STATUS" == "true" ]; then
+      echo "Node is still syncing..."
+      sleep 100
+    elif [ "$SYNC_STATUS" == "false" ]; then
+      echo "Node sync is complete!"
+      kill "$POLKADOT_SYNC_PID" # Stop the Polkadot node process once syncing is complete
+      exit 0 # Success
+    elif [[ "$SYNC_STATUS" = Error:* ]]; then
+      echo "$SYNC_STATUS"
+      exit 1 # Error
+    else
+      echo "Unknown error: $SYNC_STATUS"
+      exit 1 # Unknown error
+    fi
   done
 
-  echo "Syncing is complete!"
 
-  # Stop the Polkadot node process once syncing is complete
-  #kill $POLKADOT_SYNC_PID
-
-  # Exit successfully
-  exit 0
 }
 
 main "$@"
