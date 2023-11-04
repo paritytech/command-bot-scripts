@@ -57,7 +57,7 @@ main() {
   sleep 10
 
   # Poll the node every 100 seconds until syncing is complete
-  while [ $(check_syncing) == "true" ]; do
+  while [ "$(check_syncing)" == "true" ]; do
     echo "Node is still syncing..."
     sleep 100
   done
