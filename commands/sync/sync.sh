@@ -42,14 +42,14 @@ main() {
 
   export RUST_LOG="${RUST_LOG:-remote-ext=debug,runtime=trace}"
 
-  cargo build --release
+  #cargo build --release
 
-  cp "./target/release/polkadot" ./polkadot-bin
+  #cp "./target/release/polkadot" ./polkadot-bin
 
   # Start sync.
   # "&" runs the process in the background
   # "> /dev/tty" redirects the output of the process to the terminal
-  ./polkadot-bin --sync="$type" --chain="$chain" > "$ARTIFACTS_DIR/sync.log" 2>&1 &
+  #./polkadot-bin --sync="$type" --chain="$chain" > "$ARTIFACTS_DIR/sync.log" 2>&1 &
 
   # Get the PID of process
   POLKADOT_SYNC_PID=$!
@@ -65,7 +65,7 @@ main() {
   echo "Syncing is complete!"
 
   # Stop the Polkadot node process once syncing is complete
-  kill $POLKADOT_SYNC_PID
+  #kill $POLKADOT_SYNC_PID
 
   # Exit successfully
   exit 0
