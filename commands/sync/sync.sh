@@ -40,7 +40,6 @@ main() {
   get_arg required --type "$@"
   local type="${out:-""}"
 
-  set -x
   export RUST_LOG="${RUST_LOG:-remote-ext=debug,runtime=trace}"
 
   cargo build --release
