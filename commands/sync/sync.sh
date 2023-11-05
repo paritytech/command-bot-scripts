@@ -7,7 +7,7 @@ set -eu -o pipefail
 # Function to check syncing status
 check_syncing() {
   # Send the system_health request and parse the isSyncing field
-  RESPONSE=$(curl --silent --request POST http://127.0.0.1:9944 \
+  RESPONSE=$(curl -sSX POST http://127.0.0.1:9944 \
     --header 'Content-Type: application/json' \
     --data-raw '{"jsonrpc": "2.0", "method": "system_health", "params": [], "id": "1"}')
 
@@ -71,8 +71,6 @@ main() {
       exit 1 # Unknown error
     fi
   done
-
-
 }
 
 main "$@"
