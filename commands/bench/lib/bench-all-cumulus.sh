@@ -81,6 +81,7 @@ get_arg optional --runtime "$@"
 runtime="${out:-""}"
 
 if [[ $runtime ]]; then
+  paraId=""
   case "$runtime" in
     asset-*)
       category="assets"
@@ -96,7 +97,7 @@ if [[ $runtime ]]; then
     ;;
     glutton-*)
       category="glutton"
-      $paraId="1300"
+      paraId="1300"
     ;;
     *)
       echo "Unknown runtime: $runtime"
