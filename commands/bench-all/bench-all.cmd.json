@@ -45,6 +45,8 @@
               "bridge-hub-westend",
               "collectives-polkadot",
               "collectives-westend",
+              "coretime-rococo",
+              "coretime-westend",
               "contracts-rococo",
               "glutton-kusama",
               "glutton-westend"

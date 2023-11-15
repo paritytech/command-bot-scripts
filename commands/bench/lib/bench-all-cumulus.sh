@@ -89,6 +89,9 @@ if [[ $runtime ]]; then
     collectives-*)
       category="collectives"
     ;;
+    coretime-*)
+      category="coretime"
+    ;;
     bridge-*)
       category="bridge-hubs"
     ;;
