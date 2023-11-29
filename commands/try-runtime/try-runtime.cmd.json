@@ -9,7 +9,6 @@
         "repos": ["polkadot-sdk"],
         "args": {
           "chain":      { "label": "Chain", "type_one_of": ["westend", "rococo"] },
-          "target_path":{ "label": "Target Path", "type_string": "./polkadot" },
           "chain_node": { "label": "Chain Node", "type_string": "polkadot" }
         }
       },
