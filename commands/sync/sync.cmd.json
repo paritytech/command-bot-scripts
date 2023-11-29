@@ -1,0 +1,25 @@
+{
+  "$schema": "../../node_modules/command-bot/src/schema/schema.cmd.json",
+  "command": {
+    "description": "Sync chain https://github.com/paritytech/command-bot/issues/177",
+    "configuration": {
+      "gitlab": {
+        "job": {
+          "timeout": "120 hours",
+          "tags": ["warpsync"],
+          "variables": {}
+        }
+      }
+    },
+    "presets": {
+      "default": {
+        "description": "Sync chain",
+        "repos": ["polkadot-sdk"],
+        "args": {
+          "chain": { "label": "Chain", "type_one_of": ["westend", "rococo"] },
+          "type": { "label": "Sync type", "type_one_of": ["warp", "full", "fast", "fast-unsafe"] }
+        }
+      }
+    }
+  }
+}
