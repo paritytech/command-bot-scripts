@@ -14,7 +14,7 @@ main() {
 
   # format toml.
   # since paritytech/ci-unified:bullseye-1.73.0-2023-11-01-v20231204 includes taplo-cli
-  taplo format
+  taplo format --config .config/taplo.toml
 
   # commit.
   git add .
