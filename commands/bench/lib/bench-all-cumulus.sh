@@ -81,6 +81,10 @@ run_cumulus_bench assets asset-hub-rococo
 # Collectives
 run_cumulus_bench collectives collectives-westend
 
+# Coretime
+run_cumulus_bench coretime coretime-rococo
+run_cumulus_bench coretime coretime-westend
+
 # Bridge Hubs
 run_cumulus_bench bridge-hubs bridge-hub-rococo
 run_cumulus_bench bridge-hubs bridge-hub-westend
