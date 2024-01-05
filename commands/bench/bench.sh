@@ -127,7 +127,18 @@ main() {
   git remote add \
     github \
     "https://token:${GITHUB_TOKEN}@github.com/${GH_CONTRIBUTOR}/${GH_CONTRIBUTOR_REPO}.git"
-  git push github "HEAD:${GH_CONTRIBUTOR_BRANCH}"
+
+  push_changes() {
+    git push github "HEAD:${GH_CONTRIBUTOR_BRANCH}"
+  }
+
+  # Attempt to push changes
+  if ! push_changes; then
+    echo "Push failed, trying to rebase..."
+    git pull --rebase github "${GH_CONTRIBUTOR_BRANCH}"
+    # After successful rebase, try pushing again
+    push_changes
+  fi
 }
 
 main "$@"

@@ -1,7 +1,7 @@
 {
   "$schema": "../../node_modules/command-bot/src/schema/schema.cmd.json",
   "command": {
-    "description": "RustFMT. Formatting Rust code according to style guidelines and commits to your PR.",
+    "description": "FMT. Formatting Rust code + Toml according to style guidelines and commits to your PR.",
     "configuration": {
       "gitlab": {
         "job": {
