@@ -110,7 +110,6 @@ if [[ $runtime ]]; then
 
   run_cumulus_bench $category $runtime $paraId
 
-  exit 0
 else # run all
   # Assets
   run_cumulus_bench assets asset-hub-rococo
