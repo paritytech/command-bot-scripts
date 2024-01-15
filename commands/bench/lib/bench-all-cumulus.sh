@@ -4,6 +4,8 @@
 # default RUST_LOG is warn, but could be overridden
 export RUST_LOG="${RUST_LOG:-error}"
 
+. "$BENCH_ROOT_DIR/../utils.sh"
+
 POLKADOT_PARACHAIN="./target/$profile/polkadot-parachain"
 
 run_cumulus_bench() {
@@ -74,20 +76,56 @@ run_cumulus_bench() {
 echo "[+] Compiling benchmarks..."
 cargo build --profile $profile --locked --features=runtime-benchmarks -p polkadot-parachain-bin
 
-# Assets
-run_cumulus_bench assets asset-hub-westend
-run_cumulus_bench assets asset-hub-rococo
+# Run benchmarks for all pallets of a given runtime if runtime argument provided
+get_arg optional --runtime "$@"
+runtime="${out:-""}"
 
-# Collectives
-run_cumulus_bench collectives collectives-westend
+if [[ $runtime ]]; then
+  paraId=""
+  case "$runtime" in
+    asset-*)
+      category="assets"
+    ;;
+    collectives-*)
+      category="collectives"
+    ;;
+    coretime-*)
+      category="coretime"
+    ;;
+    bridge-*)
+      category="bridge-hubs"
+    ;;
+    contracts-*)
+      category="contracts"
+    ;;
+    glutton-*)
+      category="glutton"
+      paraId="1300"
+    ;;
+    *)
+      echo "Unknown runtime: $runtime"
+      exit 1
+    ;;
+  esac
 
-# Coretime
-run_cumulus_bench coretime coretime-rococo
-run_cumulus_bench coretime coretime-westend
+  run_cumulus_bench $category $runtime $paraId
 
-# Bridge Hubs
-run_cumulus_bench bridge-hubs bridge-hub-rococo
-run_cumulus_bench bridge-hubs bridge-hub-westend
+else # run all
+  # Assets
+  run_cumulus_bench assets asset-hub-rococo
+  run_cumulus_bench assets asset-hub-westend
 
-# Glutton
-run_cumulus_bench glutton glutton-westend 1300
+  # Collectives
+  run_cumulus_bench collectives collectives-westend
+
+  # Coretime
+  run_cumulus_bench coretime coretime-rococo
+  run_cumulus_bench coretime coretime-westend
+
+  # Bridge Hubs
+  run_cumulus_bench bridge-hubs bridge-hub-rococo
+  run_cumulus_bench bridge-hubs bridge-hub-westend
+
+  # Glutton
+  run_cumulus_bench glutton glutton-westend 1300
+fi
