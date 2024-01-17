@@ -1,7 +1,7 @@
 {
   "$schema": "../../node_modules/command-bot/src/schema/schema.cmd.json",
   "command": {
-    "description": "This is a wrapper to run `bench` for all pallets",
+    "description": "This is a wrapper to run `bench` for all pallets. In order to skip merging master - add `-v UPSTREAM_MERGE=n` to env variables",
     "configuration": {
       "gitlab": {
         "job": {
