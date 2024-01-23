@@ -15,7 +15,7 @@
     "presets": {
       "substrate": {
         "description": "Pallet + Overhead + Machine Benchmark for Substrate for all pallets",
-        "repos": ["substrate", "polkadot-sdk"],
+        "repos": ["polkadot-sdk"],
         "args": {
           "target_dir":   { "label": "Target Directory", "type_string": "substrate" }
         }
@@ -29,7 +29,7 @@
         }
       },
       "cumulus": {
-        "description": "Pallet Benchmark for Cumulus",
+        "description": "Pallet Benchmark for Cumulus.",
         "repos": ["polkadot-sdk"],
         "args": {
           "runtime": {
