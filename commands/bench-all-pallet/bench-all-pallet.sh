@@ -10,11 +10,11 @@ shopt -s globstar
 get_arg optional --pallet "$@"
 PALLET="${out:-""}"
 BASE_COMMAND="$(dirname "${BASH_SOURCE[0]}")/../bench/bench.sh --subcommand=pallet"
-WEIGHTS=()
+WEIGHT_FILE_PATHS=()
 
 # find all weights files
 for f in **/weights/${PALLET}.rs; do
-  WEIGHTS+=("$f")
+  WEIGHT_FILE_PATHS+=("$f")
 done
 
 # convert pallet_ranked_collective to ranked-collective
@@ -23,12 +23,12 @@ CLEAN_PALLET=$(echo $PALLET | sed 's/pallet_//g' | sed 's/_/-/g')
 # add substrate pallet weights to a list
 SUBSTRATE_PALLET_PATH=$(ls substrate/frame/$CLEAN_PALLET/src/weights.rs)
 if [ ! -z "${SUBSTRATE_PALLET_PATH}" ]; then
-  WEIGHTS+=("$SUBSTRATE_PALLET_PATH")
+  WEIGHT_FILE_PATHS+=("$SUBSTRATE_PALLET_PATH")
 fi
 
 COMMANDS=()
 
-for f in ${WEIGHTS[@]}; do
+for f in ${WEIGHT_FILE_PATHS[@]}; do
   # f == "cumulus/parachains/runtimes/assets/asset-hub-rococo/src/weights/pallet_balances.rs"
   TARGET_DIR=$(echo $f | cut -d'/' -f 1)
 
