@@ -25,7 +25,7 @@
         "description": "Pallet Benchmark for Polkadot for specific pallet",
         "repos": ["command-bot-test", "polkadot-sdk"],
         "args": {
-          "subcommand":   { "label": "Subcommand", "type_one_of": ["runtime", "xcm"] },
+          "subcommand":   { "label": "Subcommand", "type_one_of": ["pallet", "xcm"] },
           "runtime":      { "label": "Runtime", "type_one_of": ["rococo", "westend"] },
           "pallet":       { "label": "Pallet", "type_rule": "^([a-z_]+)([:]{2}[a-z_]+)?$", "example": "pallet_name" },
           "target_dir":   { "label": "Target Directory", "type_string": "polkadot" }
@@ -123,7 +123,7 @@
         "description": "Pallet Benchmark for Trappist for specific pallet",
         "repos": ["trappist"],
         "args": {
-          "subcommand": { "label": "Subcommand", "type_one_of": ["runtime", "xcm"] },
+          "subcommand": { "label": "Subcommand", "type_one_of": ["pallet", "xcm"] },
           "runtime":    { "label": "Runtime", "type_one_of": ["trappist", "stout"] },
           "pallet":     { "label": "Pallet", "type_rule": "^([a-z_]+)([:]{2}[a-z_]+)?$", "example": "pallet_name" },
           "target_dir": { "label": "Target Directory", "type_string": "trappist" }
