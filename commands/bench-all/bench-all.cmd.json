@@ -13,6 +13,13 @@
       }
     },
     "presets": {
+      "default": {
+        "description": "Pallet Benchmark for Substrate/Polkadot/Cumulus for specific pallet",
+        "repos": ["polkadot-sdk"],
+        "args": {
+          "pallet": { "label": "Pallet", "type_rule": "^([a-z_]+)([:]{2}[a-z_]+)?$", "example": "pallet_name" }
+        }
+      },
       "substrate": {
         "description": "Pallet + Overhead + Machine Benchmark for Substrate for all pallets",
         "repos": ["polkadot-sdk"],
