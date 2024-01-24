@@ -129,7 +129,7 @@ main() {
   # but avoid committing them. It is so `cmd_runner_apply_patches` can work
   git restore --staged Cargo.*
 
-  git commit -m "$COMMIT_MESSAGE"
+  git commit -m "$COMMIT_MESSAGE" || :
 
   # Push the results to the target branch
   git remote add \
@@ -137,7 +137,7 @@ main() {
     "https://token:${GITHUB_TOKEN}@github.com/${GH_CONTRIBUTOR}/${GH_CONTRIBUTOR_REPO}.git" || :
 
   push_changes() {
-    git push github "HEAD:${GH_CONTRIBUTOR_BRANCH}" || :
+    git push github "HEAD:${GH_CONTRIBUTOR_BRANCH}"
   }
 
   # Attempt to push changes
