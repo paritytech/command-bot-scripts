@@ -88,7 +88,7 @@ main() {
     git remote remove github || :
   fi
 
-  set -x
+  # set -x
 
   get_arg required --subcommand "$@"
   local subcommand="${out:-""}"
@@ -96,7 +96,7 @@ main() {
   case "$subcommand" in
     runtime|pallet|xcm)
       echo 'Running bench_pallet'
-      # . "$BENCH_ROOT_DIR/lib/bench-pallet.sh" "$@"
+      . "$BENCH_ROOT_DIR/lib/bench-pallet.sh" "$@"
     ;;
     overhead)
       echo 'Running bench_overhead'
@@ -111,7 +111,7 @@ main() {
     ;;
   esac
 
-  set +x
+  # set +x
 
   # in case we used diener to patch some dependency during benchmark execution,
   # revert the patches so that they're not included in the diff
