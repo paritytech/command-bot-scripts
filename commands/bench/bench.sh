@@ -137,7 +137,7 @@ main() {
     "https://token:${GITHUB_TOKEN}@github.com/${GH_CONTRIBUTOR}/${GH_CONTRIBUTOR_REPO}.git" || :
 
   push_changes() {
-    git push github "HEAD:${GH_CONTRIBUTOR_BRANCH}"
+    git push github "HEAD:${GH_CONTRIBUTOR_BRANCH}" || :
   }
 
   # Attempt to push changes
