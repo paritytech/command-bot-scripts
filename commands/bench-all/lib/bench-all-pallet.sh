@@ -36,7 +36,15 @@ fi
 
 COMMANDS=()
 
+if [ "${#WEIGHT_FILE_PATHS[@]}" -eq 0 ]; then
+  echo "No weights files found for pallet: $PALLET"
+  exit 1
+else
+  echo "Found weights files for pallet: $PALLET"
+fi
+
 for f in ${WEIGHT_FILE_PATHS[@]}; do
+  echo "$f"
   # f examples:
   # cumulus/parachains/runtimes/assets/asset-hub-rococo/src/weights/pallet_balances.rs
   # polkadot/runtime/rococo/src/weights/pallet_balances.rs
@@ -61,7 +69,7 @@ for f in ${WEIGHT_FILE_PATHS[@]}; do
         ;;
       substrate)
         # Example: substrate/frame/contracts/src/weights.rs
-        COMMANDS+=("$BASE_COMMAND --target_dir=$TARGET_DIR --pallet=$PALLET")
+        COMMANDS+=("$BASE_COMMAND --target_dir=$TARGET_DIR --runtime=dev --pallet=$PALLET")
         ;;
       *)
         echo "Unknown dir: $TARGET_DIR"
