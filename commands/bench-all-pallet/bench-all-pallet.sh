@@ -7,8 +7,10 @@ shopt -s globstar
 . "$(dirname "${BASH_SOURCE[0]}")/../utils.sh"
 . "$(dirname "${BASH_SOURCE[0]}")/../cmd_runner.sh"
 
-get_arg optional --pallet "$@"
+get_arg required --pallet "$@"
 PALLET="${out:-""}"
+
+REPO_NAME="$(basename "$PWD")"
 BASE_COMMAND="$(dirname "${BASH_SOURCE[0]}")/../bench/bench.sh --noexit=true --subcommand=pallet"
 WEIGHT_FILE_PATHS=()
 
@@ -26,36 +28,63 @@ if [ ! -z "${SUBSTRATE_PALLET_PATH}" ]; then
   WEIGHT_FILE_PATHS+=("$SUBSTRATE_PALLET_PATH")
 fi
 
+# add trappist pallet weights to a list
+TRAPPIST_PALLET_PATH=$(ls pallet/$CLEAN_PALLET/src/weights.rs)
+if [ ! -z "${TRAPPIST_PALLET_PATH}" ]; then
+  WEIGHT_FILE_PATHS+=("$TRAPPIST_PALLET_PATH")
+fi
+
 COMMANDS=()
 
 for f in ${WEIGHT_FILE_PATHS[@]}; do
-  # f == "cumulus/parachains/runtimes/assets/asset-hub-rococo/src/weights/pallet_balances.rs"
+  # f examples:
+  # cumulus/parachains/runtimes/assets/asset-hub-rococo/src/weights/pallet_balances.rs
+  # polkadot/runtime/rococo/src/weights/pallet_balances.rs
+  # runtime/trappist/src/weights/pallet_assets.rs
   TARGET_DIR=$(echo $f | cut -d'/' -f 1)
 
-  case $TARGET_DIR in
-    cumulus)
-      TYPE=$(echo $f | cut -d'/' -f 2)
-      # Example: cumulus/parachains/runtimes/assets/asset-hub-rococo/src/weights/pallet_balances.rs
-      if [ "$TYPE" == "parachains" ]; then
-        RUNTIME=$(echo $f | cut -d'/' -f 5)
-        RUNTIME_DIR=$(echo $f | cut -d'/' -f 4)
-        COMMANDS+=("$BASE_COMMAND --runtime=$RUNTIME --runtime_dir=$RUNTIME_DIR --target_dir=$TARGET_DIR --pallet=$PALLET")
-      fi
-      ;;
-    polkadot)
-      # Example: polkadot/runtime/rococo/src/weights/pallet_balances.rs
-      RUNTIME=$(echo $f | cut -d'/' -f 3)
-      COMMANDS+=("$BASE_COMMAND --runtime=$RUNTIME --target_dir=$TARGET_DIR --pallet=$PALLET")
-      ;;
-    substrate)
-      # Example: substrate/frame/contracts/src/weights.rs
-      COMMANDS+=("$BASE_COMMAND --target_dir=$TARGET_DIR --pallet=$PALLET")
-      ;;
-    *)
-      echo "Unknown dir: $TARGET_DIR"
-      exit 1
-      ;;
-  esac
+  if [ "$REPO_NAME" == "polkadot-sdk" ]; then
+    case $TARGET_DIR in
+      cumulus)
+        TYPE=$(echo $f | cut -d'/' -f 2)
+        # Example: cumulus/parachains/runtimes/assets/asset-hub-rococo/src/weights/pallet_balances.rs
+        if [ "$TYPE" == "parachains" ]; then
+          RUNTIME=$(echo $f | cut -d'/' -f 5)
+          RUNTIME_DIR=$(echo $f | cut -d'/' -f 4)
+          COMMANDS+=("$BASE_COMMAND --runtime=$RUNTIME --runtime_dir=$RUNTIME_DIR --target_dir=$TARGET_DIR --pallet=$PALLET")
+        fi
+        ;;
+      polkadot)
+        # Example: polkadot/runtime/rococo/src/weights/pallet_balances.rs
+        RUNTIME=$(echo $f | cut -d'/' -f 3)
+        COMMANDS+=("$BASE_COMMAND --runtime=$RUNTIME --target_dir=$TARGET_DIR --pallet=$PALLET")
+        ;;
+      substrate)
+        # Example: substrate/frame/contracts/src/weights.rs
+        COMMANDS+=("$BASE_COMMAND --target_dir=$TARGET_DIR --pallet=$PALLET")
+        ;;
+      *)
+        echo "Unknown dir: $TARGET_DIR"
+        exit 1
+        ;;
+    esac
+  fi
+
+  if [ "$REPO_NAME" == "trappist" ]; then
+    case $TARGET_DIR in
+      runtime)
+        TYPE=$(echo $f | cut -d'/' -f 2)
+        if [ "$TYPE" == "trappist" || "$TYPE" == "stout" ]; then
+          # Example: runtime/trappist/src/weights/pallet_assets.rs
+          COMMANDS+=("$BASE_COMMAND --target_dir=trappist --runtime=$TYPE --pallet=$PALLET")
+        fi
+        ;;
+      *)
+        echo "Unknown dir: $TARGET_DIR"
+        exit 1
+        ;;
+    esac
+  fi
 done
 
 for cmd in "${COMMANDS[@]}"; do
