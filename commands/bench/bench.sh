@@ -22,6 +22,9 @@ repository_name="$(basename "$PWD")"
 get_arg optional --target_dir "$@"
 target_dir="${out:-""}"
 
+get_arg optional --noexit "$@"
+noexit="${out:-""}"
+
 output_path="."
 
 profile="production"
@@ -64,7 +67,11 @@ main() {
     # GitLab
     &>/dev/null git remote remove github || :
     rm -rf "${tmp_dirs[@]}"
-    exit $exit_code
+
+    # avoid exit if --noexit is passed
+    if [ -z "$noexit" ]; then
+      exit $exit_code
+    fi
   }
   trap cleanup EXIT
 

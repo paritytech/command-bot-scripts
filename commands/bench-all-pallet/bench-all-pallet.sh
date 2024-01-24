@@ -9,7 +9,7 @@ shopt -s globstar
 
 get_arg optional --pallet "$@"
 PALLET="${out:-""}"
-BASE_COMMAND="$(dirname "${BASH_SOURCE[0]}")/../bench/bench.sh --subcommand=pallet"
+BASE_COMMAND="$(dirname "${BASH_SOURCE[0]}")/../bench/bench.sh --noexit=true --subcommand=pallet"
 WEIGHT_FILE_PATHS=()
 
 # find all weights files
