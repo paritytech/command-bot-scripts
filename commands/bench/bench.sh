@@ -75,9 +75,9 @@ main() {
     echo "Merging $GH_OWNER/$GH_OWNER_REPO#$GH_OWNER_BRANCH into $GH_CONTRIBUTOR_BRANCH"
     git remote add \
       github \
-      "https://token:${GITHUB_TOKEN}@github.com/${GH_OWNER}/${GH_OWNER_REPO}.git"
+      "https://token:${GITHUB_TOKEN}@github.com/${GH_OWNER}/${GH_OWNER_REPO}.git" || :
     git pull --no-edit github "$GH_OWNER_BRANCH"
-    git remote remove github
+    git remote remove github || :
   fi
 
   set -x
@@ -88,7 +88,7 @@ main() {
   case "$subcommand" in
     runtime|pallet|xcm)
       echo 'Running bench_pallet'
-      . "$BENCH_ROOT_DIR/lib/bench-pallet.sh" "$@"
+      # . "$BENCH_ROOT_DIR/lib/bench-pallet.sh" "$@"
     ;;
     overhead)
       echo 'Running bench_overhead'
@@ -126,7 +126,7 @@ main() {
   # Push the results to the target branch
   git remote add \
     github \
-    "https://token:${GITHUB_TOKEN}@github.com/${GH_CONTRIBUTOR}/${GH_CONTRIBUTOR_REPO}.git"
+    "https://token:${GITHUB_TOKEN}@github.com/${GH_CONTRIBUTOR}/${GH_CONTRIBUTOR_REPO}.git" || :
 
   push_changes() {
     git push github "HEAD:${GH_CONTRIBUTOR_BRANCH}"
