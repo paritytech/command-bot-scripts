@@ -23,13 +23,13 @@ done
 CLEAN_PALLET=$(echo $PALLET | sed 's/pallet_//g' | sed 's/_/-/g')
 
 # add substrate pallet weights to a list
-SUBSTRATE_PALLET_PATH=$(ls substrate/frame/$CLEAN_PALLET/src/weights.rs)
+SUBSTRATE_PALLET_PATH=$(ls substrate/frame/$CLEAN_PALLET/src/weights.rs || :)
 if [ ! -z "${SUBSTRATE_PALLET_PATH}" ]; then
   WEIGHT_FILE_PATHS+=("$SUBSTRATE_PALLET_PATH")
 fi
 
 # add trappist pallet weights to a list
-TRAPPIST_PALLET_PATH=$(ls pallet/$CLEAN_PALLET/src/weights.rs)
+TRAPPIST_PALLET_PATH=$(ls pallet/$CLEAN_PALLET/src/weights.rs || :)
 if [ ! -z "${TRAPPIST_PALLET_PATH}" ]; then
   WEIGHT_FILE_PATHS+=("$TRAPPIST_PALLET_PATH")
 fi
