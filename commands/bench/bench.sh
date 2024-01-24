@@ -67,13 +67,14 @@ main() {
     # GitLab
     &>/dev/null git remote remove github || :
     rm -rf "${tmp_dirs[@]}"
-
-    # avoid exit if --noexit is passed
-    if [ -z "$noexit" ]; then
-      exit $exit_code
-    fi
+    echo "Done, exit: $exit_code"
+    exit $exit_code
   }
-  trap cleanup EXIT
+
+  # avoid exit if --noexit is passed
+  if [ -z "$noexit" ]; then
+    trap cleanup EXIT
+  fi
 
   if [[
     "${UPSTREAM_MERGE:-}" != "n" &&
