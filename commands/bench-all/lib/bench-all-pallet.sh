@@ -12,24 +12,20 @@ PALLET="${out:-""}"
 
 REPO_NAME="$(basename "$PWD")"
 BASE_COMMAND="$(dirname "${BASH_SOURCE[0]}")/../../bench/bench.sh --noexit=true --subcommand=pallet"
-WEIGHT_FILE_PATHS=()
 
-while IFS= read -r -d '' f; do
-  FILE=$(echo $f | sed 's|^\./||g')
-  WEIGHT_FILE_PATHS+=("$FILE")
-done < <(find . -type f -name "${PALLET}.rs" -path "**/weights/*" -print0)
+WEIGHT_FILE_PATHS=( $(find . -type f -name "${PALLET}.rs" -path "**/weights/*" | sed 's|^\./||g') )
 
 # convert pallet_ranked_collective to ranked-collective
 CLEAN_PALLET=$(echo $PALLET | sed 's/pallet_//g' | sed 's/_/-/g')
 
 # add substrate pallet weights to a list
-SUBSTRATE_PALLET_PATH=$(&>/dev/null ls substrate/frame/$CLEAN_PALLET/src/weights.rs || :)
+SUBSTRATE_PALLET_PATH=$(ls substrate/frame/$CLEAN_PALLET/src/weights.rs || :)
 if [ ! -z "${SUBSTRATE_PALLET_PATH}" ]; then
   WEIGHT_FILE_PATHS+=("$SUBSTRATE_PALLET_PATH")
 fi
 
 # add trappist pallet weights to a list
-TRAPPIST_PALLET_PATH=$(&>/dev/null ls pallet/$CLEAN_PALLET/src/weights.rs || :)
+TRAPPIST_PALLET_PATH=$(ls pallet/$CLEAN_PALLET/src/weights.rs || :)
 if [ ! -z "${TRAPPIST_PALLET_PATH}" ]; then
   WEIGHT_FILE_PATHS+=("$TRAPPIST_PALLET_PATH")
 fi

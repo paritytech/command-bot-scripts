@@ -129,6 +129,7 @@ main() {
   # but avoid committing them. It is so `cmd_runner_apply_patches` can work
   git restore --staged Cargo.*
 
+  # added "|| :" to avoid failing if there is "Nothing to commit", as it fails if run in the subshell
   git commit -m "$COMMIT_MESSAGE" || :
 
   # Push the results to the target branch
