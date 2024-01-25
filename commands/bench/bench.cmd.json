@@ -108,6 +108,17 @@
           "target_dir":   { "label": "Target Directory", "type_string": "cumulus" }
         }
       },
+      "cumulus-people": {
+        "description": "Pallet Benchmark for Cumulus [people]",
+        "repos": ["polkadot-sdk"],
+        "args": {
+          "subcommand":   { "label": "Subcommand", "type_one_of": ["pallet", "xcm"] },
+          "runtime":      { "label": "Runtime", "type_one_of": ["people-westend", "people-rococo"] },
+          "pallet":       { "label": "Pallet", "type_rule": "^([a-z_]+)([:]{2}[a-z_]+)?$", "example": "pallet_name" },
+          "runtime_dir":  { "label": "Runtime Dir", "type_string": "people" },
+          "target_dir":   { "label": "Target Directory", "type_string": "cumulus" }
+        }
+      },
       "cumulus-testing": {
         "description": "Pallet Benchmark for Cumulus [testing]",
         "repos": ["polkadot-sdk"],

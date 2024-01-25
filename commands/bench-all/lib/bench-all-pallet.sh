@@ -44,7 +44,7 @@ else
 fi
 
 for f in ${WEIGHT_FILE_PATHS[@]}; do
-  echo "$f"
+  echo "- $f"
   # f examples:
   # cumulus/parachains/runtimes/assets/asset-hub-rococo/src/weights/pallet_balances.rs
   # polkadot/runtime/rococo/src/weights/pallet_balances.rs
