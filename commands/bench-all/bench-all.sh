@@ -2,6 +2,17 @@
 
 set -eu -o pipefail
 shopt -s inherit_errexit
+shopt -s globstar
 
-# this is a fallback for `bench` command running on BM4,5,6 machines
-. "$(dirname "${BASH_SOURCE[0]}")/../bench/bench.sh" --subcommand=all "$@"
+. "$(dirname "${BASH_SOURCE[0]}")/../utils.sh"
+. "$(dirname "${BASH_SOURCE[0]}")/../cmd_runner.sh"
+
+get_arg optional --pallet "$@"
+PALLET="${out:-""}"
+
+if [[ ! -z "$PALLET" ]]; then
+  . "$(dirname "${BASH_SOURCE[0]}")/lib/bench-all-pallet.sh" "$@"
+else
+  . "$(dirname "${BASH_SOURCE[0]}")/../bench/bench.sh" --subcommand=all "$@"
+fi
+

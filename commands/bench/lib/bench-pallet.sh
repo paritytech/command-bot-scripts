@@ -81,7 +81,7 @@ bench_pallet() {
       )
 
       case "$subcommand" in
-        runtime)
+        pallet)
           args+=(
             --header="$output_path/file_header.txt"
             --output="${weights_dir}/"
@@ -152,7 +152,7 @@ bench_pallet() {
       )
 
       case "$subcommand" in
-        runtime)
+        pallet)
           args+=(
             --output="${weights_dir}/"
           )

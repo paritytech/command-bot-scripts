@@ -22,6 +22,9 @@ repository_name="$(basename "$PWD")"
 get_arg optional --target_dir "$@"
 target_dir="${out:-""}"
 
+get_arg optional --noexit "$@"
+noexit="${out:-""}"
+
 output_path="."
 
 profile="production"
@@ -64,9 +67,14 @@ main() {
     # GitLab
     &>/dev/null git remote remove github || :
     rm -rf "${tmp_dirs[@]}"
+    echo "Done, exit: $exit_code"
     exit $exit_code
   }
-  trap cleanup EXIT
+
+  # avoid exit if --noexit is passed
+  if [ -z "$noexit" ]; then
+    trap cleanup EXIT
+  fi
 
   if [[
     "${UPSTREAM_MERGE:-}" != "n" &&
@@ -75,12 +83,12 @@ main() {
     echo "Merging $GH_OWNER/$GH_OWNER_REPO#$GH_OWNER_BRANCH into $GH_CONTRIBUTOR_BRANCH"
     git remote add \
       github \
-      "https://token:${GITHUB_TOKEN}@github.com/${GH_OWNER}/${GH_OWNER_REPO}.git"
+      "https://token:${GITHUB_TOKEN}@github.com/${GH_OWNER}/${GH_OWNER_REPO}.git" || :
     git pull --no-edit github "$GH_OWNER_BRANCH"
-    git remote remove github
+    git remote remove github || :
   fi
 
-  set -x
+  # set -x
 
   get_arg required --subcommand "$@"
   local subcommand="${out:-""}"
@@ -103,7 +111,7 @@ main() {
     ;;
   esac
 
-  set +x
+  # set +x
 
   # in case we used diener to patch some dependency during benchmark execution,
   # revert the patches so that they're not included in the diff
@@ -121,12 +129,13 @@ main() {
   # but avoid committing them. It is so `cmd_runner_apply_patches` can work
   git restore --staged Cargo.*
 
-  git commit -m "$COMMIT_MESSAGE"
+  # added "|| :" to avoid failing if there is "Nothing to commit", as it fails if run in the subshell
+  git commit -m "$COMMIT_MESSAGE" || :
 
   # Push the results to the target branch
   git remote add \
     github \
-    "https://token:${GITHUB_TOKEN}@github.com/${GH_CONTRIBUTOR}/${GH_CONTRIBUTOR_REPO}.git"
+    "https://token:${GITHUB_TOKEN}@github.com/${GH_CONTRIBUTOR}/${GH_CONTRIBUTOR_REPO}.git" || :
 
   push_changes() {
     git push github "HEAD:${GH_CONTRIBUTOR_BRANCH}"

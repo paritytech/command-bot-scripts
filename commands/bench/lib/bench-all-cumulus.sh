@@ -98,6 +98,9 @@ if [[ $runtime ]]; then
     contracts-*)
       category="contracts"
     ;;
+    people-*)
+      category="people"
+    ;;
     glutton-*)
       category="glutton"
       paraId="1300"
@@ -121,6 +124,10 @@ else # run all
   # Coretime
   run_cumulus_bench coretime coretime-rococo
   run_cumulus_bench coretime coretime-westend
+
+  # People
+  run_cumulus_bench people people-rococo
+  run_cumulus_bench people people-westend
 
   # Bridge Hubs
   run_cumulus_bench bridge-hubs bridge-hub-rococo

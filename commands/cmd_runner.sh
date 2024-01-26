@@ -26,9 +26,9 @@ cmd_runner_setup() {
   # execution takes into account commits pushed before its start
   git remote add \
     github \
-    "https://token:${GITHUB_TOKEN}@github.com/${GH_CONTRIBUTOR}/${GH_CONTRIBUTOR_REPO}.git"
+    "https://token:${GITHUB_TOKEN}@github.com/${GH_CONTRIBUTOR}/${GH_CONTRIBUTOR_REPO}.git" || :
   git pull --ff --no-edit github "$GH_CONTRIBUTOR_BRANCH"
-  git remote remove github
+  git remote remove github || :
 
   cmd_runner_display_rust_toolchain
 
