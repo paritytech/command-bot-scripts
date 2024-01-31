@@ -56,7 +56,9 @@
               "coretime-westend",
               "contracts-rococo",
               "glutton-kusama",
-              "glutton-westend"
+              "glutton-westend",
+              "people-rococo",
+              "people-westend"
             ]
           },
           "target_dir":   { "label": "Target Directory", "type_string": "cumulus" }
