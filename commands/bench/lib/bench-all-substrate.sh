@@ -119,6 +119,18 @@ for PALLET in "${ALL_PALLETS[@]}"; do
     echo "[+] Skipping $PALLET as it is in the excluded list."
     continue
   fi
+  
+  # Special handling of custom weight paths.
+  if [ "$PALLET" == "frame_system_extensions" ] || [ "$PALLET" == "frame-system-extensions" ]
+  then
+    WEIGHT_FILE="$output_path/frame/system/src/extensions/weights.rs"
+  elif [ "$PALLET" == "pallet_asset_conversion_tx_payment" ] || [ "$PALLET" == "pallet-asset-conversion-tx-payment" ]
+  then
+    WEIGHT_FILE="$output_path/frame/transaction-payment/asset-conversion-tx-payment/src/weights.rs"
+  elif [ "$PALLET" == "pallet_asset_tx_payment" ] || [ "$PALLET" == "pallet-asset-tx-payment" ]
+  then
+    WEIGHT_FILE="$output_path/frame/transaction-payment/asset-tx-payment/src/weights.rs"
+  fi
 
   echo "[+] Benchmarking $PALLET with weight file $WEIGHT_FILE";
 
