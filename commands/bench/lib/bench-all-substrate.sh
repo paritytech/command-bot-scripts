@@ -130,6 +130,9 @@ for PALLET in "${ALL_PALLETS[@]}"; do
   elif [ "$PALLET" == "pallet_asset_tx_payment" ] || [ "$PALLET" == "pallet-asset-tx-payment" ]
   then
     WEIGHT_FILE="$output_path/frame/transaction-payment/asset-tx-payment/src/weights.rs"
+  elif [ "$PALLET" == "tasks_example" ] || [ "$PALLET" == "tasks-example" ]
+  then
+    WEIGHT_FILE="$output_path/frame/examples/tasks/src/weights.rs"
   fi
 
   echo "[+] Benchmarking $PALLET with weight file $WEIGHT_FILE";
