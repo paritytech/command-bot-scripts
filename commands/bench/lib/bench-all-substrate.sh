@@ -29,9 +29,9 @@ set -o pipefail
 # Fail on undeclared variables.
 set -u
 # Fail if any sub-command fails.
-set -e
+# set -e
 # Fail on traps.
-set -E
+# set -E
 
 # default RUST_LOG is warn, but could be overridden
 export RUST_LOG="${RUST_LOG:-error}"

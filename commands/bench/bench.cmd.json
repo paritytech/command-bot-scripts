@@ -18,7 +18,8 @@
           "subcommand":   { "label": "Subcommand", "type_one_of": ["pallet"] },
           "runtime":      { "label": "Runtime", "type_one_of": ["dev"] },
           "pallet":       { "label": "pallet", "type_rule": "^([a-z_]+)([:]{2}[a-z_]+)?$", "example": "pallet_name" },
-          "target_dir":   { "label": "Target Directory", "type_string": "substrate" }
+          "target_dir":   { "label": "Target Directory", "type_string": "substrate" },
+          "noexit":       { "label": "Noexit policy", "type_string": "1" }
         }
       },
       "polkadot-pallet": {
