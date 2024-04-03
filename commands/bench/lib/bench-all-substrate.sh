@@ -53,6 +53,10 @@ EXCLUDED_PALLETS=(
   "pallet_offences"
   # Only used for testing, does not need real weights.
   "frame_benchmarking_pallet_pov"
+  "pallet_example_tasks"
+  "pallet_example_basic"
+  "pallet_example_split"
+  "pallet_example_kitchensink"
 )
 
 # Load all pallet names in an array.
