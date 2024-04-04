@@ -60,13 +60,18 @@ EXCLUDED_PALLETS=(
 )
 
 # Load all pallet names in an array.
-ALL_PALLETS=($(
-  $SUBSTRATE benchmark pallet --list --chain=dev |\
-    tail -n+2 |\
-    cut -d',' -f1 |\
-    sort |\
-    uniq
-))
+# ALL_PALLETS=($(
+#   $SUBSTRATE benchmark pallet --list --chain=dev |\
+#     tail -n+2 |\
+#     cut -d',' -f1 |\
+#     sort |\
+#     uniq
+# ))
+
+ALL_PALLETS=(
+  "pallet_whitelist"
+  "tasks_example"
+)
 
 # Define the error file.
 ERR_FILE="${ARTIFACTS_DIR}/benchmarking_errors.txt"
@@ -99,7 +104,7 @@ echo "[+] ------ "
 echo "[+] Whole list pallets ${ALL_PALLETS[@]}"
 
 # Benchmark each pallet.
-for PALLET in "${ALL_PALLETS[@]:2:3}"; do
+for PALLET in "${ALL_PALLETS[@]}"; do
   FOLDER="$(echo "${PALLET#*_}" | tr '_' '-')";
   WEIGHT_FILE="$output_path/frame/${FOLDER}/src/weights.rs"
 
