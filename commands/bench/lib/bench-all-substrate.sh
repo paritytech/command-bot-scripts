@@ -29,7 +29,7 @@ set -o pipefail
 # Fail on undeclared variables.
 set -u
 # Fail if any sub-command fails.
-# set -e
+set -e
 # Fail on traps.
 # set -E
 
@@ -60,13 +60,17 @@ EXCLUDED_PALLETS=(
 )
 
 # Load all pallet names in an array.
-ALL_PALLETS=($(
-  $SUBSTRATE benchmark pallet --list --chain=dev |\
-    tail -n+2 |\
-    cut -d',' -f1 |\
-    sort |\
-    uniq
-))
+# ALL_PALLETS=($(
+#   $SUBSTRATE benchmark pallet --list --chain=dev |\
+#     tail -n+2 |\
+#     cut -d',' -f1 |\
+#     sort |\
+#     uniq
+# ))
+
+ALL_PALLETS=(
+  non_existing_pallet
+)
 
 # Filter out the excluded pallets by concatenating the arrays and discarding duplicates.
 PALLETS=($({ printf '%s\n' "${ALL_PALLETS[@]}" "${EXCLUDED_PALLETS[@]}"; } | sort | uniq -u))
@@ -74,8 +78,11 @@ PALLETS=($({ printf '%s\n' "${ALL_PALLETS[@]}" "${EXCLUDED_PALLETS[@]}"; } | sor
 
 # Define the error file.
 ERR_FILE="${ARTIFACTS_DIR}/benchmarking_errors.txt"
+
 # Delete the error file before each run.
 rm -f "$ERR_FILE"
+
+mkdir -p "$(dirname "$ERR_FILE")"
 
 # Update the block and extrinsic overhead weights.
 echo "[+] Benchmarking block and extrinsic overheads..."
@@ -113,6 +120,7 @@ for PALLET in "${ALL_PALLETS[@]}"; do
 
   echo "[+] Benchmarking $PALLET with weight file $WEIGHT_FILE";
 
+  set +e # Disable exit on error for the benchmarking of the pallets
   OUTPUT=$(
     $SUBSTRATE benchmark pallet \
     --chain=dev \
@@ -133,6 +141,7 @@ for PALLET in "${ALL_PALLETS[@]}"; do
     echo "$OUTPUT" >> "$ERR_FILE"
     echo "[-] Failed to benchmark $PALLET. Error written to $ERR_FILE; continuing..."
   fi
+  set -e # Re-enable exit on error
 done
 
 
