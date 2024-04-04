@@ -71,7 +71,6 @@ ALL_PALLETS=($(
 # Filter out the excluded pallets by concatenating the arrays and discarding duplicates.
 PALLETS=($({ printf '%s\n' "${ALL_PALLETS[@]}" "${EXCLUDED_PALLETS[@]}"; } | sort | uniq -u))
 
-echo "[+] Benchmarking ${#PALLETS[@]} Substrate pallets by excluding ${#EXCLUDED_PALLETS[@]} from ${#ALL_PALLETS[@]}."
 
 # Define the error file.
 ERR_FILE="${ARTIFACTS_DIR}/benchmarking_errors.txt"
@@ -94,10 +93,24 @@ if [ $? -ne 0 ]; then
   echo "[-] Failed to benchmark the block and extrinsic overheads. Error written to $ERR_FILE; continuing..."
 fi
 
+echo "[+] Benchmarking ${#ALL_PALLETS[@]} Substrate pallets and excluding ${#EXCLUDED_PALLETS[@]}."
+
+echo "[+] Excluded pallets ${EXCLUDED_PALLETS[@]}"
+echo "[+] ------ "
+echo "[+] Whole list pallets ${ALL_PALLETS[@]}"
+
 # Benchmark each pallet.
-for PALLET in "${PALLETS[@]}"; do
+for PALLET in "${ALL_PALLETS[@]}"; do
   FOLDER="$(echo "${PALLET#*_}" | tr '_' '-')";
   WEIGHT_FILE="$output_path/frame/${FOLDER}/src/weights.rs"
+
+   # Skip the pallet if it is in the excluded list.
+
+  if [[ " ${EXCLUDED_PALLETS[@]} " =~ " ${PALLET} " ]]; then
+    echo "[+] Skipping $PALLET as it is in the excluded list."
+    continue
+  fi
+
   echo "[+] Benchmarking $PALLET with weight file $WEIGHT_FILE";
 
   OUTPUT=$(
