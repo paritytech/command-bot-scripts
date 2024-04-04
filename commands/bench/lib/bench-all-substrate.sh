@@ -57,21 +57,17 @@ EXCLUDED_PALLETS=(
   "pallet_example_basic"
   "pallet_example_split"
   "pallet_example_kitchensink"
+  "tasks_example"
 )
 
 # Load all pallet names in an array.
-# ALL_PALLETS=($(
-#   $SUBSTRATE benchmark pallet --list --chain=dev |\
-#     tail -n+2 |\
-#     cut -d',' -f1 |\
-#     sort |\
-#     uniq
-# ))
-
-ALL_PALLETS=(
-  "pallet_whitelist"
-  "tasks_example"
-)
+ALL_PALLETS=($(
+  $SUBSTRATE benchmark pallet --list --chain=dev |\
+    tail -n+2 |\
+    cut -d',' -f1 |\
+    sort |\
+    uniq
+))
 
 # Define the error file.
 ERR_FILE="${ARTIFACTS_DIR}/benchmarking_errors.txt"
