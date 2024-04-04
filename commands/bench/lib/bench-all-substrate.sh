@@ -60,21 +60,13 @@ EXCLUDED_PALLETS=(
 )
 
 # Load all pallet names in an array.
-# ALL_PALLETS=($(
-#   $SUBSTRATE benchmark pallet --list --chain=dev |\
-#     tail -n+2 |\
-#     cut -d',' -f1 |\
-#     sort |\
-#     uniq
-# ))
-
-ALL_PALLETS=(
-  non_existing_pallet
-)
-
-# Filter out the excluded pallets by concatenating the arrays and discarding duplicates.
-PALLETS=($({ printf '%s\n' "${ALL_PALLETS[@]}" "${EXCLUDED_PALLETS[@]}"; } | sort | uniq -u))
-
+ALL_PALLETS=($(
+  $SUBSTRATE benchmark pallet --list --chain=dev |\
+    tail -n+2 |\
+    cut -d',' -f1 |\
+    sort |\
+    uniq
+))
 
 # Define the error file.
 ERR_FILE="${ARTIFACTS_DIR}/benchmarking_errors.txt"
@@ -107,7 +99,7 @@ echo "[+] ------ "
 echo "[+] Whole list pallets ${ALL_PALLETS[@]}"
 
 # Benchmark each pallet.
-for PALLET in "${ALL_PALLETS[@]}"; do
+for PALLET in "${ALL_PALLETS[@]:2:3}"; do
   FOLDER="$(echo "${PALLET#*_}" | tr '_' '-')";
   WEIGHT_FILE="$output_path/frame/${FOLDER}/src/weights.rs"
 
@@ -138,7 +130,7 @@ for PALLET in "${ALL_PALLETS[@]}"; do
     --template="$output_path/.maintain/frame-weight-template.hbs" 2>&1
   )
   if [ $? -ne 0 ]; then
-    echo "$OUTPUT" >> "$ERR_FILE"
+    echo "$OUTPUT" >> "$PALLET: $ERR_FILE\n"
     echo "[-] Failed to benchmark $PALLET. Error written to $ERR_FILE; continuing..."
   fi
   set -e # Re-enable exit on error
