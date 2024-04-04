@@ -130,7 +130,7 @@ for PALLET in "${ALL_PALLETS[@]:2:3}"; do
     --template="$output_path/.maintain/frame-weight-template.hbs" 2>&1
   )
   if [ $? -ne 0 ]; then
-    echo "$OUTPUT" >> "$PALLET: $ERR_FILE\n"
+    echo -e "$PALLET: $OUTPUT\n" >> "$ERR_FILE"
     echo "[-] Failed to benchmark $PALLET. Error written to $ERR_FILE; continuing..."
   fi
   set -e # Re-enable exit on error
@@ -138,7 +138,7 @@ done
 
 
 # Check if the error file exists.
-if [ -f "$ERR_FILE" ]; then
+if [ -s "$ERR_FILE" ]; then
   echo "[-] Some benchmarks failed. See: $ERR_FILE"
   exit 1
 else
