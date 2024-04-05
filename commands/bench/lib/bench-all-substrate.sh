@@ -57,6 +57,7 @@ EXCLUDED_PALLETS=(
   "pallet_example_basic"
   "pallet_example_split"
   "pallet_example_kitchensink"
+  "pallet_example_mbm"
   "tasks_example"
 )
 
