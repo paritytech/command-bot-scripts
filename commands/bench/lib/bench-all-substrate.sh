@@ -31,7 +31,7 @@ set -u
 # Fail if any sub-command fails.
 set -e
 # Fail on traps.
-set -E
+# set -E
 
 # default RUST_LOG is warn, but could be overridden
 export RUST_LOG="${RUST_LOG:-error}"
@@ -57,6 +57,8 @@ EXCLUDED_PALLETS=(
   "pallet_example_basic"
   "pallet_example_split"
   "pallet_example_kitchensink"
+  "pallet_example_mbm"
+  "tasks_example"
 )
 
 # Load all pallet names in an array.
@@ -68,15 +70,13 @@ ALL_PALLETS=($(
     uniq
 ))
 
-# Filter out the excluded pallets by concatenating the arrays and discarding duplicates.
-PALLETS=($({ printf '%s\n' "${ALL_PALLETS[@]}" "${EXCLUDED_PALLETS[@]}"; } | sort | uniq -u))
-
-echo "[+] Benchmarking ${#PALLETS[@]} Substrate pallets by excluding ${#EXCLUDED_PALLETS[@]} from ${#ALL_PALLETS[@]}."
-
 # Define the error file.
 ERR_FILE="${ARTIFACTS_DIR}/benchmarking_errors.txt"
+
 # Delete the error file before each run.
 rm -f "$ERR_FILE"
+
+mkdir -p "$(dirname "$ERR_FILE")"
 
 # Update the block and extrinsic overhead weights.
 echo "[+] Benchmarking block and extrinsic overheads..."
@@ -94,12 +94,27 @@ if [ $? -ne 0 ]; then
   echo "[-] Failed to benchmark the block and extrinsic overheads. Error written to $ERR_FILE; continuing..."
 fi
 
+echo "[+] Benchmarking ${#ALL_PALLETS[@]} Substrate pallets and excluding ${#EXCLUDED_PALLETS[@]}."
+
+echo "[+] Excluded pallets ${EXCLUDED_PALLETS[@]}"
+echo "[+] ------ "
+echo "[+] Whole list pallets ${ALL_PALLETS[@]}"
+
 # Benchmark each pallet.
-for PALLET in "${PALLETS[@]}"; do
+for PALLET in "${ALL_PALLETS[@]}"; do
   FOLDER="$(echo "${PALLET#*_}" | tr '_' '-')";
   WEIGHT_FILE="$output_path/frame/${FOLDER}/src/weights.rs"
+
+   # Skip the pallet if it is in the excluded list.
+
+  if [[ " ${EXCLUDED_PALLETS[@]} " =~ " ${PALLET} " ]]; then
+    echo "[+] Skipping $PALLET as it is in the excluded list."
+    continue
+  fi
+
   echo "[+] Benchmarking $PALLET with weight file $WEIGHT_FILE";
 
+  set +e # Disable exit on error for the benchmarking of the pallets
   OUTPUT=$(
     $SUBSTRATE benchmark pallet \
     --chain=dev \
@@ -117,14 +132,15 @@ for PALLET in "${PALLETS[@]}"; do
     --template="$output_path/.maintain/frame-weight-template.hbs" 2>&1
   )
   if [ $? -ne 0 ]; then
-    echo "$OUTPUT" >> "$ERR_FILE"
+    echo -e "$PALLET: $OUTPUT\n" >> "$ERR_FILE"
     echo "[-] Failed to benchmark $PALLET. Error written to $ERR_FILE; continuing..."
   fi
+  set -e # Re-enable exit on error
 done
 
 
 # Check if the error file exists.
-if [ -f "$ERR_FILE" ]; then
+if [ -s "$ERR_FILE" ]; then
   echo "[-] Some benchmarks failed. See: $ERR_FILE"
   exit 1
 else
