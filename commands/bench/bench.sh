@@ -84,7 +84,7 @@ main() {
     git remote add \
       github \
       "https://token:${GITHUB_TOKEN}@github.com/${GH_OWNER}/${GH_OWNER_REPO}.git" || :
-    git reset --hard github "$GH_OWNER_BRANCH"
+    git reset --hard github/"$GH_OWNER_BRANCH"
     git remote remove github || :
   fi
 
