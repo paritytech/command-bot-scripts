@@ -29,7 +29,7 @@ bench_pallet() {
   case "$target_dir" in
     substrate)
       args=(
-        --features=runtime-benchmarks
+        --features=runtime-benchmarks,riscv
         --manifest-path="$output_path/bin/node/cli/Cargo.toml"
         "${bench_pallet_common_args[@]}"
         --pallet="$pallet"
@@ -74,7 +74,7 @@ bench_pallet() {
 
       args=(
         --bin=polkadot
-        --features=runtime-benchmarks
+        --features=runtime-benchmarks,riscv
         "${bench_pallet_common_args[@]}"
         --pallet="$pallet"
         --chain="${runtime}-dev"
@@ -115,7 +115,7 @@ bench_pallet() {
 
       args=(
         -p=polkadot-parachain-bin
-        --features=runtime-benchmarks
+        --features=runtime-benchmarks,riscv
         "${bench_pallet_common_args[@]}"
         --pallet="$pallet"
         --chain="${chain}"
@@ -144,7 +144,7 @@ bench_pallet() {
       local weights_dir="$output_path/runtime/$runtime/src/weights"
 
       args=(
-        --features=runtime-benchmarks
+        --features=runtime-benchmarks,riscv
         "${bench_pallet_common_args[@]}"
         --pallet="$pallet"
         --chain="${runtime}-dev"

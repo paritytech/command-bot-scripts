@@ -37,7 +37,7 @@ set -e
 export RUST_LOG="${RUST_LOG:-error}"
 
 echo "[+] Compiling Substrate benchmarks..."
-cargo build --profile=$profile --locked --features=runtime-benchmarks -p staging-node-cli
+cargo build --profile=$profile --locked --features=runtime-benchmarks,riscv -p staging-node-cli
 
 # The executable to use.
 SUBSTRATE="./target/$profile/substrate-node"

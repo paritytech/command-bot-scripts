@@ -14,7 +14,7 @@ chain="${runtime}-dev"
 export RUST_LOG="${RUST_LOG:-error}"
 
 echo "[+] Compiling benchmarks..."
-cargo build --profile $profile --locked --features=runtime-benchmarks
+cargo build --profile $profile --locked --features=runtime-benchmarks,riscv
 
 TRAPPIST_BIN="./target/$profile/trappist-node"
 
