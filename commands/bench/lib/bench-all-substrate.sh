@@ -33,11 +33,19 @@ set -e
 # Fail on traps.
 # set -E
 
+get_arg optional --features "$@"
+additional_features="${out:-""}"
+
+features="runtime-benchmarks"
+if [ -n "$additional_features" ]; then
+  features+=",$additional_features"
+fi
+
 # default RUST_LOG is warn, but could be overridden
 export RUST_LOG="${RUST_LOG:-error}"
 
 echo "[+] Compiling Substrate benchmarks..."
-cargo build --profile=$profile --locked --features=runtime-benchmarks,riscv -p staging-node-cli
+cargo build --profile=$profile --locked --features=$features -p staging-node-cli
 
 # The executable to use.
 SUBSTRATE="./target/$profile/substrate-node"

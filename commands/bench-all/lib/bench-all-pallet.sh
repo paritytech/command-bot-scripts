@@ -24,12 +24,6 @@ if [ ! -z "${SUBSTRATE_PALLET_PATH}" ]; then
   WEIGHT_FILE_PATHS+=("$SUBSTRATE_PALLET_PATH")
 fi
 
-# add trappist pallet weights to a list
-TRAPPIST_PALLET_PATH=$(ls pallet/$CLEAN_PALLET/src/weights.rs || :)
-if [ ! -z "${TRAPPIST_PALLET_PATH}" ]; then
-  WEIGHT_FILE_PATHS+=("$TRAPPIST_PALLET_PATH")
-fi
-
 COMMANDS=()
 
 if [ "${#WEIGHT_FILE_PATHS[@]}" -eq 0 ]; then
@@ -44,7 +38,6 @@ for f in ${WEIGHT_FILE_PATHS[@]}; do
   # f examples:
   # cumulus/parachains/runtimes/assets/asset-hub-rococo/src/weights/pallet_balances.rs
   # polkadot/runtime/rococo/src/weights/pallet_balances.rs
-  # runtime/trappist/src/weights/pallet_assets.rs
   TARGET_DIR=$(echo $f | cut -d'/' -f 1)
 
   if [ "$REPO_NAME" == "polkadot-sdk" ]; then
@@ -66,22 +59,6 @@ for f in ${WEIGHT_FILE_PATHS[@]}; do
       substrate)
         # Example: substrate/frame/contracts/src/weights.rs
         COMMANDS+=("$BASE_COMMAND --target_dir=$TARGET_DIR --runtime=dev --pallet=$PALLET")
-        ;;
-      *)
-        echo "Unknown dir: $TARGET_DIR"
-        exit 1
-        ;;
-    esac
-  fi
-
-  if [ "$REPO_NAME" == "trappist" ]; then
-    case $TARGET_DIR in
-      runtime)
-        TYPE=$(echo $f | cut -d'/' -f 2)
-        if [ "$TYPE" == "trappist" || "$TYPE" == "stout" ]; then
-          # Example: runtime/trappist/src/weights/pallet_assets.rs
-          COMMANDS+=("$BASE_COMMAND --target_dir=trappist --runtime=$TYPE --pallet=$PALLET")
-        fi
         ;;
       *)
         echo "Unknown dir: $TARGET_DIR"

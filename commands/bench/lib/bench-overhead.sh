@@ -46,16 +46,6 @@ bench_overhead() {
         --chain="$runtime"
       )
     ;;
-    trappist)
-      get_arg required --runtime "$@"
-      local runtime="${out:-""}"
-      args=(
-        "${bench_overhead_common_args[@]}"
-        --header="$output_path/templates/file_header.txt"
-        --weight-path="$output_path/runtime/$runtime/src/weights"
-        --chain="$runtime-dev"
-      )
-    ;;
     *)
       die "Target Dir \"$target_dir\" is not supported in bench_overhead"
     ;;

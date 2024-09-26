@@ -35,13 +35,6 @@
           "runtime":      { "label": "Runtime", "type_one_of": ["asset-hub-westend", "asset-hub-rococo"] },
           "target_dir":   { "label": "Target Directory", "type_string": "cumulus" }
         }
-      },
-      "trappist": {
-        "description": "Runs `benchmark overhead` and commits back to PR",
-        "repos": ["trappist"],
-        "args": {
-          "runtime":    { "label": "Runtime", "type_one_of": ["trappist", "stout"] }
-        }
       }
     }
   }
