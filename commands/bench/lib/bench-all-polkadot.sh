@@ -8,11 +8,19 @@
 get_arg required --runtime "$@"
 runtime="${out:-""}"
 
+get_arg optional --features "$@"
+additional_features="${out:-""}"
+
+features="runtime-benchmarks"
+if [ -n "$additional_features" ]; then
+  features+=",$additional_features"
+fi
+
 # default RUST_LOG is error, but could be overridden
 export RUST_LOG="${RUST_LOG:-error}"
 
 echo "[+] Compiling benchmarks..."
-cargo build --profile $profile --locked --features=runtime-benchmarks -p polkadot
+cargo build --profile $profile --locked --features=$features -p polkadot
 
 POLKADOT_BIN="./target/$profile/polkadot"
 

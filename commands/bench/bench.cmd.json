@@ -18,7 +18,8 @@
           "subcommand":   { "label": "Subcommand", "type_one_of": ["pallet"] },
           "runtime":      { "label": "Runtime", "type_one_of": ["dev"] },
           "pallet":       { "label": "pallet", "type_rule": "^([a-z_]+)([:]{2}[a-z_]+)?$", "example": "pallet_name" },
-          "target_dir":   { "label": "Target Directory", "type_string": "substrate" }
+          "target_dir":   { "label": "Target Directory", "type_string": "substrate" },
+          "features":     { "label": "AdditionalFeatures", "type_string": "riscv" }
         }
       },
       "polkadot-pallet": {
@@ -28,7 +29,8 @@
           "subcommand":   { "label": "Subcommand", "type_one_of": ["pallet", "xcm"] },
           "runtime":      { "label": "Runtime", "type_one_of": ["rococo", "westend"] },
           "pallet":       { "label": "Pallet", "type_rule": "^([a-z_]+)([:]{2}[a-z_]+)?$", "example": "pallet_name" },
-          "target_dir":   { "label": "Target Directory", "type_string": "polkadot" }
+          "target_dir":   { "label": "Target Directory", "type_string": "polkadot" },
+          "features":     { "label": "Additional Features", "type_string": "" }
         }
       },
       "cumulus-assets": {
@@ -39,7 +41,8 @@
           "runtime":      { "label": "Runtime", "type_one_of": ["asset-hub-westend", "asset-hub-rococo"] },
           "pallet":       { "label": "Pallet", "type_rule": "^([a-z_]+)([:]{2}[a-z_]+)?$", "example": "pallet_name" },
           "runtime_dir":  { "label": "Runtime Dir", "type_string": "assets" },
-          "target_dir":   { "label": "Target Directory", "type_string": "cumulus" }
+          "target_dir":   { "label": "Target Directory", "type_string": "cumulus" },
+          "features":     { "label": "Additional Features", "type_string": "" }
         }
       },
       "cumulus-collectives": {
@@ -50,7 +53,8 @@
           "runtime":      { "label": "Runtime", "type_one_of": ["collectives-westend"] },
           "pallet":       { "label": "Pallet", "type_rule": "^([a-z_]+)([:]{2}[a-z_]+)?$", "example": "pallet_name" },
           "runtime_dir":  { "label": "Runtime Dir", "type_string": "collectives" },
-          "target_dir":   { "label": "Target Directory", "type_string": "cumulus" }
+          "target_dir":   { "label": "Target Directory", "type_string": "cumulus" },
+          "features":     { "label": "Additional Features", "type_string": "" }
         }
       },
       "cumulus-coretime": {
@@ -61,7 +65,8 @@
           "runtime":      { "label": "Runtime", "type_one_of": ["coretime-rococo", "coretime-westend"] },
           "pallet":       { "label": "Pallet", "type_rule": "^([a-z_]+)([:]{2}[a-z_]+)?$", "example": "pallet_name" },
           "runtime_dir":  { "label": "Runtime Dir", "type_string": "coretime" },
-          "target_dir":   { "label": "Target Directory", "type_string": "cumulus" }
+          "target_dir":   { "label": "Target Directory", "type_string": "cumulus" },
+          "features":     { "label": "Additional Features", "type_string": "" }
         }
       },
       "cumulus-bridge-hubs": {
@@ -72,7 +77,8 @@
           "runtime":      { "label": "Runtime", "type_one_of": ["bridge-hub-rococo", "bridge-hub-westend"] },
           "pallet":       { "label": "Pallet", "type_rule": "^([a-z_]+)([:]{2}[a-z_]+)?$", "example": "pallet_name" },
           "runtime_dir":  { "label": "Runtime Dir", "type_string": "bridge-hubs" },
-          "target_dir":   { "label": "Target Directory", "type_string": "cumulus" }
+          "target_dir":   { "label": "Target Directory", "type_string": "cumulus" },
+          "features":     { "label": "Additional Features", "type_string": "" }
         }
       },
       "cumulus-contracts": {
@@ -83,7 +89,8 @@
           "runtime":        { "label": "Runtime", "type_one_of": ["contracts-rococo"] },
           "runtime_dir":    { "label": "Runtime Dir", "type_string": "contracts" },
           "pallet":         { "label": "Pallet", "type_rule": "^([a-z_]+)([:]{2}[a-z_]+)?$", "example": "pallet_name" },
-          "target_dir":     { "label": "Target Directory", "type_string": "cumulus" }
+          "target_dir":     { "label": "Target Directory", "type_string": "cumulus" },
+          "features":     { "label": "Additional Features", "type_string": "" }
         }
       },
       "cumulus-glutton": {
@@ -94,7 +101,8 @@
           "runtime":      { "label": "Runtime", "type_one_of": ["glutton-westend", "glutton-westend-dev-1300"] },
           "pallet":       { "label": "Pallet", "type_rule": "^([a-z_]+)([:]{2}[a-z_]+)?$", "example": "pallet_name" },
           "runtime_dir":  { "label": "Runtime Dir", "type_string": "glutton" },
-          "target_dir":   { "label": "Target Directory", "type_string": "cumulus" }
+          "target_dir":   { "label": "Target Directory", "type_string": "cumulus" },
+          "features":     { "label": "Additional Features", "type_string": "" }
         }
       },
       "cumulus-starters": {
@@ -105,7 +113,8 @@
           "runtime":      { "label": "Runtime", "type_one_of": ["seedling", "shell"] },
           "pallet":       { "label": "Pallet", "type_rule": "^([a-z_]+)([:]{2}[a-z_]+)?$", "example": "pallet_name" },
           "runtime_dir":  { "label": "Runtime Dir", "type_string": "starters" },
-          "target_dir":   { "label": "Target Directory", "type_string": "cumulus" }
+          "target_dir":   { "label": "Target Directory", "type_string": "cumulus" },
+          "features":     { "label": "Additional Features", "type_string": "" }
         }
       },
       "cumulus-people": {
@@ -116,7 +125,8 @@
           "runtime":      { "label": "Runtime", "type_one_of": ["people-westend", "people-rococo"] },
           "pallet":       { "label": "Pallet", "type_rule": "^([a-z_]+)([:]{2}[a-z_]+)?$", "example": "pallet_name" },
           "runtime_dir":  { "label": "Runtime Dir", "type_string": "people" },
-          "target_dir":   { "label": "Target Directory", "type_string": "cumulus" }
+          "target_dir":   { "label": "Target Directory", "type_string": "cumulus" },
+          "features":     { "label": "Additional Features", "type_string": "" }
         }
       },
       "cumulus-testing": {
@@ -127,17 +137,8 @@
           "runtime":      { "label": "Runtime", "type_one_of": ["penpal", "rococo-parachain"] },
           "pallet":       { "label": "Pallet", "type_rule": "^([a-z_]+)([:]{2}[a-z_]+)?$", "example": "pallet_name" },
           "runtime_dir":  { "label": "Runtime Dir", "type_string": "testing" },
-          "target_dir":   { "label": "Target Directory", "type_string": "cumulus" }
-        }
-      },
-      "trappist-pallet": {
-        "description": "Pallet Benchmark for Trappist for specific pallet",
-        "repos": ["trappist"],
-        "args": {
-          "subcommand": { "label": "Subcommand", "type_one_of": ["pallet", "xcm"] },
-          "runtime":    { "label": "Runtime", "type_one_of": ["trappist", "stout"] },
-          "pallet":     { "label": "Pallet", "type_rule": "^([a-z_]+)([:]{2}[a-z_]+)?$", "example": "pallet_name" },
-          "target_dir": { "label": "Target Directory", "type_string": "trappist" }
+          "target_dir":   { "label": "Target Directory", "type_string": "cumulus" },
+          "features":     { "label": "Additional Features", "type_string": "" }
         }
       }
     }

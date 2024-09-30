@@ -25,11 +25,19 @@ bench_pallet() {
   get_arg required --pallet "$@"
   local pallet="${out:-""}"
 
+  get_arg optional --features "$@"
+  local additional_features="${out:-""}"
+
+  local features="runtime-benchmarks"
+  if [ -n "$additional_features" ]; then
+    features+=",$additional_features"
+  fi
+
   local args
   case "$target_dir" in
     substrate)
       args=(
-        --features=runtime-benchmarks
+        --features="$features"
         --manifest-path="$output_path/bin/node/cli/Cargo.toml"
         "${bench_pallet_common_args[@]}"
         --pallet="$pallet"
@@ -74,7 +82,7 @@ bench_pallet() {
 
       args=(
         --bin=polkadot
-        --features=runtime-benchmarks
+        --features="$features"
         "${bench_pallet_common_args[@]}"
         --pallet="$pallet"
         --chain="${runtime}-dev"
@@ -115,7 +123,7 @@ bench_pallet() {
 
       args=(
         -p=polkadot-parachain-bin
-        --features=runtime-benchmarks
+        --features="$features"
         "${bench_pallet_common_args[@]}"
         --pallet="$pallet"
         --chain="${chain}"
@@ -133,34 +141,6 @@ bench_pallet() {
           args+=(
             --template="$output_path/templates/xcm-bench-template.hbs"
             --output="$output_path/parachains/runtimes/$runtime_dir/$runtime/src/weights/xcm/"
-          )
-        ;;
-        *)
-          die "Subcommand $subcommand is not supported for $target_dir in bench_pallet"
-        ;;
-      esac
-    ;;
-    trappist)
-      local weights_dir="$output_path/runtime/$runtime/src/weights"
-
-      args=(
-        --features=runtime-benchmarks
-        "${bench_pallet_common_args[@]}"
-        --pallet="$pallet"
-        --chain="${runtime}-dev"
-        --header="$output_path/templates/file_header.txt"
-      )
-
-      case "$subcommand" in
-        pallet)
-          args+=(
-            --output="${weights_dir}/"
-          )
-        ;;
-        xcm)
-          args+=(
-            --template="$output_path/templates/xcm-bench-template.hbs"
-            --output="${weights_dir}/xcm/"
           )
         ;;
         *)

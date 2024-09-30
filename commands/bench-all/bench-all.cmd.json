@@ -14,17 +14,19 @@
     },
     "presets": {
       "pallet": {
-        "description": "Benchmark for Substrate/Polkadot/Cumulus/Trappist for specific pallet",
-        "repos": ["polkadot-sdk", "trappist"],
+        "description": "Benchmark for Substrate/Polkadot/Cumulus for specific pallet",
+        "repos": ["polkadot-sdk"],
         "args": {
-          "pallet": { "label": "Pallet", "type_rule": "^([a-z_]+)([:]{2}[a-z_]+)?$", "example": "pallet_name" }
+          "pallet": { "label": "Pallet", "type_rule": "^([a-z_]+)([:]{2}[a-z_]+)?$", "example": "pallet_name" },
+          "features": { "label": "Additional Features", "type_string": "" }
         }
       },
       "substrate": {
         "description": "Pallet + Overhead + Machine Benchmark for Substrate for all pallets",
         "repos": ["polkadot-sdk"],
         "args": {
-          "target_dir":   { "label": "Target Directory", "type_string": "substrate" }
+          "target_dir":   { "label": "Target Directory", "type_string": "substrate" },
+          "features": { "label": "Additional Features", "type_string": "riscv" }
         }
       },
       "polkadot": {
@@ -32,7 +34,8 @@
         "repos": ["polkadot-sdk"],
         "args": {
           "runtime":      { "label": "Runtime", "type_one_of": ["rococo", "westend"] },
-          "target_dir":   { "label": "Target Directory", "type_string":"polkadot" }
+          "target_dir":   { "label": "Target Directory", "type_string":"polkadot" },
+          "features": { "label": "Additional Features", "type_string": "riscv" }
         }
       },
       "cumulus": {
@@ -42,34 +45,21 @@
           "runtime": {
             "label": "Runtime",
             "type_one_of": [
-              "asset-hub-kusama",
-              "asset-hub-polkadot",
               "asset-hub-rococo",
               "asset-hub-westend",
-              "bridge-hub-kusama",
-              "bridge-hub-polkadot",
               "bridge-hub-rococo",
               "bridge-hub-westend",
-              "collectives-polkadot",
               "collectives-westend",
               "coretime-rococo",
               "coretime-westend",
               "contracts-rococo",
-              "glutton-kusama",
               "glutton-westend",
               "people-rococo",
               "people-westend"
             ]
           },
-          "target_dir":   { "label": "Target Directory", "type_string": "cumulus" }
-        }
-      },
-      "trappist": {
-        "description": "Pallet Benchmark for Trappist",
-        "repos": ["trappist"],
-        "args": {
-          "runtime":      { "label": "Runtime", "type_one_of": ["trappist", "stout"] },
-          "target_dir":   { "label": "Target Directory", "type_string": "trappist" }
+          "target_dir":   { "label": "Target Directory", "type_string": "cumulus" },
+          "features": { "label": "Additional Features", "type_string": "" }
         }
       }
     }

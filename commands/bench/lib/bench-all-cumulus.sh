@@ -6,6 +6,14 @@ export RUST_LOG="${RUST_LOG:-error}"
 
 . "$BENCH_ROOT_DIR/../utils.sh"
 
+get_arg optional --features "$@"
+additional_features="${out:-""}"
+
+features="runtime-benchmarks"
+if [ -n "$additional_features" ]; then
+  features+=",$additional_features"
+fi
+
 POLKADOT_PARACHAIN="./target/$profile/polkadot-parachain"
 
 run_cumulus_bench() {
@@ -74,7 +82,7 @@ run_cumulus_bench() {
 
 
 echo "[+] Compiling benchmarks..."
-cargo build --profile $profile --locked --features=runtime-benchmarks -p polkadot-parachain-bin
+cargo build --profile $profile --locked --features=$features -p polkadot-parachain-bin
 
 # Run benchmarks for all pallets of a given runtime if runtime argument provided
 get_arg optional --runtime "$@"
