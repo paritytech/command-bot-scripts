@@ -35,7 +35,7 @@
         "args": {
           "runtime":      { "label": "Runtime", "type_one_of": ["rococo", "westend"] },
           "target_dir":   { "label": "Target Directory", "type_string":"polkadot" },
-          "features": { "label": "Additional Features", "type_string": "riscv" }
+          "features": { "label": "Additional Features", "type_string": "" }
         }
       },
       "cumulus": {
