@@ -78,7 +78,7 @@ bench_pallet() {
       esac
       
       if [ -n "$machine" ]; then
-        $cargo_run_benchmarks -- benchmark machine --chain="$runtime" --allow-fail
+        $cargo_run_benchmarks --features="$features" -- benchmark machine --chain="$runtime" --allow-fail
       fi
     ;;
     polkadot)
@@ -115,7 +115,7 @@ bench_pallet() {
       esac
 
       if [ -n "$machine" ]; then
-        $cargo_run_benchmarks -- benchmark machine --chain="$runtime-dev" --allow-fail
+        $cargo_run_benchmarks --bin=polkadot --features="$features" -- benchmark machine --chain="$runtime-dev" --allow-fail
       fi
     ;;
     cumulus)
@@ -160,7 +160,7 @@ bench_pallet() {
       esac
       
       if [ -n "$machine" ]; then
-        $cargo_run_benchmarks -- benchmark machine --chain="$chain" --allow-fail
+        $cargo_run_benchmarks -p=polkadot-parachain-bin --features="$features" -- benchmark machine --chain="$chain" --allow-fail
       fi
     ;;
     *)
