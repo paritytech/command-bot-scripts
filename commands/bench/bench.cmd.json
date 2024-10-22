@@ -19,7 +19,8 @@
           "runtime":      { "label": "Runtime", "type_one_of": ["dev"] },
           "pallet":       { "label": "pallet", "type_rule": "^([a-z_]+)([:]{2}[a-z_]+)?$", "example": "pallet_name" },
           "target_dir":   { "label": "Target Directory", "type_string": "substrate" },
-          "features":     { "label": "AdditionalFeatures", "type_string": "riscv" }
+          "features":     { "label": "AdditionalFeatures", "type_string": "riscv" },
+          "machine":      { "label": "Machine", "type_string": "" }
         }
       },
       "polkadot-pallet": {
@@ -30,7 +31,8 @@
           "runtime":      { "label": "Runtime", "type_one_of": ["rococo", "westend"] },
           "pallet":       { "label": "Pallet", "type_rule": "^([a-z_]+)([:]{2}[a-z_]+)?$", "example": "pallet_name" },
           "target_dir":   { "label": "Target Directory", "type_string": "polkadot" },
-          "features":     { "label": "Additional Features", "type_string": "" }
+          "features":     { "label": "Additional Features", "type_string": "" },
+          "machine":      { "label": "Machine", "type_string": "" }
         }
       },
       "cumulus-assets": {
@@ -42,7 +44,8 @@
           "pallet":       { "label": "Pallet", "type_rule": "^([a-z_]+)([:]{2}[a-z_]+)?$", "example": "pallet_name" },
           "runtime_dir":  { "label": "Runtime Dir", "type_string": "assets" },
           "target_dir":   { "label": "Target Directory", "type_string": "cumulus" },
-          "features":     { "label": "Additional Features", "type_string": "" }
+          "features":     { "label": "Additional Features", "type_string": "" },
+          "machine":      { "label": "Machine", "type_string": "" }
         }
       },
       "cumulus-collectives": {
@@ -54,7 +57,8 @@
           "pallet":       { "label": "Pallet", "type_rule": "^([a-z_]+)([:]{2}[a-z_]+)?$", "example": "pallet_name" },
           "runtime_dir":  { "label": "Runtime Dir", "type_string": "collectives" },
           "target_dir":   { "label": "Target Directory", "type_string": "cumulus" },
-          "features":     { "label": "Additional Features", "type_string": "" }
+          "features":     { "label": "Additional Features", "type_string": "" },
+          "machine":      { "label": "Machine", "type_string": "" }
         }
       },
       "cumulus-coretime": {
@@ -66,7 +70,8 @@
           "pallet":       { "label": "Pallet", "type_rule": "^([a-z_]+)([:]{2}[a-z_]+)?$", "example": "pallet_name" },
           "runtime_dir":  { "label": "Runtime Dir", "type_string": "coretime" },
           "target_dir":   { "label": "Target Directory", "type_string": "cumulus" },
-          "features":     { "label": "Additional Features", "type_string": "" }
+          "features":     { "label": "Additional Features", "type_string": "" },
+          "machine":      { "label": "Machine", "type_string": "" }
         }
       },
       "cumulus-bridge-hubs": {
@@ -78,7 +83,8 @@
           "pallet":       { "label": "Pallet", "type_rule": "^([a-z_]+)([:]{2}[a-z_]+)?$", "example": "pallet_name" },
           "runtime_dir":  { "label": "Runtime Dir", "type_string": "bridge-hubs" },
           "target_dir":   { "label": "Target Directory", "type_string": "cumulus" },
-          "features":     { "label": "Additional Features", "type_string": "" }
+          "features":     { "label": "Additional Features", "type_string": "" },
+          "machine":      { "label": "Machine", "type_string": "" }
         }
       },
       "cumulus-contracts": {
@@ -90,7 +96,8 @@
           "runtime_dir":    { "label": "Runtime Dir", "type_string": "contracts" },
           "pallet":         { "label": "Pallet", "type_rule": "^([a-z_]+)([:]{2}[a-z_]+)?$", "example": "pallet_name" },
           "target_dir":     { "label": "Target Directory", "type_string": "cumulus" },
-          "features":     { "label": "Additional Features", "type_string": "" }
+          "features":       { "label": "Additional Features", "type_string": "" },
+          "machine":        { "label": "Machine", "type_string": "" }
         }
       },
       "cumulus-glutton": {
@@ -102,7 +109,8 @@
           "pallet":       { "label": "Pallet", "type_rule": "^([a-z_]+)([:]{2}[a-z_]+)?$", "example": "pallet_name" },
           "runtime_dir":  { "label": "Runtime Dir", "type_string": "glutton" },
           "target_dir":   { "label": "Target Directory", "type_string": "cumulus" },
-          "features":     { "label": "Additional Features", "type_string": "" }
+          "features":     { "label": "Additional Features", "type_string": "" },
+          "machine":      { "label": "Machine", "type_string": "" }
         }
       },
       "cumulus-starters": {
@@ -114,7 +122,8 @@
           "pallet":       { "label": "Pallet", "type_rule": "^([a-z_]+)([:]{2}[a-z_]+)?$", "example": "pallet_name" },
           "runtime_dir":  { "label": "Runtime Dir", "type_string": "starters" },
           "target_dir":   { "label": "Target Directory", "type_string": "cumulus" },
-          "features":     { "label": "Additional Features", "type_string": "" }
+          "features":     { "label": "Additional Features", "type_string": "" },
+          "machine":      { "label": "Machine", "type_string": "" }
         }
       },
       "cumulus-people": {
@@ -126,7 +135,8 @@
           "pallet":       { "label": "Pallet", "type_rule": "^([a-z_]+)([:]{2}[a-z_]+)?$", "example": "pallet_name" },
           "runtime_dir":  { "label": "Runtime Dir", "type_string": "people" },
           "target_dir":   { "label": "Target Directory", "type_string": "cumulus" },
-          "features":     { "label": "Additional Features", "type_string": "" }
+          "features":     { "label": "Additional Features", "type_string": "" },
+          "machine":      { "label": "Machine", "type_string": "" }
         }
       },
       "cumulus-testing": {
@@ -138,7 +148,8 @@
           "pallet":       { "label": "Pallet", "type_rule": "^([a-z_]+)([:]{2}[a-z_]+)?$", "example": "pallet_name" },
           "runtime_dir":  { "label": "Runtime Dir", "type_string": "testing" },
           "target_dir":   { "label": "Target Directory", "type_string": "cumulus" },
-          "features":     { "label": "Additional Features", "type_string": "" }
+          "features":     { "label": "Additional Features", "type_string": "" },
+          "machine":      { "label": "Machine", "type_string": "" }
         }
       }
     }
