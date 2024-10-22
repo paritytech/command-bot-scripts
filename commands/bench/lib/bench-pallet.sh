@@ -28,6 +28,9 @@ bench_pallet() {
   get_arg optional --features "$@"
   local additional_features="${out:-""}"
 
+  get_arg optional --machine "$@"
+  local machine="${out:-""}"
+
   local features="runtime-benchmarks"
   if [ -n "$additional_features" ]; then
     features+=",$additional_features"
@@ -73,6 +76,10 @@ bench_pallet() {
           die "Subcommand $subcommand is not supported for $target_dir in bench_pallet"
         ;;
       esac
+      
+      if [ -n "$machine" ]; then
+        $cargo_run_benchmarks -- benchmark machine --chain="$runtime" --allow-fail
+      fi
     ;;
     polkadot)
       # For backward compatibility: replace "-dev" with ""
@@ -106,6 +113,10 @@ bench_pallet() {
           die "Subcommand $subcommand is not supported for $target_dir in bench_pallet"
         ;;
       esac
+
+      if [ -n "$machine" ]; then
+        $cargo_run_benchmarks -- benchmark machine --chain="$runtime-dev" --allow-fail
+      fi
     ;;
     cumulus)
       get_arg required --runtime_dir "$@"
@@ -147,6 +158,10 @@ bench_pallet() {
           die "Subcommand $subcommand is not supported for $target_dir in bench_pallet"
         ;;
       esac
+      
+      if [ -n "$machine" ]; then
+        $cargo_run_benchmarks -- benchmark machine --chain="$chain" --allow-fail
+      fi
     ;;
     *)
       die "Repository $target_dir is not supported in bench_pallet"
