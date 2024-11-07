@@ -26,7 +26,7 @@
         "repos": ["polkadot-sdk"],
         "args": {
           "target_dir":   { "label": "Target Directory", "type_string": "substrate" },
-          "features": { "label": "Additional Features", "type_string": "riscv" }
+          "features": { "label": "Additional Features", "type_string": "" }
         }
       },
       "polkadot": {
